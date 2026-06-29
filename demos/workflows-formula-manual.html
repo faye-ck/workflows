@@ -626,6 +626,13 @@
         </div>
       </div>
 
+      <div class="callout info">
+        <div class="callout-icon">📋</div>
+        <div class="callout-body">
+          <strong>Master list fields work like any other field.</strong> If your template has a dropdown linked to a master list, both the dropdown field and any autofill fields it populates can be referenced in formulas using the same <code>{Field Label}</code> syntax — no special treatment needed. Once the user makes a selection and autofill runs, those values are available to your formulas immediately. If the user changes their selection, autofill fields update and any dependent formulas recalculate automatically.
+        </div>
+      </div>
+
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
       <h3 id="duplicate-fields">When two fields have the same name</h3>
@@ -1693,6 +1700,25 @@
           <div>— Show a tooltip on each duplicate entry indicating its section</div>
           <div>— Handle dot notation automatically for fields inside multi-entry sections when referenced from outside</div>
           <div>— Support Japanese label search without requiring exact full-width/half-width match</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#F78C6C33; border:1px solid #F78C6C66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#FFAA88; text-transform:uppercase; letter-spacing:0.08em;">Confirm with team</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Master list — value storage at submission time</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">When a user selects a value from a master list dropdown, the autofill fields populate from the corresponding row. The question is when those values get locked.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; font-size:13.5px; color:#D8DEF0; line-height:1.9; margin-bottom:14px;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Recommended behaviour:</div>
+          <div>— Autofill values are stored as a snapshot at submission time</div>
+          <div>— If the master list is updated after submission, existing submitted values do not change</div>
+          <div>— Formulas that reference autofill fields calculate against the stored snapshot, not the live master list</div>
+        </div>
+        <div style="background:#A8E6C411; border:1px solid #A8E6C433; border-radius:6px; padding:12px 16px; font-size:13px; color:#A8E6C4; line-height:1.7;">
+          Confirm this is the intended behaviour before development. If autofill values are re-fetched live from the master list on every form load, formula results could change after submission — which would be unexpected to users reviewing past entries.
         </div>
       </div>
     </div>
