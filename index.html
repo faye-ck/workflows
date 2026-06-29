@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflows — Design Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --bg:#f5f4f0; --surface:#fff; --border:#e0ddd6; --text:#1a1a1a; --muted:#999; --accent:#6c5ce7; --accent-light:#eeeafd; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+.site-header { border-bottom:0.5px solid var(--border); background:var(--surface); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:56px; flex-shrink:0; z-index:10; }
+.logo { font-size:14px; font-weight:500; letter-spacing:-0.2px; display:flex; align-items:center; gap:8px; }
+.logo-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+.header-meta { font-size:12px; color:var(--muted); font-family:'DM Mono',monospace; }
+.page { max-width:1200px; margin:0 auto; padding:48px 32px 48px; }
+.page-header { margin-bottom:40px; }
+.page-header h1 { font-size:32px; font-weight:300; letter-spacing:-0.5px; margin-bottom:8px; }
+.page-header h1 em { font-style:italic; color:var(--accent); }
+.page-header p { font-size:14px; color:var(--muted); max-width:400px; line-height:1.6; }
+.filter-bar { display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap; }
+.filter-btn { padding:6px 14px; border:0.5px solid var(--border); border-radius:20px; background:transparent; font-size:12px; font-family:inherit; color:var(--muted); cursor:pointer; transition:all .15s; }
+.filter-btn:hover { border-color:#bbb; color:var(--text); }
+.filter-btn.active { background:var(--text); color:#fff; border-color:var(--text); }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media (max-width:800px) { .grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:520px) { .grid { grid-template-columns:1fr; } }
+.demo-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; overflow:hidden; text-decoration:none; color:inherit; display:flex; flex-direction:column; transition:border-color .15s,transform .15s,box-shadow .15s; }
+.demo-card:hover { border-color:#c8c5be; transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+.card-preview { height:160px; overflow:hidden; position:relative; background:var(--bg); border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:center; }
+.card-body { padding:16px; flex:1; display:flex; flex-direction:column; }
+.card-tags { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+.tag { font-size:10px; padding:2px 8px; border-radius:20px; background:var(--bg); color:var(--muted); border:0.5px solid var(--border); font-family:'DM Mono',monospace; }
+.tag.reference { background:var(--accent-light); color:var(--accent); border-color:#c5bcf5; }
+.tag.engineering { background:#fff8e6; color:#b45309; border-color:#fcd34d; }
+.tag.formula { background:#e8f5ee; color:#2d7a50; border-color:#b8dfc8; }
+.card-title { font-size:15px; font-weight:500; letter-spacing:-0.2px; margin-bottom:4px; }
+.card-desc { font-size:12px; color:var(--muted); line-height:1.6; flex:1; }
+.card-footer { margin-top:14px; padding-top:12px; border-top:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.card-date { font-size:11px; color:#ccc; font-family:'DM Mono',monospace; }
+.card-arrow { font-size:16px; color:var(--muted); transition:transform .15s,color .15s; }
+.demo-card:hover .card-arrow { transform:translateX(3px); color:var(--accent); }
+.add-card { border:0.5px dashed #d0cdc6; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:40px 20px; color:var(--muted); min-height:220px; }
+.add-icon { width:36px; height:36px; border-radius:50%; border:0.5px dashed #ccc; display:flex; align-items:center; justify-content:center; font-size:20px; color:#ccc; }
+.add-text { font-size:12px; text-align:center; line-height:1.5; }
+main { flex:1; overflow-y:auto; }
+footer { border-top:0.5px solid var(--border); padding:20px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:var(--muted); font-family:'DM Mono',monospace; flex-shrink:0; background:var(--surface); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div style="display:flex;align-items:center;gap:20px">
+    <div class="logo"><div class="logo-dot"></div>Workflows</div>
+    <span style="font-size:13px;color:var(--muted)">Faye</span>
+  </div>
+  <div class="header-meta" id="doc-count">— docs</div>
+</header>
+
+<main>
+  <div class="page">
+    <div class="page-header">
+      <h1>Design <em>documentation</em></h1>
+      <p>Reference docs, UX specs, and engineering notes for the Workflows product.</p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+      <button class="filter-btn" onclick="filterCards('reference',this)">Reference</button>
+      <button class="filter-btn" onclick="filterCards('formula',this)">Formula</button>
+      <button class="filter-btn" onclick="filterCards('engineering',this)">Engineering</button>
+    </div>
+
+    <div class="grid" id="grid">
+
+      <!-- Formula Guide -->
+      <a class="demo-card" href="demos/workflows-formula-manual.html" data-tags="reference formula engineering">
+        <div class="card-preview" style="background:#f5f4f0;padding:20px 24px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;">
+          <!-- Mini formula preview -->
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;color:#6c5ce7;">
+            SUM(<span style="color:#2d7a50">{Items.Subtotal}</span>)
+          </div>
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;color:#6c5ce7;">
+            DATEADD(<span style="color:#2d7a50">{Release Date}</span>, <span style="color:#b45309">14</span>, <span style="color:#2d7a50">"days"</span>)
+          </div>
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;color:#6c5ce7;">
+            IF(<span style="color:#2d7a50">{Qty}</span> &gt;= <span style="color:#b45309">10</span>, <span style="color:#2d7a50">{Price}</span> * <span style="color:#b45309">0.9</span>, <span style="color:#2d7a50">{Price}</span>)
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag reference">reference</span>
+            <span class="tag formula">formula</span>
+            <span class="tag engineering">engineering</span>
+          </div>
+          <div class="card-title">Formula Guide</div>
+          <div class="card-desc">Complete formula reference for the template builder. Covers number formulas, date formulas, repeating sections, error states, and implementation notes for engineers.</div>
+          <div class="card-footer">
+            <span class="card-date">2026-06</span>
+            <span style="display:flex;align-items:center;gap:8px;">
+              <span onclick="event.preventDefault();event.stopPropagation();var a=document.createElement('a');a.href='demos/workflows-formula-manual.html';a.download='workflows-formula-manual.html';document.body.appendChild(a);a.click();a.remove();" style="font-size:11px;color:#6c5ce7;cursor:pointer;">↓ .html</span>
+              <span class="card-arrow">→</span>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Add card -->
+      <div class="add-card">
+        <div class="add-icon">+</div>
+        <div class="add-text">Drop a new <code style="font-size:11px;background:#f0ede6;padding:1px 5px;border-radius:3px">.html</code> in the right folder and add a card above</div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Workflows — Design Docs</span>
+  <span id="footer-count"></span>
+</footer>
+
+<script>
+let activeTag = 'all';
+
+function updateCount() {
+  let n = 0;
+  document.querySelectorAll('.demo-card[data-tags]').forEach(c => {
+    if (c.style.display !== 'none') n++;
+  });
+  const l = n === 1 ? '1 doc' : n + ' docs';
+  document.getElementById('doc-count').textContent = l;
+  document.getElementById('footer-count').textContent = l;
+}
+
+function filterCards(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTag = tag;
+  document.querySelectorAll('.demo-card[data-tags]').forEach(c => {
+    c.style.display = (tag === 'all' || c.dataset.tags.includes(tag)) ? '' : 'none';
+  });
+  updateCount();
+}
+
+updateCount();
+</script>
+
+</body>
+</html>

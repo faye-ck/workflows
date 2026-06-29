@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula Guide — Workflows Template Builder</title>
+<style>
+  :root {
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --surface-alt: #F0F2F7;
+    --border: #E2E5ED;
+    --text-primary: #1A1D23;
+    --text-secondary: #5A6070;
+    --text-muted: #9199A8;
+    --accent: #4F6BF0;
+    --accent-light: #EEF1FE;
+    --green: #18A86B;
+    --green-light: #E8F7F1;
+    --amber: #E07B00;
+    --amber-light: #FFF4E0;
+    --red: #D94040;
+    --red-light: #FEF0F0;
+    --purple: #7B52D4;
+    --purple-light: #F2EEFF;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* Layout */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .sidebar-logo .product {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .sidebar-logo .title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .nav-section {
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .nav-section-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 8px;
+    margin-bottom: 4px;
+    margin-top: 16px;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .nav-item:hover {
+    background: var(--surface-alt);
+    color: var(--text-primary);
+  }
+
+  .nav-item.active {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  /* Main content */
+  .main {
+    flex: 1;
+    padding: 48px 56px;
+    max-width: 860px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* Callout */
+  .callout {
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .callout.info { background: var(--accent-light); border-left: 3px solid var(--accent); }
+  .callout.tip { background: var(--green-light); border-left: 3px solid var(--green); }
+  .callout.warning { background: var(--amber-light); border-left: 3px solid var(--amber); }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+  .callout-body strong { color: var(--text-primary); }
+
+  /* Formula card */
+  .formula-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .formula-card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .formula-badge {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 10px;
+    color: var(--purple);
+  }
+
+  .formula-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .formula-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .formula-card-body {
+    padding: 16px 20px;
+  }
+
+  /* Code block */
+  .code-block {
+    background: #1E2030;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: #C8D0E7;
+    margin: 10px 0 14px;
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+
+  .code-block .field { color: #82AAFF; }
+  .code-block .fn { color: #C3E88D; }
+  .code-block .num { color: #F78C6C; }
+  .code-block .str { color: #C3E88D; }
+  .code-block .op { color: #89DDFF; }
+  .code-block .comment { color: #676E95; font-style: italic; }
+
+  /* Example row */
+  .example-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .example-box {
+    background: var(--surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+
+  .example-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .example-box code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .example-box .result {
+    font-size: 12.5px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .example-box .desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* Syntax anatomy */
+  .anatomy {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+
+  .anatomy-formula {
+    font-family: var(--mono);
+    font-size: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .anatomy-part {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  .part-fn { background: #C3E88D22; color: #3D8A3D; border: 1px solid #C3E88D55; }
+  .part-paren { color: var(--text-muted); font-size: 18px; font-weight: 300; }
+  .part-field { background: #82AAFF22; color: #2A5AC7; border: 1px solid #82AAFF55; }
+  .part-op { color: var(--accent); font-weight: 700; font-size: 16px; padding: 0 4px; }
+  .part-num { background: #F78C6C22; color: #C05A2A; border: 1px solid #F78C6C55; }
+
+  .anatomy-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .tag-number { background: #F78C6C22; color: var(--amber); }
+  .tag-date { background: var(--purple-light); color: var(--purple); }
+  .tag-text { background: var(--green-light); color: var(--green); }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 16px 0;
+  }
+
+  th {
+    background: var(--surface-alt);
+    font-weight: 700;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  td code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--purple);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  /* Hero intro */
+  .hero {
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--purple-light) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin-bottom: 40px;
+  }
+
+  .hero p {
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin-bottom: 0;
+  }
+
+  /* Cheatsheet grid */
+  .cheatsheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cheat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+
+  .cheat-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+
+  .cheat-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .cheat-example {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: var(--surface-alt);
+    border-radius: 5px;
+    padding: 6px 10px;
+    color: var(--text-secondary);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { padding: 32px 24px; }
+    .example-row { grid-template-columns: 1fr; }
+    .cheatsheet-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="product">Workflows</div>
+      <div class="title">Formula Guide</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Getting Started</div>
+      <a class="nav-item active" href="#intro">What is a formula?</a>
+      <a class="nav-item" href="#syntax">How to write one</a>
+      <a class="nav-item" href="#field-ref">Referencing fields</a>
+      <a class="nav-item" href="#duplicate-fields">Duplicate field names</a>
+      <a class="nav-item" href="#renaming-fields">Renaming fields</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Number Formulas</div>
+      <a class="nav-item" href="#arithmetic">Basic arithmetic</a>
+      <a class="nav-item" href="#rounding">Rounding</a>
+      <a class="nav-item" href="#minmax">MIN / MAX</a>
+      <a class="nav-item" href="#if">IF (conditions)</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Date Formulas</div>
+      <a class="nav-item" href="#date-add">Add / subtract days</a>
+      <a class="nav-item" href="#date-diff">Days between dates</a>
+      <a class="nav-item" href="#today">TODAY()</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Repeating Sections</div>
+      <a class="nav-item" href="#repeating">Overview</a>
+      <a class="nav-item" href="#row-formula">Row-level formula</a>
+      <a class="nav-item" href="#aggregate-formula">Aggregate formula</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Reference</div>
+      <a class="nav-item" href="#cheatsheet">Quick cheatsheet</a>
+      <a class="nav-item" href="#errors">Common errors</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Engineering</div>
+      <a class="nav-item" href="#eng-notes" style="color:#F78C6C;">Implementation Notes</a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="section-eyebrow">Template Builder</div>
+      <h1>Formula Guide</h1>
+      <p>Formulas let your templates do the math automatically — so totals, deadlines, and calculations fill in on their own without anyone typing them manually.</p>
+    </div>
+
+    <!-- INTRO -->
+    <div class="section" id="intro">
+      <h2>What is a formula?</h2>
+      <p>A formula is an instruction you write once in a field, telling the system how to calculate its value based on other fields. Once set up, it runs automatically every time someone fills in the template.</p>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Think of it like a calculator.</strong> Instead of someone manually typing "Total = Item 1 + Item 2 + Item 3", you write the formula once and the system calculates it for every submission.
+        </div>
+      </div>
+
+      <h3>Two types of formula fields</h3>
+      <table>
+        <thead>
+          <tr><th>Type</th><th>What it calculates</th><th>Example use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag tag-number">Number</span></td>
+            <td>Amounts, totals, counts, percentages</td>
+            <td>Total cost, tax amount, item count</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-date">Date</span></td>
+            <td>Deadlines, durations, time gaps</td>
+            <td>Due date, review deadline, days remaining</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SYNTAX -->
+    <div class="section" id="syntax">
+      <h2>How to write a formula</h2>
+      <p>A formula always follows a predictable structure. Once you learn the pattern, all formulas work the same way.</p>
+
+      <div class="anatomy">
+        <div class="anatomy-formula">
+          <span class="anatomy-part part-fn">ROUND</span>
+          <span class="anatomy-part part-paren">(</span>
+          <span class="anatomy-part part-field">{Unit Price}</span>
+          <span class="anatomy-part part-op">×</span>
+          <span class="anatomy-part part-field">{Quantity}</span>
+          <span class="anatomy-part part-op">,</span>
+          <span class="anatomy-part part-num">2</span>
+          <span class="anatomy-part part-paren">)</span>
+        </div>
+        <div class="anatomy-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#3D8A3D"></div> Function name</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2A5AC7"></div> Field reference (your template's field labels)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C05A2A"></div> A plain number</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Operator or separator</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body">
+          <strong>You don't need to memorize all of this.</strong> In the formula editor, you can click on a field to insert it automatically. The curly braces <code>{}</code> are added for you.
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FIELD REFERENCES -->
+    <div class="section" id="field-ref">
+      <h2>Referencing your fields</h2>
+      <p>To use a field's value in a formula, wrap its label in curly braces: <code>{Field Label}</code>.</p>
+
+      <table>
+        <thead>
+          <tr><th>Your field label</th><th>How to reference it</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Unit Price</td><td><code>{Unit Price}</code></td></tr>
+          <tr><td>Release Date</td><td><code>{Release Date}</code></td></tr>
+          <tr><td>Number of Items</td><td><code>{Number of Items}</code></td></tr>
+          <tr><td>Approved Budget</td><td><code>{Approved Budget}</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body">
+          <strong>Always use the field picker.</strong> Click a field in the picker to insert its reference automatically — you never need to type curly braces yourself. This also prevents typos that would break the formula.
+        </div>
+      </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3 id="duplicate-fields">When two fields have the same name</h3>
+      <p>Templates can have fields with the same label — for example, "Amount" appearing in multiple sections. When that happens, the formula needs a way to tell them apart. A number suffix is added automatically.</p>
+
+      <table>
+        <thead>
+          <tr><th>Situation</th><th>What you see in the picker</th><th>What gets inserted</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Only one field named "Amount"</td>
+            <td>Amount</td>
+            <td><code>{Amount}</code></td>
+          </tr>
+          <tr>
+            <td>Two fields named "Amount"</td>
+            <td>Amount #1 &nbsp; Amount #2</td>
+            <td><code>{Amount#1}</code> &nbsp; <code>{Amount#2}</code></td>
+          </tr>
+          <tr>
+            <td>Three fields named "Amount"</td>
+            <td>Amount #1 &nbsp; Amount #2 &nbsp; Amount #3</td>
+            <td><code>{Amount#1}</code> &nbsp; <code>{Amount#2}</code> &nbsp; <code>{Amount#3}</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin: 20px 0;">
+        <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:14px;">Example — adding two "Amount" fields from different sections</div>
+        <div class="code-block">
+          <span class="field">{Amount#1}</span> <span class="op">+</span> <span class="field">{Amount#2}</span>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Hover over <code>{Amount#1}</code> or <code>{Amount#2}</code> in the formula editor to see a tooltip showing which section each field belongs to.</div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12.5px; min-width:160px;">
+            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Tooltip on Amount #1</div>
+            <div style="font-family:var(--mono); color:var(--purple); margin-bottom:3px;">{Amount#1}</div>
+            <div style="color:var(--text-secondary);">Section: Travel Expenses</div>
+          </div>
+          <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12.5px; min-width:160px;">
+            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Tooltip on Amount #2</div>
+            <div style="font-family:var(--mono); color:var(--purple); margin-bottom:3px;">{Amount#2}</div>
+            <div style="color:var(--text-secondary);">Section: Meal Expenses</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The numbers don't change when you reorder sections.</strong> <code>#1</code> and <code>#2</code> are assigned in the order the fields were <em>created</em>, not the order they appear on screen. Moving sections around will never break an existing formula.
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>The suffix only appears when there's a conflict.</strong> If your template has only one field named "Amount", it stays as <code>{Amount}</code> — no suffix. The suffix appears the moment a second field with the same name is added.
+        </div>
+      </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3 id="renaming-fields">Renaming a field that's used in a formula</h3>
+      <p>If you rename any field that is referenced in a formula, the formula updates automatically to match the new name. You don't need to edit the formula yourself.</p>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin: 16px 0;">
+        <div style="background:var(--surface-alt); padding:12px 18px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border);">Example — renaming a field</div>
+        <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
+          <div style="font-size:13px; color:var(--text-secondary);">Before rename — formula reads:</div>
+          <div class="code-block" style="margin:0;">{<span class="field">Unit Price</span>} <span class="op">*</span> {<span class="field">Quantity</span>}</div>
+          <div style="font-size:13px; color:var(--text-secondary);">You rename <strong style="color:var(--text-primary);">Unit Price</strong> → <strong style="color:var(--text-primary);">Price Per Item</strong>. After save, formula automatically becomes:</div>
+          <div class="code-block" style="margin:0;">{<span class="field">Price Per Item</span>} <span class="op">*</span> {<span class="field">Quantity</span>}</div>
+        </div>
+      </div>
+
+      <p>This applies to all rename cases — including when a suffix is added or dropped:</p>
+
+      <table>
+        <thead>
+          <tr><th>What changed</th><th>Formula before</th><th>Formula after</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rename unique field</td>
+            <td><code>{Unit Price}</code></td>
+            <td><code>{Price Per Item}</code></td>
+          </tr>
+          <tr>
+            <td>Add a second "Amount" field (conflict created)</td>
+            <td><code>{Amount}</code></td>
+            <td><code>{Amount#1}</code></td>
+          </tr>
+          <tr>
+            <td>Remove or rename the duplicate so conflict is resolved</td>
+            <td><code>{Amount#1}</code></td>
+            <td><code>{Amount}</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>You'll always see a warning before a rename takes effect.</strong> The warning lists every formula that will be updated, so you can review the impact before confirming. No formula changes without your approval.
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ARITHMETIC -->
+    <div class="section" id="arithmetic">
+      <h2>Basic arithmetic</h2>
+      <p>The four basic operations work exactly like a calculator — or like Excel.</p>
+
+      <table>
+        <thead>
+          <tr><th>Operation</th><th>Symbol</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Add</td><td><code>+</code></td><td><code>{Price} + {Shipping}</code></td></tr>
+          <tr><td>Subtract</td><td><code>-</code></td><td><code>{Budget} - {Spent}</code></td></tr>
+          <tr><td>Multiply</td><td><code>*</code></td><td><code>{Unit Price} * {Quantity}</code></td></tr>
+          <tr><td>Divide</td><td><code>/</code></td><td><code>{Total} / {Number of Items}</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Total cost from unit price and quantity</div>
+            <div class="formula-desc">Multiply two number fields together</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="field">{Unit Price}</span> <span class="op">*</span> <span class="field">{Quantity}</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Input</div>
+              <code>Unit Price = 500, Quantity = 3</code>
+              <div class="result">→ 1,500</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Input</div>
+              <code>Unit Price = 1,200, Quantity = 5</code>
+              <div class="result">→ 6,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Remaining budget</div>
+            <div class="formula-desc">Subtract what was spent from the total budget</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="field">{Approved Budget}</span> <span class="op">-</span> <span class="field">{Total Expenses}</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Input</div>
+              <code>Budget = 10,000, Expenses = 7,400</code>
+              <div class="result">→ 2,600</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Input</div>
+              <code>Budget = 5,000, Expenses = 5,200</code>
+              <div class="result">→ -200 (over budget)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Order of operations works like math class.</strong> Multiplication and division happen before addition and subtraction. Use parentheses <code>( )</code> to control the order: <code>({Price} + {Tax}) * {Quantity}</code>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ROUNDING -->
+    <div class="section" id="rounding">
+      <h2>Rounding numbers</h2>
+      <p>Use these when your result has too many decimal places and you want to clean it up.</p>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">ROUND</div>
+          <div>
+            <div class="formula-title">Round to a specific number of decimal places</div>
+            <div class="formula-desc">The most common rounding function — works just like Excel's ROUND</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">ROUND</span>(<span class="field">{Total}</span>, <span class="num">2</span>) <span class="comment">  ← the 2 means "2 decimal places"</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>ROUND(10.4567, 2)</code>
+              <div class="result">→ 10.46</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>ROUND(10.4567, 0)</code>
+              <div class="result">→ 10 (whole number)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">FLOOR</div>
+          <div>
+            <div class="formula-title">Always round down</div>
+            <div class="formula-desc">Useful when you never want to exceed a value (e.g. full days only)</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">FLOOR</span>(<span class="field">{Hours Worked}</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>FLOOR(7.9)</code>
+              <div class="result">→ 7</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>FLOOR(3.1)</code>
+              <div class="result">→ 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">CEILING</div>
+          <div>
+            <div class="formula-title">Always round up</div>
+            <div class="formula-desc">Useful when rounding up is required (e.g. minimum billing units)</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">CEILING</span>(<span class="field">{Raw Total}</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>CEILING(4.1)</code>
+              <div class="result">→ 5</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Input → Result</div>
+              <code>CEILING(4.9)</code>
+              <div class="result">→ 5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- MIN MAX -->
+    <div class="section" id="minmax">
+      <h2>MIN and MAX</h2>
+      <p>Pick the smaller or larger value between two fields — useful for caps and floors on numbers.</p>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">MAX</div>
+          <div>
+            <div class="formula-title">Return the larger of two values</div>
+            <div class="formula-desc">e.g. enforce a minimum charge</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">MAX</span>(<span class="field">{Calculated Fee}</span>, <span class="num">500</span>) <span class="comment">  ← always at least 500</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Calculated Fee = 200</div>
+              <div class="result">→ 500 (minimum applied)</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Calculated Fee = 1,200</div>
+              <div class="result">→ 1,200 (above minimum)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">MIN</div>
+          <div>
+            <div class="formula-title">Return the smaller of two values</div>
+            <div class="formula-desc">e.g. cap a value so it never exceeds a limit</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">MIN</span>(<span class="field">{Requested Amount}</span>, <span class="num">10000</span>) <span class="comment">  ← never more than 10,000</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Requested = 8,000</div>
+              <div class="result">→ 8,000</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Requested = 15,000</div>
+              <div class="result">→ 10,000 (cap applied)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- IF -->
+    <div class="section" id="if">
+      <h2>IF — show different results based on a condition</h2>
+      <p>IF lets your formula make a decision: "if this is true, use this value — otherwise, use that value."</p>
+
+      <div class="anatomy">
+        <div class="anatomy-formula" style="font-size:13px; gap:4px;">
+          <span class="anatomy-part part-fn">IF</span>
+          <span class="anatomy-part part-paren">(</span>
+          <span style="color:var(--text-muted); font-family:var(--mono); font-size:13px;">condition</span>
+          <span class="anatomy-part part-op">,</span>
+          <span style="color:#3D8A3D; font-family:var(--mono); font-size:13px;">value if true</span>
+          <span class="anatomy-part part-op">,</span>
+          <span style="color:var(--red); font-family:var(--mono); font-size:13px;">value if false</span>
+          <span class="anatomy-part part-paren">)</span>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary);">Read it as: <em>"IF [this is true], THEN [do this], OTHERWISE [do this]."</em></div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Apply a discount if quantity is high</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">IF</span>(<span class="field">{Quantity}</span> <span class="op">>=</span> <span class="num">10</span>, <span class="field">{Unit Price}</span> <span class="op">*</span> <span class="num">0.9</span>, <span class="field">{Unit Price}</span>)
+          </div>
+          <p style="font-size:13px; color:var(--text-secondary); margin-bottom:8px;">If Quantity is 10 or more → apply 10% discount. Otherwise → use full price.</p>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Qty = 5, Price = 1,000</div>
+              <div class="result">→ 1,000 (no discount)</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Qty = 12, Price = 1,000</div>
+              <div class="result">→ 900 (10% off)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Flag if over budget</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">IF</span>(<span class="field">{Total Expenses}</span> <span class="op">></span> <span class="field">{Approved Budget}</span>, <span class="str">"Over budget"</span>, <span class="str">"Within budget"</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Expenses = 8,000, Budget = 10,000</div>
+              <div class="result">→ "Within budget"</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Expenses = 11,000, Budget = 10,000</div>
+              <div class="result">→ "Over budget"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 24px;">Comparison operators for IF conditions</h3>
+      <table>
+        <thead>
+          <tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>=</code></td><td>Is equal to</td><td><code>{Status} = "Approved"</code></td></tr>
+          <tr><td><code>!=</code></td><td>Is not equal to</td><td><code>{Status} != "Draft"</code></td></tr>
+          <tr><td><code>></code></td><td>Greater than</td><td><code>{Amount} > 1000</code></td></tr>
+          <tr><td><code><</code></td><td>Less than</td><td><code>{Days Left} < 3</code></td></tr>
+          <tr><td><code>>=</code></td><td>Greater than or equal to</td><td><code>{Quantity} >= 10</code></td></tr>
+          <tr><td><code><=</code></td><td>Less than or equal to</td><td><code>{Score} <= 50</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- DATE ADD -->
+    <div class="section" id="date-add">
+      <h2>Adding or subtracting days from a date</h2>
+      <p>Use <code>DATEADD</code> to calculate a future or past date based on a date field.</p>
+
+      <div class="anatomy">
+        <div class="anatomy-formula" style="font-size:13px; gap:4px;">
+          <span class="anatomy-part part-fn">DATEADD</span>
+          <span class="anatomy-part part-paren">(</span>
+          <span style="color:#2A5AC7; font-family:var(--mono); font-size:13px;">{date field}</span>
+          <span class="anatomy-part part-op">,</span>
+          <span style="color:#C05A2A; font-family:var(--mono); font-size:13px;">number of days</span>
+          <span class="anatomy-part part-op">,</span>
+          <span style="color:#3D8A3D; font-family:var(--mono); font-size:13px;">"days"</span>
+          <span class="anatomy-part part-paren">)</span>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Deadline = 14 days after release date</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">DATEADD</span>(<span class="field">{Release Date}</span>, <span class="num">14</span>, <span class="str">"days"</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Release Date = Jan 1</div>
+              <div class="result">→ Jan 15</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Release Date = Mar 20</div>
+              <div class="result">→ Apr 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Review date = 7 days before the deadline</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">DATEADD</span>(<span class="field">{Deadline}</span>, <span class="num">-7</span>, <span class="str">"days"</span>) <span class="comment">  ← use a negative number to go back in time</span>
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Deadline = Apr 30</div>
+              <div class="result">→ Apr 23</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Deadline = Dec 31</div>
+              <div class="result">→ Dec 24</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Unit</th><th>Write as</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Days</td><td><code>"days"</code></td><td><code>DATEADD({Start}, 7, "days")</code></td></tr>
+          <tr><td>Weeks</td><td><code>"weeks"</code></td><td><code>DATEADD({Start}, 2, "weeks")</code></td></tr>
+          <tr><td>Months</td><td><code>"months"</code></td><td><code>DATEADD({Start}, 1, "months")</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <!-- DATE DIFF -->
+    <div class="section" id="date-diff">
+      <h2>Days between two dates</h2>
+      <p>Use <code>DATEDIF</code> to calculate how many days, weeks, or months are between two date fields.</p>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Project duration in days</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">DATEDIF</span>(<span class="field">{Start Date}</span>, <span class="field">{End Date}</span>, <span class="str">"days"</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Start = Jan 1, End = Jan 15</div>
+              <div class="result">→ 14 days</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Start = Mar 1, End = Apr 1</div>
+              <div class="result">→ 31 days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TODAY -->
+    <div class="section" id="today">
+      <h2>TODAY() — use today's date in a formula</h2>
+      <p><code>TODAY()</code> automatically returns today's date. You don't need to type a date — it updates every day on its own.</p>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Days until the deadline (from today)</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">DATEDIF</span>(<span class="fn">TODAY</span>(), <span class="field">{Deadline}</span>, <span class="str">"days"</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Today = Jan 1, Deadline = Jan 10</div>
+              <div class="result">→ 9 days remaining</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">Today = Jan 12, Deadline = Jan 10</div>
+              <div class="result">→ -2 (overdue by 2 days)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Auto-set review date to 30 days from today</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">DATEADD</span>(<span class="fn">TODAY</span>(), <span class="num">30</span>, <span class="str">"days"</span>)
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Every time this template is used, the review date is set to 30 days from that day — no manual input needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- REPEATING SECTIONS -->
+    <div class="section" id="repeating">
+      <h2>Formulas in repeating sections</h2>
+      <p>A repeating section lets the person filling the form add multiple rows of the same fields — for example, a list of expense items, each with a name, price, and quantity. Formulas work at two levels: inside the repeating section (per row), and outside it (across all rows).</p>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Think of it like a table in Excel.</strong> Each row is one set of filled-in fields. A row-level formula calculates something for that row. An aggregate formula totals or summarises across all rows.
+        </div>
+      </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3 id="row-formula">Row-level formula — calculate per row</h3>
+      <p>A formula field placed <strong>inside</strong> the repeating section runs independently for each row. It only sees the fields in that row — not other rows.</p>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div>
+            <div class="formula-title">Subtotal per line item</div>
+            <div class="formula-desc">Inside a repeating section called "Items"</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="field">{Price}</span> <span class="op">*</span> <span class="field">{Quantity}</span>
+          </div>
+          <div style="margin-top:12px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; font-size:13px;">
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; background:var(--surface-alt); border-bottom:1px solid var(--border);">
+              <div style="padding:8px 12px; font-weight:700; color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">Item</div>
+              <div style="padding:8px 12px; font-weight:700; color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">Price</div>
+              <div style="padding:8px 12px; font-weight:700; color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">Quantity</div>
+              <div style="padding:8px 12px; font-weight:700; color:var(--purple); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">Subtotal ✦</div>
+            </div>
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid var(--border);">
+              <div style="padding:8px 12px; color:var(--text-secondary);">Laptop Stand</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">3,000</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">2</div>
+              <div style="padding:8px 12px; color:var(--green); font-weight:600;">6,000</div>
+            </div>
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid var(--border);">
+              <div style="padding:8px 12px; color:var(--text-secondary);">Mouse</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">1,500</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">3</div>
+              <div style="padding:8px 12px; color:var(--green); font-weight:600;">4,500</div>
+            </div>
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr;">
+              <div style="padding:8px 12px; color:var(--text-secondary);">Keyboard</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">5,000</div>
+              <div style="padding:8px 12px; color:var(--text-secondary);">1</div>
+              <div style="padding:8px 12px; color:var(--green); font-weight:600;">5,000</div>
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">✦ Calculated automatically for each row</div>
+        </div>
+      </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3 id="aggregate-formula">Aggregate formula — calculate across all rows</h3>
+      <p>A formula field placed <strong>outside</strong> the repeating section can pull values from it using dot notation: <code>{SectionName.FieldName}</code>. This tells the system you want all values of that field across every row.</p>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>Dot notation is required when referencing a repeating section from outside it.</strong> Writing <code>{Subtotal}</code> alone is ambiguous if that label exists elsewhere in the template. Always use <code>{Items.Subtotal}</code> to be specific about which section you mean.
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">SUM</div>
+          <div>
+            <div class="formula-title">Total of all subtotals across every row</div>
+            <div class="formula-desc">Placed outside the repeating section</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">SUM</span>(<span class="field">{Items.Subtotal}</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Rows: 6,000 + 4,500 + 5,000</div>
+              <div class="result">→ 15,500</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">User adds a 4th row: 2,000</div>
+              <div class="result">→ 17,500 (updates automatically)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">COUNT</div>
+          <div>
+            <div class="formula-title">How many rows were filled in</div>
+            <div class="formula-desc">Counts rows where the field has a value</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">COUNT</span>(<span class="field">{Items.Item}</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">3 rows filled in</div>
+              <div class="result">→ 3</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">0 rows filled in</div>
+              <div class="result">→ 0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">AVERAGE</div>
+          <div>
+            <div class="formula-title">Average value across all rows</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">AVERAGE</span>(<span class="field">{Items.Price}</span>)
+          </div>
+          <div class="example-row">
+            <div class="example-box">
+              <div class="example-label">Prices: 3,000 / 1,500 / 5,000</div>
+              <div class="result">→ 3,166.67</div>
+            </div>
+            <div class="example-box">
+              <div class="example-label">With ROUND</div>
+              <div class="result">ROUND(AVERAGE({Items.Price}), 0) → 3,167</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-card-header">
+          <div class="formula-badge">MIN / MAX</div>
+          <div>
+            <div class="formula-title">Lowest or highest value across all rows</div>
+            <div class="formula-desc">Different from the two-value MIN/MAX — this scans all rows</div>
+          </div>
+        </div>
+        <div class="formula-card-body">
+          <div class="code-block">
+            <span class="fn">MIN</span>(<span class="field">{Items.Price}</span>) <span class="comment">  ← lowest price across all rows</span>
+          </div>
+          <div class="code-block" style="margin-top:8px;">
+            <span class="fn">MAX</span>(<span class="field">{Items.Price}</span>) <span class="comment">  ← highest price across all rows</span>
+          </div>
+          <div class="example-row" style="margin-top:12px;">
+            <div class="example-box">
+              <div class="example-label">Prices: 3,000 / 1,500 / 5,000</div>
+              <div class="result">MIN → 1,500 &nbsp; MAX → 5,000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3>Combining row-level and aggregate formulas</h3>
+      <p>The most common pattern is to use both layers together: a row-level formula calculates each row's value, then an aggregate formula totals them up.</p>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin:16px 0;">
+        <div style="background:var(--surface-alt); padding:12px 18px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border);">Full example — expense form</div>
+        <div style="padding:20px 24px; display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 1 — Row-level formula inside "Items" repeating section</div>
+            <div class="code-block" style="margin:0;"><span class="comment">Field: Subtotal</span>
+<span class="field">{Price}</span> <span class="op">*</span> <span class="field">{Quantity}</span></div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 2 — Aggregate formula in a separate "Summary" section</div>
+            <div class="code-block" style="margin:0;"><span class="comment">Field: Grand Total</span>
+<span class="fn">SUM</span>(<span class="field">{Items.Subtotal}</span>)</div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 3 — Optional: use Grand Total in another formula</div>
+            <div class="code-block" style="margin:0;"><span class="comment">Field: Tax (10%)</span>
+<span class="field">{Grand Total}</span> <span class="op">*</span> <span class="num">0.1</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body">
+          <strong>Aggregate formulas update in real time.</strong> As the person filling the form adds or removes rows, any SUM, COUNT, AVERAGE, MIN, or MAX referencing that section recalculates automatically.
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CHEATSHEET -->
+    <div class="section" id="cheatsheet">
+      <h2>Quick cheatsheet</h2>
+      <p>All formulas at a glance — copy and adapt for your own fields.</p>
+
+      <div class="cheatsheet-grid">
+        <div class="cheat-card">
+          <div class="cheat-name">+  −  *  /</div>
+          <div class="cheat-desc">Basic math between fields or numbers</div>
+          <div class="cheat-example">{Price} * {Qty}</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">ROUND(value, places)</div>
+          <div class="cheat-desc">Round to N decimal places</div>
+          <div class="cheat-example">ROUND({Total}, 2)</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">FLOOR(value)</div>
+          <div class="cheat-desc">Always round down to whole number</div>
+          <div class="cheat-example">FLOOR({Hours})</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">CEILING(value)</div>
+          <div class="cheat-desc">Always round up to whole number</div>
+          <div class="cheat-example">CEILING({Units})</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">MIN(a, b)</div>
+          <div class="cheat-desc">Return the smaller of two values</div>
+          <div class="cheat-example">MIN({Amount}, 10000)</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">MAX(a, b)</div>
+          <div class="cheat-desc">Return the larger of two values</div>
+          <div class="cheat-example">MAX({Fee}, 500)</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">IF(condition, a, b)</div>
+          <div class="cheat-desc">Return a if true, b if false</div>
+          <div class="cheat-example">IF({Qty} >= 10, {Price} * 0.9, {Price})</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">DATEADD(date, n, unit)</div>
+          <div class="cheat-desc">Add days/weeks/months to a date</div>
+          <div class="cheat-example">DATEADD({Start}, 14, "days")</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">DATEDIF(date1, date2, unit)</div>
+          <div class="cheat-desc">Difference between two dates</div>
+          <div class="cheat-example">DATEDIF({Start}, {End}, "days")</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">TODAY()</div>
+          <div class="cheat-desc">Today's date (updates automatically)</div>
+          <div class="cheat-example">DATEADD(TODAY(), 7, "days")</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">SUM({Section.Field})</div>
+          <div class="cheat-desc">Total a field across all repeating rows</div>
+          <div class="cheat-example">SUM({Items.Subtotal})</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">COUNT({Section.Field})</div>
+          <div class="cheat-desc">Count how many rows have a value</div>
+          <div class="cheat-example">COUNT({Items.Item})</div>
+        </div>
+        <div class="cheat-card">
+          <div class="cheat-name">AVERAGE({Section.Field})</div>
+          <div class="cheat-desc">Average value across all repeating rows</div>
+          <div class="cheat-example">AVERAGE({Items.Price})</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ERRORS -->
+    <div class="section" id="errors">
+      <h2>Common errors and how to fix them</h2>
+      <p>Some errors happen while writing a formula. Others happen later, when someone edits the template. Both are covered here.</p>
+
+      <h3 style="margin-bottom:12px;">Errors while writing a formula</h3>
+      <table>
+        <thead>
+          <tr><th>Error</th><th>Most likely cause</th><th>How to fix</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Field not found</code></td>
+            <td>The field label inside <code>{ }</code> doesn't match any field in your template — usually a typo or capitalization mismatch</td>
+            <td>Use the field picker to insert references safely — it eliminates this error entirely.</td>
+          </tr>
+          <tr>
+            <td><code>Wrong field type</code></td>
+            <td>You're using a date field in a number formula, or a number field in a date formula. Also triggered if you reference a text field (e.g. a dropdown or short answer) in any formula</td>
+            <td>Check the field type in your template. Number formulas need number fields; date formulas need date fields. Text fields cannot be used in formulas.</td>
+          </tr>
+          <tr>
+            <td><code>Missing parenthesis</code></td>
+            <td>An opening <code>(</code> doesn't have a matching closing <code>)</code></td>
+            <td>Count your parentheses — every <code>(</code> needs a <code>)</code>. Nested functions like <code>IF(ROUND(...))</code> need two closing parentheses at the end.</td>
+          </tr>
+          <tr>
+            <td><code>Divide by zero</code></td>
+            <td>The field being divided by is blank or contains 0 at the time of submission</td>
+            <td>Wrap the division in an IF to guard against it: <code>IF({Count} = 0, 0, {Total} / {Count})</code></td>
+          </tr>
+          <tr>
+            <td><code>Circular reference</code></td>
+            <td>Field A's formula references Field B, and Field B's formula references Field A — creating a loop with no end</td>
+            <td>Open one of the two formula fields and remove the reference that creates the loop. A formula field cannot reference another formula field that references it back.</td>
+          </tr>
+          <tr>
+            <td>Result is blank</td>
+            <td>One or more referenced fields haven't been filled in yet by the person submitting the form</td>
+            <td>This is expected — formulas only calculate once all referenced fields have values. The result fills in automatically when they do.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:32px; margin-bottom:12px;">Errors caused by editing the template later</h3>
+      <p>These errors don't appear when you first write the formula — they're triggered later when someone modifies the template structure.</p>
+
+      <table>
+        <thead>
+          <tr><th>Error</th><th>What caused it</th><th>How to fix</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Field was deleted</code></td>
+            <td>A field that was referenced in a formula has been deleted from the template. This is different from "field not found" — the field existed before and was intentionally removed.</td>
+            <td>
+              You'll see a warning before deletion if the field is used in a formula. If it's already deleted, open the formula and either remove the broken reference or replace it with a different field.
+            </td>
+          </tr>
+          <tr>
+            <td><code>Field type changed</code></td>
+            <td>A field referenced in a formula had its type changed — for example, from a number field to a text field, or from a date field to a dropdown. The formula no longer receives the type of value it expects.</td>
+            <td>
+              You'll see a warning before a type change if the field is used in a formula. If the change has already been made, open the formula and update it to use a compatible field, or change the field type back.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Warnings always appear before a destructive change.</strong> Deleting a field or changing its type will show you a list of affected formulas before the action is confirmed — so nothing breaks without you knowing about it first.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ENGINEERING NOTES — separate full-width section outside main layout -->
+<div style="background:#1C1F2E; border-top: 3px solid #4F6BF0; padding: 56px; color:#D8DEF0; font-family:'JetBrains Mono','Fira Code','Courier New',monospace;" id="eng-notes">
+
+  <div style="max-width:860px; margin:0 auto;">
+
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
+      <div style="background:#4F6BF033; border:1px solid #4F6BF077; border-radius:6px; padding:4px 12px; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#8BA4F8;">For Engineers</div>
+      <div style="font-size:11px; color:#9199B8; letter-spacing:0.06em; text-transform:uppercase;">Not for end users</div>
+    </div>
+
+    <div style="font-size:24px; font-weight:800; color:#FFFFFF; margin-bottom:8px; letter-spacing:-0.01em;">Implementation Notes</div>
+    <div style="font-size:14px; color:#A8B0CC; margin-bottom:48px; line-height:1.7;">Open questions and decisions that need to be resolved before development. Each item below has a recommended approach and a reason.</div>
+
+    <!-- NOTE 1 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#F78C6C33; border:1px solid #F78C6C66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#FFAA88; text-transform:uppercase; letter-spacing:0.08em;">Decision Required</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Field reference storage — ID vs. label string</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">How are field references stored internally in a saved formula? This single decision affects nearly every other item on this list.</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div style="background:#2A2D40; border:1px solid #363A52; border-radius:8px; padding:14px 16px;">
+            <div style="font-size:11px; font-weight:700; color:#FFAA88; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Option A — Store as label string</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#D8DEF0; background:#1C1F2E; border-radius:5px; padding:8px 12px; margin-bottom:10px;">{Unit Price} * {Quantity}</div>
+            <div style="font-size:12.5px; color:#A8B0CC; line-height:1.7;">Simple to implement. Breaks on any field rename. Japanese labels require additional parser work. Duplicate field names require suffix logic baked into the parser.</div>
+          </div>
+          <div style="background:#2A2D40; border:1px solid #A8E6C466; border-radius:8px; padding:14px 16px;">
+            <div style="font-size:11px; font-weight:700; color:#A8E6C4; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Option B — Store as stable ID ✦ Recommended</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#D8DEF0; background:#1C1F2E; border-radius:5px; padding:8px 12px; margin-bottom:10px;">{field_a3k} * {field_b7m}</div>
+            <div style="font-size:12.5px; color:#A8B0CC; line-height:1.7;">Parser works off internal IDs. Display layer shows label. Rename, reorder, Japanese labels — all irrelevant to the parser. Duplicate handling and suffix logic are display-only concerns.</div>
+          </div>
+        </div>
+        <div style="background:#A8E6C411; border:1px solid #A8E6C433; border-radius:6px; padding:12px 16px; font-size:13px; color:#A8E6C4; line-height:1.7;">
+          <strong>Recommendation:</strong> Option B. The formula editor displays <code>{Unit Price}</code> to the user but stores <code>{field_a3k}</code> internally. The field picker handles the ID-to-label mapping on insert. This eliminates rename breakage, reorder breakage, and most Japanese encoding issues in one decision.
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE 2 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#F78C6C33; border:1px solid #F78C6C66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#FFAA88; text-transform:uppercase; letter-spacing:0.08em;">Decision Required</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Duplicate field name display — suffix assignment</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">When two fields share the same label, a <code>#1</code> / <code>#2</code> suffix is shown in the field picker and formula editor. The suffix must be stable across section reorders.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; margin-bottom:16px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Rules:</div>
+          <div>1. Suffix is assigned by <strong style="color:#FFFFFF;">field creation order</strong>, not display order.</div>
+          <div>2. Suffix is scoped per label — <code>Amount #2</code> is the 2nd field named "Amount", not the 2nd field overall.</div>
+          <div>3. Suffix appears <strong style="color:#FFFFFF;">only when a conflict exists</strong>. A unique field stays as <code>{Amount}</code>.</div>
+          <div>4. When a conflict is resolved (rename or delete), suffix drops automatically and affected formulas update.</div>
+          <div style="margin-top:12px; color:#FFAA88;">Edge case: user renames a field to a label that creates a new conflict. System should detect this and warn before confirming — or auto-assign the next available suffix. Do not allow silent conflicts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE 3 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#F78C6C33; border:1px solid #F78C6C66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#FFAA88; text-transform:uppercase; letter-spacing:0.08em;">Decision Required</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Rename and type-change guards</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Any action that modifies a field referenced in a formula must show a warning listing affected formulas before the action is confirmed.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; margin-bottom:16px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Actions that require a pre-confirmation warning:</div>
+          <div>— Field rename (including suffix changes from conflict resolution)</div>
+          <div>— Field type change (e.g. number → text breaks any formula using that field)</div>
+          <div>— Field deletion</div>
+          <div>— Section rename (if section dot notation is used for repeating section references)</div>
+          <div style="margin-top:12px; color:#A8B0CC;">The warning should name each affected formula field, not just say "some formulas will be updated." Users need to know exactly what changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE 4 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#7B52D433; border:1px solid #7B52D466; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#C4A8FF; text-transform:uppercase; letter-spacing:0.08em;">Japanese Support</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Multilingual template support</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Templates may be built entirely in Japanese. The formula system must handle non-ASCII field labels without errors.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; margin-bottom:16px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Known risks if using label-string storage (Option A):</div>
+          <div>— Full-width spaces (　U+3000) vs half-width spaces ( U+0020) in field labels cause silent mismatch</div>
+          <div>— Full-width curly braces ｛｝ vs half-width <code>{}</code> — different Unicode characters, parser won't match</div>
+          <div>— UTF-8 must be enforced end-to-end: input field → formula storage → evaluation engine</div>
+          <div style="margin-top:14px; color:#A8E6C4; font-weight:600;">If using stable ID storage (Option B — recommended):</div>
+          <div style="color:#A8B0CC; margin-top:6px;">Japanese label text is irrelevant to the parser. The label is display-only. Full-width/half-width normalisation is still recommended for the field picker search/filter UX, but it cannot break formulas.</div>
+          <div style="margin-top:14px; color:#FFAA88;">Do not ask users to use underscores instead of spaces in Japanese field names. This is a parser implementation concern, not a naming convention to impose on template builders.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE 5 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#82AAFF33; border:1px solid #82AAFF66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#93B4FF; text-transform:uppercase; letter-spacing:0.08em;">Repeating Sections</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Dot notation for cross-section references</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Aggregate formulas outside a repeating section reference fields inside it using dot notation: <code>{SectionName.FieldName}</code>. The section identifier in this notation needs a stable reference for the same reason field references do.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; margin-bottom:16px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Questions to resolve:</div>
+          <div>1. Is the section identifier in <code>{Items.Subtotal}</code> the section's display name or a stable ID? Recommend stable ID for the same reasons as field references.</div>
+          <div style="margin-top:8px;">2. Section names can be duplicated — same disambiguation problem as fields. Recommend the same suffix approach (<code>#1</code>/<code>#2</code>) applied to section names in dot notation.</div>
+          <div style="margin-top:8px;">3. If a section is renamed, any formula using <code>{OldName.FieldName}</code> must update automatically — same rename guard logic as field renames.</div>
+          <div style="margin-top:14px; color:#A8B0CC; font-size:12.5px;">Scope note: row-level formulas (inside the repeating section) reference sibling fields directly without dot notation — no section identifier needed. Dot notation is only required for aggregate formulas referencing a repeating section from outside it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE 6 -->
+    <div style="border:1px solid #363A52; border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="background:#252838; padding:16px 20px; border-bottom:1px solid #363A52; display:flex; align-items:center; gap:12px;">
+        <div style="background:#18A86B33; border:1px solid #18A86B66; border-radius:5px; padding:2px 10px; font-size:11px; font-weight:700; color:#5DD6A8; text-transform:uppercase; letter-spacing:0.08em;">UX Requirement</div>
+        <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Field picker is the primary input method</div>
+      </div>
+      <div style="padding:20px 24px;">
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Users should never need to type a field reference manually. The field picker inserts the correct reference (with stable ID, correct suffix, correct dot notation) automatically.</div>
+        <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
+          <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Field picker must:</div>
+          <div>— Insert the stable ID internally, display the label to the user</div>
+          <div>— Show <code>#1</code> / <code>#2</code> suffix in the picker list when a conflict exists</div>
+          <div>— Show a tooltip on each duplicate entry indicating its section</div>
+          <div>— Handle dot notation automatically for fields inside repeating sections when referenced from outside</div>
+          <div>— Support Japanese label search without requiring exact full-width/half-width match</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:12.5px; color:#6870A0; margin-top:32px; padding-top:24px; border-top:1px solid #363A52;">
+      This section is intended for the engineering team only. It summarises implementation decisions discussed during UX scoping and should be reviewed before development begins.
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Highlight active nav item on scroll
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(item => item.classList.remove('active'));
+        const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll
+  navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(item.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
