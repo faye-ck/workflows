@@ -507,7 +507,7 @@
 
     <div class="nav-section">
       <div class="nav-section-label">Multi-entry Sections</div>
-      <a class="nav-item" href="#repeating">Overview</a>
+      <a class="nav-item" href="#multi-entry">Overview</a>
       <a class="nav-item" href="#row-formula">Row-level formula</a>
       <a class="nav-item" href="#aggregate-formula">Aggregate formula</a>
     </div>
@@ -1203,10 +1203,10 @@
 
     <hr class="divider">
 
-    <!-- REPEATING SECTIONS -->
-    <div class="section" id="repeating">
-      <h2>Formulas in repeating sections</h2>
-      <p>A repeating section lets the person filling the form add multiple rows of the same fields — for example, a list of expense items, each with a name, price, and quantity. Formulas work at two levels: inside the repeating section (per row), and outside it (across all rows).</p>
+    <!-- MULTI-ENTRY SECTIONS -->
+    <div class="section" id="multi-entry">
+      <h2>Formulas in multi-entry sections</h2>
+      <p>A multi-entry section lets the person filling the form add multiple rows of the same fields — for example, a list of expense items, each with a name, price, and quantity. Formulas work at two levels: inside the multi-entry section (per row), and outside it (across all rows).</p>
 
       <div class="callout info">
         <div class="callout-icon">💡</div>
@@ -1218,13 +1218,13 @@
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
       <h3 id="row-formula">Row-level formula — calculate per row</h3>
-      <p>A formula field placed <strong>inside</strong> the repeating section runs independently for each row. It only sees the fields in that row — not other rows.</p>
+      <p>A formula field placed <strong>inside</strong> the multi-entry section runs independently for each row. It only sees the fields in that row — not other rows.</p>
 
       <div class="formula-card">
         <div class="formula-card-header">
           <div>
             <div class="formula-title">Subtotal per line item</div>
-            <div class="formula-desc">Inside a repeating section called "Items"</div>
+            <div class="formula-desc">Inside a multi-entry section called "Items"</div>
           </div>
         </div>
         <div class="formula-card-body">
@@ -1264,12 +1264,12 @@
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
       <h3 id="aggregate-formula">Aggregate formula — calculate across all rows</h3>
-      <p>A formula field placed <strong>outside</strong> the repeating section can pull values from it using dot notation: <code>{SectionName.FieldName}</code>. This tells the system you want all values of that field across every row.</p>
+      <p>A formula field placed <strong>outside</strong> the multi-entry section can pull values from it using dot notation: <code>{SectionName.FieldName}</code>. This tells the system you want all values of that field across every row.</p>
 
       <div class="callout warning">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body">
-          <strong>Dot notation is required when referencing a repeating section from outside it.</strong> Writing <code>{Subtotal}</code> alone is ambiguous if that label exists elsewhere in the template. Always use <code>{Items.Subtotal}</code> to be specific about which section you mean.
+          <strong>Dot notation is required when referencing a multi-entry section from outside it.</strong> Writing <code>{Subtotal}</code> alone is ambiguous if that label exists elsewhere in the template. Always use <code>{Items.Subtotal}</code> to be specific about which section you mean.
         </div>
       </div>
 
@@ -1278,7 +1278,7 @@
           <div class="formula-badge">SUM</div>
           <div>
             <div class="formula-title">Total of all subtotals across every row</div>
-            <div class="formula-desc">Placed outside the repeating section</div>
+            <div class="formula-desc">Placed outside the multi-entry section</div>
           </div>
         </div>
         <div class="formula-card-body">
@@ -1380,7 +1380,7 @@
         <div style="background:var(--surface-alt); padding:12px 18px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border);">Full example — expense form</div>
         <div style="padding:20px 24px; display:flex; flex-direction:column; gap:16px;">
           <div>
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 1 — Row-level formula inside "Items" repeating section</div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 1 — Row-level formula inside "Items" multi-entry section</div>
             <div class="code-block" style="margin:0;"><span class="comment">Field: Subtotal</span>
 <span class="field">{Price}</span> <span class="op">*</span> <span class="field">{Quantity}</span></div>
           </div>
@@ -1465,7 +1465,7 @@
         </div>
         <div class="cheat-card">
           <div class="cheat-name">SUM({Section.Field})</div>
-          <div class="cheat-desc">Total a field across all repeating rows</div>
+          <div class="cheat-desc">Total a field across all multi-entry rows</div>
           <div class="cheat-example">SUM({Items.Subtotal})</div>
         </div>
         <div class="cheat-card">
@@ -1475,7 +1475,7 @@
         </div>
         <div class="cheat-card">
           <div class="cheat-name">AVERAGE({Section.Field})</div>
-          <div class="cheat-desc">Average value across all repeating rows</div>
+          <div class="cheat-desc">Average value across all multi-entry rows</div>
           <div class="cheat-example">AVERAGE({Items.Price})</div>
         </div>
       </div>
@@ -1634,7 +1634,7 @@
           <div>— Field rename (including suffix changes from conflict resolution)</div>
           <div>— Field type change (e.g. number → text breaks any formula using that field)</div>
           <div>— Field deletion</div>
-          <div>— Section rename (if section dot notation is used for repeating section references)</div>
+          <div>— Section rename (if section dot notation is used for multi-entry section references)</div>
           <div style="margin-top:12px; color:#A8B0CC;">The warning should name each affected formula field, not just say "some formulas will be updated." Users need to know exactly what changes.</div>
         </div>
       </div>
@@ -1667,13 +1667,13 @@
         <div style="font-size:15px; font-weight:700; color:#FFFFFF;">Dot notation for cross-section references</div>
       </div>
       <div style="padding:20px 24px;">
-        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Aggregate formulas outside a repeating section reference fields inside it using dot notation: <code>{SectionName.FieldName}</code>. The section identifier in this notation needs a stable reference for the same reason field references do.</div>
+        <div style="font-size:13.5px; color:#B8C0D8; margin-bottom:16px; line-height:1.8;">Aggregate formulas outside a multi-entry section reference fields inside it using dot notation: <code>{SectionName.FieldName}</code>. The section identifier in this notation needs a stable reference for the same reason field references do.</div>
         <div style="background:#2A2D40; border-radius:8px; padding:16px 20px; margin-bottom:16px; font-size:13.5px; color:#D8DEF0; line-height:1.9;">
           <div style="color:#93B4FF; font-weight:700; margin-bottom:10px;">Questions to resolve:</div>
           <div>1. Is the section identifier in <code>{Items.Subtotal}</code> the section's display name or a stable ID? Recommend stable ID for the same reasons as field references.</div>
           <div style="margin-top:8px;">2. Section names can be duplicated — same disambiguation problem as fields. Recommend the same suffix approach (<code>#1</code>/<code>#2</code>) applied to section names in dot notation.</div>
           <div style="margin-top:8px;">3. If a section is renamed, any formula using <code>{OldName.FieldName}</code> must update automatically — same rename guard logic as field renames.</div>
-          <div style="margin-top:14px; color:#A8B0CC; font-size:12.5px;">Scope note: row-level formulas (inside the repeating section) reference sibling fields directly without dot notation — no section identifier needed. Dot notation is only required for aggregate formulas referencing a repeating section from outside it.</div>
+          <div style="margin-top:14px; color:#A8B0CC; font-size:12.5px;">Scope note: row-level formulas (inside the multi-entry section) reference sibling fields directly without dot notation — no section identifier needed. Dot notation is only required for aggregate formulas referencing a multi-entry section from outside it.</div>
         </div>
       </div>
     </div>
@@ -1691,7 +1691,7 @@
           <div>— Insert the stable ID internally, display the label to the user</div>
           <div>— Show <code>#1</code> / <code>#2</code> suffix in the picker list when a conflict exists</div>
           <div>— Show a tooltip on each duplicate entry indicating its section</div>
-          <div>— Handle dot notation automatically for fields inside repeating sections when referenced from outside</div>
+          <div>— Handle dot notation automatically for fields inside multi-entry sections when referenced from outside</div>
           <div>— Support Japanese label search without requiring exact full-width/half-width match</div>
         </div>
       </div>
