@@ -352,7 +352,6 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           </div>
           <div style="flex:1;">
             <div style="font-size:14px;font-weight:500;color:var(--text-primary);">New formula field</div>
-            <div style="font-size:12px;color:var(--text-muted);">Purchase order form</div>
           </div>
         </div>
         <div style="padding:10px 18px 12px;border-bottom:0.5px solid var(--border);background:var(--surface-1);">
@@ -386,15 +385,30 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div style="margin-top:10px;">
             <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;">Insert function</div>
             <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              <button class="fn-chip" onclick="ins('+')">+</button>
+              <button class="fn-chip" onclick="ins('-')">−</button>
+              <button class="fn-chip" onclick="ins('*')">×</button>
+              <button class="fn-chip" onclick="ins('/')">÷</button>
+              <button class="fn-chip" onclick="ins('(')">(</button>
+              <button class="fn-chip" onclick="ins(')')">)</button>
+              <button class="fn-chip" onclick="ins('=')">= </button>
+              <button class="fn-chip" onclick="ins('!=')">!=</button>
+              <button class="fn-chip" onclick="ins('>')">&gt;</button>
+              <button class="fn-chip" onclick="ins('<')">&lt;</button>
+              <button class="fn-chip" onclick="ins('>=')">>=</button>
+              <button class="fn-chip" onclick="ins('<=')"><=</button>
               <button class="fn-chip" onclick="ins('IF(, , )')">IF(…)</button>
               <button class="fn-chip" onclick="ins('ROUND(, 0)')">ROUND(…)</button>
-              <button class="fn-chip" onclick="ins('FLOOR()')">FLOOR(…)</button>
-              <button class="fn-chip" onclick="ins('CEILING()')">CEILING(…)</button>
+              <button class="fn-chip" onclick="ins('ROUNDUP(, 0)')">ROUNDUP(…)</button>
+              <button class="fn-chip" onclick="ins('ROUNDDOWN(, 0)')">ROUNDDOWN(…)</button>
               <button class="fn-chip" onclick="ins('MIN(, )')">MIN(…)</button>
               <button class="fn-chip" onclick="ins('MAX(, )')">MAX(…)</button>
               <button class="fn-chip" onclick="ins('TODAY()')">TODAY()</button>
               <button class="fn-chip" onclick="ins('DATEDIF(TODAY(), , &quot;days&quot;)')">DATEDIF(…)</button>
               <button class="fn-chip" onclick="ins('DATEADD(, 7, &quot;days&quot;)')">DATEADD(…)</button>
+              <button class="fn-chip" onclick="ins('SUM(, )')">SUM(…)</button>
+              <button class="fn-chip" onclick="ins('COUNT(, )')">COUNT(…)</button>
+              <button class="fn-chip" onclick="ins('AVERAGE(, )')">AVERAGE(…)</button>
             </div>
           </div>
         </div>
@@ -854,7 +868,7 @@ const PRESETS=[
   {id:'c11',type:'currency',icon:'ti-receipt-2',name:'Subtotal + tax, capped',template:'MIN(ROUND({Insert unit price field} * {Insert quantity field} * 1.1, 0), {Insert budget field})'},
 ];
 function tokenize(s){const tok=[];let i=0;s=s.replace(/\n/g,' ').replace(/\s+/g,' ').trim();while(i<s.length){if(s[i]===' '){i++;continue;}if(s[i]=='"'){let j=++i;while(j<s.length&&s[j]!='"')j++;tok.push({t:'str',v:s.slice(i,j)});i=j+1;continue;}if(s[i]==='{'){let j=++i;while(j<s.length&&s[j]!=='}')j++;tok.push({t:'fld',v:s.slice(i,j).trim()});i=j+1;continue;}if(/\d/.test(s[i])){let j=i;while(j<s.length&&/[\d.]/.test(s[j]))j++;tok.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}if(i+1<s.length){const w=s.slice(i,i+2);if(['>=','<=','!='].includes(w)){tok.push({t:'op',v:w});i+=2;continue;}}if(/[A-Z]/.test(s[i])){let j=i;while(j<s.length&&/[A-Z0-9_]/.test(s[j]))j++;tok.push({t:'id',v:s.slice(i,j)});i=j;continue;}const ch=s[i++];if(ch==='(')tok.push({t:'lp'});else if(ch===')')tok.push({t:'rp'});else if(ch===',')tok.push({t:'cm'});else tok.push({t:'op',v:ch});}return tok;}
-function evalFormula(formula,row){if(!formula||!formula.trim())return undefined;if(/\{Insert\b/i.test(formula))return null;const tok=tokenize(formula);let pos=0;const p=()=>tok[pos],nx=()=>tok[pos++];function expr(){return cmp();}function cmp(){let L=cat();if(p()&&p().t==='op'&&['>=','<=','>','<','=','!='].includes(p().v)){const op=nx().v,R=cat();return op==='>'?L>R:op==='>='?L>=R:op==='<'?L<R:op==='<='?L<=R:op==='='?L==R:L!=R;}return L;}function cat(){let L=add();while(p()&&p().t==='op'&&p().v==='&'){nx();L=String(L)+String(add());}return L;}function add(){let L=mul();while(p()&&p().t==='op'&&['+','-'].includes(p().v)){const op=nx().v;L=op==='+'?L+mul():L-mul();}return L;}function mul(){let L=atom();while(p()&&p().t==='op'&&['*','/'].includes(p().v)){const op=nx().v;L=op==='*'?L*atom():L/atom();}return L;}function atom(){const t=p();if(!t)throw 0;if(t.t==='num'){nx();return t.v;}if(t.t==='str'){nx();return t.v;}if(t.t==='fld'){nx();const v=row[t.v];if(v===undefined)throw new Error('?');return v;}if(t.t==='lp'){nx();const v=expr();if(p()&&p().t==='rp')nx();return v;}if(t.t==='id'){const name=nx().v;if(name==='TODAY'){if(p()&&p().t==='lp')nx();if(p()&&p().t==='rp')nx();return new Date();}if(p()&&p().t==='lp')nx();const args=[];while(p()&&p().t!=='rp'){args.push(expr());if(p()&&p().t==='cm')nx();}if(p()&&p().t==='rp')nx();return applyFn(name,args);}nx();return null;}function applyFn(name,a){switch(name){case 'IF':return a[0]?a[1]:a[2];case 'ROUND':{const f=Math.pow(10,a[1]||0);return Math.round((a[0]||0)*f)/f;}case 'FLOOR':return Math.floor(a[0]||0);case 'CEILING':return Math.ceil(a[0]||0);case 'MIN':return Math.min(a[0],a[1]);case 'MAX':return Math.max(a[0],a[1]);case 'DATEDIF':{const d1=a[0] instanceof Date?a[0].getTime():a[0],d2=a[1] instanceof Date?a[1].getTime():a[1];if(a[2]==='days')return Math.round((d2-d1)/MS);if(a[2]==='weeks')return Math.round((d2-d1)/(7*MS));return 0;}case 'DATEADD':{const b=a[0] instanceof Date?a[0].getTime():(typeof a[0]==='number'?a[0]:now.getTime());if(a[2]==='days')return new Date(b+a[1]*MS);if(a[2]==='weeks')return new Date(b+a[1]*7*MS);if(a[2]==='months'){const d=new Date(b);d.setMonth(d.getMonth()+a[1]);return d;}return new Date(b);}default:throw 0;}}try{return expr();}catch(e){return undefined;}}
+function evalFormula(formula,row){if(!formula||!formula.trim())return undefined;if(/\{Insert\b/i.test(formula))return null;const tok=tokenize(formula);let pos=0;const p=()=>tok[pos],nx=()=>tok[pos++];function expr(){return cmp();}function cmp(){let L=cat();if(p()&&p().t==='op'&&['>=','<=','>','<','=','!='].includes(p().v)){const op=nx().v,R=cat();return op==='>'?L>R:op==='>='?L>=R:op==='<'?L<R:op==='<='?L<=R:op==='='?L==R:L!=R;}return L;}function cat(){let L=add();while(p()&&p().t==='op'&&p().v==='&'){nx();L=String(L)+String(add());}return L;}function add(){let L=mul();while(p()&&p().t==='op'&&['+','-'].includes(p().v)){const op=nx().v;L=op==='+'?L+mul():L-mul();}return L;}function mul(){let L=atom();while(p()&&p().t==='op'&&['*','/'].includes(p().v)){const op=nx().v;L=op==='*'?L*atom():L/atom();}return L;}function atom(){const t=p();if(!t)throw 0;if(t.t==='num'){nx();return t.v;}if(t.t==='str'){nx();return t.v;}if(t.t==='fld'){nx();const v=row[t.v];if(v===undefined)throw new Error('?');return v;}if(t.t==='lp'){nx();const v=expr();if(p()&&p().t==='rp')nx();return v;}if(t.t==='id'){const name=nx().v;if(name==='TODAY'){if(p()&&p().t==='lp')nx();if(p()&&p().t==='rp')nx();return new Date();}if(p()&&p().t==='lp')nx();const args=[];while(p()&&p().t!=='rp'){args.push(expr());if(p()&&p().t==='cm')nx();}if(p()&&p().t==='rp')nx();return applyFn(name,args);}nx();return null;}function applyFn(name,a){switch(name){case 'IF':return a[0]?a[1]:a[2];case 'ROUND':{const f=Math.pow(10,a[1]||0);return Math.round((a[0]||0)*f)/f;}case 'FLOOR':return Math.floor(a[0]||0);case 'CEILING':return Math.ceil(a[0]||0);case 'ROUNDUP':{const f=Math.pow(10,a[1]||0);return Math.ceil((a[0]||0)*f)/f;}case 'ROUNDDOWN':{const f=Math.pow(10,a[1]||0);return Math.floor((a[0]||0)*f)/f;}case 'SUM':return a.reduce((s,v)=>s+(+v||0),0);case 'COUNT':return a.length;case 'AVERAGE':return a.length?a.reduce((s,v)=>s+(+v||0),0)/a.length:0;case 'MIN':return Math.min(a[0],a[1]);case 'MAX':return Math.max(a[0],a[1]);case 'DATEDIF':{const d1=a[0] instanceof Date?a[0].getTime():a[0],d2=a[1] instanceof Date?a[1].getTime():a[1];if(a[2]==='days')return Math.round((d2-d1)/MS);if(a[2]==='weeks')return Math.round((d2-d1)/(7*MS));return 0;}case 'DATEADD':{const b=a[0] instanceof Date?a[0].getTime():(typeof a[0]==='number'?a[0]:now.getTime());if(a[2]==='days')return new Date(b+a[1]*MS);if(a[2]==='weeks')return new Date(b+a[1]*7*MS);if(a[2]==='months'){const d=new Date(b);d.setMonth(d.getMonth()+a[1]);return d;}return new Date(b);}default:throw 0;}}try{return expr();}catch(e){return undefined;}}
 function pillType(name){if(/^Insert\b/i.test(name))return 'placeholder';const f=FIELDS.find(x=>x.name===name);return f?f.type:'unknown';}
 function createPill(name){const span=document.createElement('span');span.className='field-pill '+pillType(name);span.dataset.field=name;span.contentEditable='false';span.textContent='{'+name+'}';span.title='Click to change field';return span;}
 function getFormulaString(){const editor=document.getElementById('formula-editor');let s='';function walk(node){if(node.nodeType===3){s+=node.textContent.replace(/​/g,'');}else if(node.nodeType===1){if(node.classList.contains('field-pill')){s+='{'+node.dataset.field+'}';}else if(node.tagName==='BR'){s+=' ';}else{for(const c of node.childNodes)walk(c);}}}for(const c of editor.childNodes)walk(c);return s.replace(/\s+/g,' ').trim();}
