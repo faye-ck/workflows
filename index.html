@@ -106,6 +106,35 @@ footer { border-top:0.5px solid var(--border); padding:20px 32px; display:flex; 
         </div>
       </a>
 
+      <!-- Formula Field Builder -->
+      <a class="demo-card" href="demos/workflows-formula-builder.html" data-tags="reference formula">
+        <div class="card-preview" style="background:#f5f4f0;padding:20px 24px;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;">
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+            <span style="background:#eef1fe;color:#4f6bf0;border:0.5px solid #c5d0fa;border-radius:3px;padding:1px 6px;">{Unit Price}</span>
+            <span style="color:#999;">*</span>
+            <span style="background:#eef1fe;color:#4f6bf0;border:0.5px solid #c5d0fa;border-radius:3px;padding:1px 6px;">{Quantity}</span>
+          </div>
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+            <span style="color:#6c5ce7;">DATEADD(</span><span style="background:#e8f7f1;color:#18a86b;border:0.5px solid #8ed5b4;border-radius:3px;padding:1px 6px;">{Due Date}</span><span style="color:#6c5ce7;">, 14, "days")</span>
+          </div>
+          <div style="background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:8px 12px;width:100%;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+            <span style="color:#6c5ce7;">IF(</span><span style="background:#fff4e0;color:#c97000;border:0.5px dashed #f5d080;border-radius:3px;padding:1px 6px;">{Insert number field}</span><span style="color:#6c5ce7;">&gt;= 10, …)</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag reference">reference</span>
+            <span class="tag formula">formula</span>
+          </div>
+          <div class="card-title">Formula Field Builder</div>
+          <div class="card-desc">Spec, presets, and interactive prototype for the formula field builder. Covers all 8 output types, 57 preset formulas, and the complete output type change warning matrix.</div>
+          <div class="card-footer">
+            <span class="card-date">2026-06</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
       <!-- Add card -->
       <div class="add-card">
         <div class="add-icon">+</div>
