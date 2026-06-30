@@ -859,26 +859,26 @@
 
       <div class="formula-card">
         <div class="formula-card-header">
-          <div class="formula-badge">FLOOR</div>
+          <div class="formula-badge">ROUNDDOWN</div>
           <div>
             <div class="formula-title">Always round down</div>
-            <div class="formula-desc">Useful when you never want to exceed a value (e.g. full days only)</div>
+            <div class="formula-desc">The second argument sets how many decimal places to keep. Use 0 for whole numbers.</div>
           </div>
         </div>
         <div class="formula-card-body">
           <div class="code-block">
-            <span class="fn">FLOOR</span>(<span class="field">{Hours Worked}</span>)
+            <span class="fn">ROUNDDOWN</span>(<span class="field">{Hours Worked}</span>, <span class="num">0</span>)
           </div>
           <div class="example-row">
             <div class="example-box">
               <div class="example-label">Input → Result</div>
-              <code>FLOOR(7.9)</code>
+              <code>ROUNDDOWN(7.9, 0)</code>
               <div class="result">→ 7</div>
             </div>
             <div class="example-box">
               <div class="example-label">Input → Result</div>
-              <code>FLOOR(3.1)</code>
-              <div class="result">→ 3</div>
+              <code>ROUNDDOWN(3.1, 2)</code>
+              <div class="result">→ 3.10</div>
             </div>
           </div>
         </div>
@@ -886,26 +886,26 @@
 
       <div class="formula-card">
         <div class="formula-card-header">
-          <div class="formula-badge">CEILING</div>
+          <div class="formula-badge">ROUNDUP</div>
           <div>
             <div class="formula-title">Always round up</div>
-            <div class="formula-desc">Useful when rounding up is required (e.g. minimum billing units)</div>
+            <div class="formula-desc">The second argument sets how many decimal places to keep. Use 0 for whole numbers.</div>
           </div>
         </div>
         <div class="formula-card-body">
           <div class="code-block">
-            <span class="fn">CEILING</span>(<span class="field">{Raw Total}</span>)
+            <span class="fn">ROUNDUP</span>(<span class="field">{Raw Total}</span>, <span class="num">0</span>)
           </div>
           <div class="example-row">
             <div class="example-box">
               <div class="example-label">Input → Result</div>
-              <code>CEILING(4.1)</code>
+              <code>ROUNDUP(4.1, 0)</code>
               <div class="result">→ 5</div>
             </div>
             <div class="example-box">
               <div class="example-label">Input → Result</div>
-              <code>CEILING(4.9)</code>
-              <div class="result">→ 5</div>
+              <code>ROUNDUP(4.912, 2)</code>
+              <div class="result">→ 4.92</div>
             </div>
           </div>
         </div>
@@ -1167,13 +1167,20 @@
 
     <!-- TODAY -->
     <div class="section" id="today">
-      <h2>TODAY() — use today's date in a formula</h2>
-      <p><code>TODAY()</code> automatically returns today's date. You don't need to type a date — it updates every day on its own.</p>
+      <h2>TODAY() — use the submission date in a formula</h2>
+      <p><code>TODAY()</code> captures the date the form is submitted — not a live date that keeps updating. Think of it as a snapshot: once the form is submitted, the value is locked to that day.</p>
+
+      <div class="callout warning">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <strong>TODAY() is a snapshot, not a live clock.</strong> The result is fixed at the moment the form is submitted. If someone views the submitted form a week later, <code>TODAY()</code> still reflects the original submission date — it does not recalculate.
+        </div>
+      </div>
 
       <div class="formula-card">
         <div class="formula-card-header">
           <div>
-            <div class="formula-title">Days until the deadline (from today)</div>
+            <div class="formula-title">Days between submission date and a deadline</div>
           </div>
         </div>
         <div class="formula-card-body">
@@ -1182,12 +1189,12 @@
           </div>
           <div class="example-row">
             <div class="example-box">
-              <div class="example-label">Today = Jan 1, Deadline = Jan 10</div>
-              <div class="result">→ 9 days remaining</div>
+              <div class="example-label">Submitted Jan 1, Deadline Jan 10</div>
+              <div class="result">→ 9 days remaining at submission</div>
             </div>
             <div class="example-box">
-              <div class="example-label">Today = Jan 12, Deadline = Jan 10</div>
-              <div class="result">→ -2 (overdue by 2 days)</div>
+              <div class="example-label">Submitted Jan 12, Deadline Jan 10</div>
+              <div class="result">→ -2 (submitted 2 days late)</div>
             </div>
           </div>
         </div>
@@ -1196,14 +1203,14 @@
       <div class="formula-card">
         <div class="formula-card-header">
           <div>
-            <div class="formula-title">Auto-set review date to 30 days from today</div>
+            <div class="formula-title">Auto-set review date to 30 days from submission</div>
           </div>
         </div>
         <div class="formula-card-body">
           <div class="code-block">
             <span class="fn">DATEADD</span>(<span class="fn">TODAY</span>(), <span class="num">30</span>, <span class="str">"days"</span>)
           </div>
-          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Every time this template is used, the review date is set to 30 days from that day — no manual input needed.</p>
+          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">The review date is set to 30 days from the submission date — no manual input needed. The result stays fixed after submission.</p>
         </div>
       </div>
     </div>
@@ -1431,14 +1438,14 @@
           <div class="cheat-example">ROUND({Total}, 2)</div>
         </div>
         <div class="cheat-card">
-          <div class="cheat-name">FLOOR(value)</div>
-          <div class="cheat-desc">Always round down to whole number</div>
-          <div class="cheat-example">FLOOR({Hours})</div>
+          <div class="cheat-name">ROUNDDOWN(value, digits)</div>
+          <div class="cheat-desc">Always round down — use 0 for whole number</div>
+          <div class="cheat-example">ROUNDDOWN({Hours}, 0)</div>
         </div>
         <div class="cheat-card">
-          <div class="cheat-name">CEILING(value)</div>
-          <div class="cheat-desc">Always round up to whole number</div>
-          <div class="cheat-example">CEILING({Units})</div>
+          <div class="cheat-name">ROUNDUP(value, digits)</div>
+          <div class="cheat-desc">Always round up — use 0 for whole number</div>
+          <div class="cheat-example">ROUNDUP({Units}, 0)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">MIN(a, b)</div>
