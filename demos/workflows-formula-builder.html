@@ -177,12 +177,17 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 }
 
 /* Warning patterns */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
 .pattern-card {
   border-radius: var(--radius);
   border: 0.5px solid var(--border);
   background: var(--surface);
   overflow: hidden;
-  margin-bottom: 12px;
 }
 .pattern-card-header {
   padding: 12px 16px;
@@ -668,52 +673,54 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 
     <h3 style="margin-bottom:16px;" data-i18n="h3_warning_patterns">Warning patterns</h3>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge red">Pattern A</span>
-        <span class="pattern-name" data-i18n="pat_a_name">Fully incompatible</span>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge red">Pattern A</span>
+          <span class="pattern-name" data-i18n="pat_a_name">Fully incompatible</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_a_body">Formula type is fundamentally incompatible with the new output type. Block the switch with a dialog: "Clear formula and switch" / "Cancel".</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_a_body">Formula type is fundamentally incompatible with the new output type. Block the switch with a dialog: "Clear formula and switch" / "Cancel".</div>
-    </div>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge amber">Pattern B</span>
-        <span class="pattern-name" data-i18n="pat_b_name">Single → Range</span>
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge amber">Pattern B</span>
+          <span class="pattern-name" data-i18n="pat_b_name">Single → Range</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_b_body">New type needs two values (start + end), but formula computes one. Formula applies to the <strong>end</strong>; user must configure the start. Soft warning, allow proceed.</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_b_body">New type needs two values (start + end), but formula computes one. Formula applies to the <strong>end</strong>; user must configure the start. Soft warning, allow proceed.</div>
-    </div>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge amber">Pattern C</span>
-        <span class="pattern-name" data-i18n="pat_c_name">Range → Single</span>
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge amber">Pattern C</span>
+          <span class="pattern-name" data-i18n="pat_c_name">Range → Single</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_c_body">Switching from a range: only the formula's end value is kept. The configured start is discarded. Soft warning, allow proceed.</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_c_body">Switching from a range: only the formula's end value is kept. The configured start is discarded. Soft warning, allow proceed.</div>
-    </div>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge amber">Pattern D</span>
-        <span class="pattern-name" data-i18n="pat_d_name">Time stripped</span>
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge amber">Pattern D</span>
+          <span class="pattern-name" data-i18n="pat_d_name">Time stripped</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_d_body">Formula includes a time component, but the new output type doesn't. Time is dropped from the output. Soft warning, allow proceed.</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_d_body">Formula includes a time component, but the new output type doesn't. Time is dropped from the output. Soft warning, allow proceed.</div>
-    </div>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge amber">Pattern E</span>
-        <span class="pattern-name" data-i18n="pat_e_name">Time defaulted</span>
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge amber">Pattern E</span>
+          <span class="pattern-name" data-i18n="pat_e_name">Time defaulted</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_e_body">Formula has no time component, but the new output type requires one. Time defaults to <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code>. Soft warning, allow proceed.</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_e_body">Formula has no time component, but the new output type requires one. Time defaults to <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code>. Soft warning, allow proceed.</div>
-    </div>
 
-    <div class="pattern-card">
-      <div class="pattern-card-header">
-        <span class="pattern-badge amber">Pattern F</span>
-        <span class="pattern-name" data-i18n="pat_f_name">Context-dependent</span>
+      <div class="pattern-card">
+        <div class="pattern-card-header">
+          <span class="pattern-badge amber">Pattern F</span>
+          <span class="pattern-name" data-i18n="pat_f_name">Context-dependent</span>
+        </div>
+        <div class="pattern-card-body" data-i18n="pat_f_body">Compatibility depends on the formula's functions and fields — e.g. <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> returns a number, <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> returns a date. Warn the user to verify the return type and allow proceed.</div>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_f_body">Compatibility depends on the formula's functions and fields — e.g. <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> returns a number, <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> returns a date. Warn the user to verify the return type and allow proceed.</div>
     </div>
 
     <h3 style="margin-top:32px;margin-bottom:16px;" data-i18n="h3_matrix">FROM → TO matrix</h3>
