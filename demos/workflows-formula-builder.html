@@ -284,7 +284,8 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 .field-pill:hover{opacity:.75}
 .field-pill.number{background:var(--bg-accent);color:var(--text-accent);border:0.5px solid var(--border-accent)}
 .field-pill.date{background:var(--bg-success);color:var(--text-success);border:0.5px solid var(--border-success)}
-.field-pill.placeholder{background:var(--bg-warning);color:var(--text-warning);border:0.5px dashed var(--border-warning)}
+.field-pill.placeholder-number{background:var(--bg-accent);color:var(--text-accent);border:0.5px dashed var(--border-accent)}
+.field-pill.placeholder-date{background:var(--bg-success);color:var(--text-success);border:0.5px dashed var(--border-success)}
 .field-pill.literal{background:var(--bg-warning);color:var(--text-warning);border:0.5px solid var(--border-warning)}
 #val-inp{flex:1;border:0.5px solid var(--border-accent);border-radius:4px;background:var(--surface);color:var(--text);font-size:13px;padding:4px 8px;outline:none;font-family:var(--font-mono);min-width:0;}
 #val-inp:focus{border-color:var(--text-accent);}
@@ -544,9 +545,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <tr><td>Add weeks to a date</td><td><code>DATEADD({Insert date field}, 2, "weeks")</code></td><td></td></tr>
           <tr><td>Add months to a date</td><td><code>DATEADD({Insert date field}, 1, "months")</code></td><td></td></tr>
           <tr><td>N days from today</td><td><code>DATEADD(TODAY(), 30, "days")</code></td><td></td></tr>
-          <tr><td>Deadline from start + duration</td><td><code>DATEADD({Insert start date field}, {Insert number field}, "days")</code></td><td>Duration comes from a number field</td></tr>
-          <tr><td>Later of two dates</td><td><code>IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") &gt; 0, {Insert date field B}, {Insert date field A})</code></td><td></td></tr>
-          <tr><td>Earlier of two dates</td><td><code>IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") &gt; 0, {Insert date field A}, {Insert date field B})</code></td><td></td></tr>
+          <tr><td>Deadline from start + duration</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td>Duration comes from a number field</td></tr>
+          <tr><td>Later of two dates</td><td><code>IF(DATEDIF({Insert date field}, {Insert date field}, "days") &gt; 0, {Insert date field}, {Insert date field})</code></td><td></td></tr>
+          <tr><td>Earlier of two dates</td><td><code>IF(DATEDIF({Insert date field}, {Insert date field}, "days") &gt; 0, {Insert date field}, {Insert date field})</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -558,11 +559,11 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-date-range-tbody">
-          <tr><td>Fixed-duration window</td><td><code>DATEADD({Insert start date field}, 14, "days")</code></td><td></td></tr>
-          <tr><td>Dynamic duration from field</td><td><code>DATEADD({Insert start date field}, {Insert number field}, "days")</code></td><td></td></tr>
+          <tr><td>Fixed-duration window</td><td><code>DATEADD({Insert date field}, 14, "days")</code></td><td></td></tr>
+          <tr><td>Dynamic duration from field</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td></td></tr>
           <tr><td>30-day window from today</td><td><code>DATEADD(TODAY(), 30, "days")</code></td><td>Start = TODAY()</td></tr>
-          <tr><td>Sprint end from start</td><td><code>DATEADD({Insert start date field}, 2, "weeks")</code></td><td></td></tr>
-          <tr><td>Contract period</td><td><code>DATEADD({Insert start date field}, 1, "months")</code></td><td></td></tr>
+          <tr><td>Sprint end from start</td><td><code>DATEADD({Insert date field}, 2, "weeks")</code></td><td></td></tr>
+          <tr><td>Contract period</td><td><code>DATEADD({Insert date field}, 1, "months")</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -573,9 +574,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-datetime-tbody">
-          <tr><td>Add hours to datetime</td><td><code>DATEADD({Insert datetime field}, 2, "hours")</code></td><td></td></tr>
-          <tr><td>Add days, preserve time</td><td><code>DATEADD({Insert datetime field}, 7, "days")</code></td><td></td></tr>
-          <tr><td>Meeting end time</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "hours")</code></td><td>Duration from a number field</td></tr>
+          <tr><td>Add hours to datetime</td><td><code>DATEADD({Insert date field}, 2, "hours")</code></td><td></td></tr>
+          <tr><td>Add days, preserve time</td><td><code>DATEADD({Insert date field}, 7, "days")</code></td><td></td></tr>
+          <tr><td>Meeting end time</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td>Duration from a number field</td></tr>
           <tr><td>Deadline at end of day</td><td><code>DATEADD({Insert date field}, 17, "hours")</code></td><td>Results in 17:00 on that day</td></tr>
         </tbody>
       </table>
@@ -588,10 +589,10 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-datetime-range-tbody">
-          <tr><td>Fixed-hour event end</td><td><code>DATEADD({Insert start datetime field}, 1, "hours")</code></td><td></td></tr>
-          <tr><td>Variable-duration end</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>Overnight window</td><td><code>DATEADD({Insert start datetime field}, 8, "hours")</code></td><td></td></tr>
-          <tr><td>Multi-day range end</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "days")</code></td><td></td></tr>
+          <tr><td>Fixed-hour event end</td><td><code>DATEADD({Insert date field}, 1, "hours")</code></td><td></td></tr>
+          <tr><td>Variable-duration end</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>Overnight window</td><td><code>DATEADD({Insert date field}, 8, "hours")</code></td><td></td></tr>
+          <tr><td>Multi-day range end</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -602,10 +603,10 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-time-tbody">
-          <tr><td>Add hours to time</td><td><code>DATEADD({Insert time field}, 2, "hours")</code></td><td></td></tr>
-          <tr><td>Add minutes to time</td><td><code>DATEADD({Insert time field}, 30, "minutes")</code></td><td></td></tr>
-          <tr><td>End time from duration</td><td><code>DATEADD({Insert start time field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>Lunch break end</td><td><code>DATEADD({Insert start time field}, 1, "hours")</code></td><td></td></tr>
+          <tr><td>Add hours to time</td><td><code>DATEADD({Insert date field}, 2, "hours")</code></td><td></td></tr>
+          <tr><td>Add minutes to time</td><td><code>DATEADD({Insert date field}, 30, "minutes")</code></td><td></td></tr>
+          <tr><td>End time from duration</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>Lunch break end</td><td><code>DATEADD({Insert date field}, 1, "hours")</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -617,9 +618,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-time-range-tbody">
-          <tr><td>Fixed-length slot end</td><td><code>DATEADD({Insert start time field}, 30, "minutes")</code></td><td></td></tr>
-          <tr><td>Variable slot end</td><td><code>DATEADD({Insert start time field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>Standard workday end</td><td><code>DATEADD({Insert start time field}, 8, "hours")</code></td><td></td></tr>
+          <tr><td>Fixed-length slot end</td><td><code>DATEADD({Insert date field}, 30, "minutes")</code></td><td></td></tr>
+          <tr><td>Variable slot end</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>Standard workday end</td><td><code>DATEADD({Insert date field}, 8, "hours")</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -630,19 +631,19 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-number-tbody">
-          <tr><td>Multiply two fields</td><td><code>{Insert number field A} * {Insert number field B}</code></td><td></td></tr>
-          <tr><td>Sum of two fields</td><td><code>{Insert number field A} + {Insert number field B}</code></td><td></td></tr>
-          <tr><td>Difference</td><td><code>{Insert number field A} - {Insert number field B}</code></td><td></td></tr>
-          <tr><td>Percentage of total</td><td><code>ROUND({Insert number field A} / {Insert number field B} * 100, 1)</code></td><td></td></tr>
-          <tr><td>Round result</td><td><code>ROUND({Insert number field A} * {Insert number field B}, 0)</code></td><td></td></tr>
-          <tr><td>Cap at maximum</td><td><code>MIN({Insert number field A} * {Insert number field B}, {Insert max value})</code></td><td></td></tr>
+          <tr><td>Multiply two fields</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
+          <tr><td>Sum of two fields</td><td><code>{Insert number field} + {Insert number field}</code></td><td></td></tr>
+          <tr><td>Difference</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
+          <tr><td>Percentage of total</td><td><code>ROUND({Insert number field} / {Insert number field} * 100, 1)</code></td><td></td></tr>
+          <tr><td>Round result</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
+          <tr><td>Cap at maximum</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert max value})</code></td><td></td></tr>
           <tr><td>Enforce minimum</td><td><code>MAX({Insert number field}, {Insert min value})</code></td><td></td></tr>
           <tr><td>Days until date</td><td><code>DATEDIF(TODAY(), {Insert date field}, "days")</code></td><td>Negative = overdue</td></tr>
           <tr><td>Days since date</td><td><code>DATEDIF({Insert date field}, TODAY(), "days")</code></td><td></td></tr>
           <tr><td>Overdue days only</td><td><code>IF(DATEDIF(TODAY(), {Insert date field}, "days") &lt; 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)</code></td><td>Returns 0 if not yet due</td></tr>
           <tr><td>Overtime hours</td><td><code>IF({Insert number field} &gt; 8, {Insert number field} - 8, 0)</code></td><td></td></tr>
-          <tr><td>Conditional value</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field A}, {Insert number field B})</code></td><td></td></tr>
-          <tr><td>Average of two fields</td><td><code>({Insert number field A} + {Insert number field B}) / 2</code></td><td></td></tr>
+          <tr><td>Conditional value</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field}, {Insert number field})</code></td><td></td></tr>
+          <tr><td>Average of two fields</td><td><code>({Insert number field} + {Insert number field}) / 2</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -654,17 +655,17 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-currency-tbody">
-          <tr><td>Unit price × quantity</td><td><code>{Insert unit price field} * {Insert quantity field}</code></td><td></td></tr>
-          <tr><td>Rounded total</td><td><code>ROUND({Insert unit price field} * {Insert quantity field}, 0)</code></td><td></td></tr>
-          <tr><td>Bulk discount (qty-based)</td><td><code>IF({Insert quantity field} &gt;= 10, {Insert unit price field} * {Insert quantity field} * 0.9, {Insert unit price field} * {Insert quantity field})</code></td><td></td></tr>
+          <tr><td>Unit price × quantity</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
+          <tr><td>Rounded total</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
+          <tr><td>Bulk discount (qty-based)</td><td><code>IF({Insert number field} &gt;= 10, {Insert number field} * {Insert number field} * 0.9, {Insert number field} * {Insert number field})</code></td><td></td></tr>
           <tr><td>Tax included</td><td><code>ROUND({Insert number field} * 1.1, 0)</code></td><td></td></tr>
           <tr><td>Tax amount only</td><td><code>ROUND({Insert number field} * 0.1, 0)</code></td><td></td></tr>
-          <tr><td>Commission</td><td><code>ROUND({Insert number field} * {Insert rate field} / 100, 0)</code></td><td></td></tr>
-          <tr><td>Cap at budget</td><td><code>MIN({Insert unit price field} * {Insert quantity field}, {Insert budget field})</code></td><td></td></tr>
+          <tr><td>Commission</td><td><code>ROUND({Insert number field} * {Insert number field} / 100, 0)</code></td><td></td></tr>
+          <tr><td>Cap at budget</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert number field})</code></td><td></td></tr>
           <tr><td>Minimum fee</td><td><code>MAX({Insert number field}, {Insert min fee})</code></td><td></td></tr>
-          <tr><td>Budget remaining</td><td><code>{Insert budget field} - {Insert spent field}</code></td><td></td></tr>
+          <tr><td>Budget remaining</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
           <tr><td>Tiered discount</td><td><code>IF({Insert number field} &gt;= 100, {Insert number field} * 0.85, IF({Insert number field} &gt;= 50, {Insert number field} * 0.9, {Insert number field}))</code></td><td></td></tr>
-          <tr><td>Subtotal + tax, capped</td><td><code>MIN(ROUND({Insert unit price field} * {Insert quantity field} * 1.1, 0), {Insert budget field})</code></td><td></td></tr>
+          <tr><td>Subtotal + tax, capped</td><td><code>MIN(ROUND({Insert number field} * {Insert number field} * 1.1, 0), {Insert number field})</code></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -831,65 +832,65 @@ const PRESETS=[
   {id:'d2',type:'date',icon:'ti-calendar-stats',name:'Add weeks to date',nameJa:'日付に週数を追加',template:'DATEADD({Insert date field}, 2, "weeks")'},
   {id:'d3',type:'date',icon:'ti-calendar',name:'Add months to date',nameJa:'日付に月数を追加',template:'DATEADD({Insert date field}, 1, "months")'},
   {id:'d4',type:'date',icon:'ti-calendar-time',name:'N days from today',nameJa:'今日からN日後',template:'DATEADD(TODAY(), 30, "days")'},
-  {id:'d5',type:'date',icon:'ti-calendar-event',name:'Deadline from start + duration',nameJa:'開始＋期間から締切日',template:'DATEADD({Insert start date field}, {Insert number field}, "days")'},
-  {id:'d6',type:'date',icon:'ti-arrow-up',name:'Later of two dates',nameJa:'2つの日付のうち遅い方',template:'IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") > 0, {Insert date field B}, {Insert date field A})'},
-  {id:'d7',type:'date',icon:'ti-arrow-down',name:'Earlier of two dates',nameJa:'2つの日付のうち早い方',template:'IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") > 0, {Insert date field A}, {Insert date field B})'},
+  {id:'d5',type:'date',icon:'ti-calendar-event',name:'Deadline from start + duration',nameJa:'開始＋期間から締切日',template:'DATEADD({Insert date field}, {Insert number field}, "days")'},
+  {id:'d6',type:'date',icon:'ti-arrow-up',name:'Later of two dates',nameJa:'2つの日付のうち遅い方',template:'IF(DATEDIF({Insert date field}, {Insert date field}, "days") > 0, {Insert date field}, {Insert date field})'},
+  {id:'d7',type:'date',icon:'ti-arrow-down',name:'Earlier of two dates',nameJa:'2つの日付のうち早い方',template:'IF(DATEDIF({Insert date field}, {Insert date field}, "days") > 0, {Insert date field}, {Insert date field})'},
   // Date range
-  {id:'dr1',type:'date-range',icon:'ti-calendar-plus',name:'Fixed-duration window',nameJa:'固定期間の範囲',template:'DATEADD({Insert start date field}, 14, "days")'},
-  {id:'dr2',type:'date-range',icon:'ti-calendar-stats',name:'Dynamic duration from field',nameJa:'フィールドから動的な期間',template:'DATEADD({Insert start date field}, {Insert number field}, "days")'},
+  {id:'dr1',type:'date-range',icon:'ti-calendar-plus',name:'Fixed-duration window',nameJa:'固定期間の範囲',template:'DATEADD({Insert date field}, 14, "days")'},
+  {id:'dr2',type:'date-range',icon:'ti-calendar-stats',name:'Dynamic duration from field',nameJa:'フィールドから動的な期間',template:'DATEADD({Insert date field}, {Insert number field}, "days")'},
   {id:'dr3',type:'date-range',icon:'ti-calendar-time',name:'30-day window from today',nameJa:'今日から30日間',template:'DATEADD(TODAY(), 30, "days")'},
-  {id:'dr4',type:'date-range',icon:'ti-calendar',name:'Sprint end from start',nameJa:'スプリント終了日',template:'DATEADD({Insert start date field}, 2, "weeks")'},
-  {id:'dr5',type:'date-range',icon:'ti-calendar-event',name:'Contract period',nameJa:'契約期間',template:'DATEADD({Insert start date field}, 1, "months")'},
+  {id:'dr4',type:'date-range',icon:'ti-calendar',name:'Sprint end from start',nameJa:'スプリント終了日',template:'DATEADD({Insert date field}, 2, "weeks")'},
+  {id:'dr5',type:'date-range',icon:'ti-calendar-event',name:'Contract period',nameJa:'契約期間',template:'DATEADD({Insert date field}, 1, "months")'},
   // Date time only
-  {id:'dt1',type:'datetime',icon:'ti-clock-plus',name:'Add hours to datetime',nameJa:'日時に時間を追加',template:'DATEADD({Insert datetime field}, 2, "hours")'},
-  {id:'dt2',type:'datetime',icon:'ti-calendar-plus',name:'Add days, preserve time',nameJa:'日を追加（時刻を保持）',template:'DATEADD({Insert datetime field}, 7, "days")'},
-  {id:'dt3',type:'datetime',icon:'ti-clock',name:'Meeting end time',nameJa:'会議の終了時刻',template:'DATEADD({Insert start datetime field}, {Insert number field}, "hours")'},
+  {id:'dt1',type:'datetime',icon:'ti-clock-plus',name:'Add hours to datetime',nameJa:'日時に時間を追加',template:'DATEADD({Insert date field}, 2, "hours")'},
+  {id:'dt2',type:'datetime',icon:'ti-calendar-plus',name:'Add days, preserve time',nameJa:'日を追加（時刻を保持）',template:'DATEADD({Insert date field}, 7, "days")'},
+  {id:'dt3',type:'datetime',icon:'ti-clock',name:'Meeting end time',nameJa:'会議の終了時刻',template:'DATEADD({Insert date field}, {Insert number field}, "hours")'},
   {id:'dt4',type:'datetime',icon:'ti-calendar-time',name:'Deadline at end of day',nameJa:'当日の締切時刻',template:'DATEADD({Insert date field}, 17, "hours")'},
   // Date time range
-  {id:'dtr1',type:'datetime-range',icon:'ti-clock-plus',name:'Fixed-hour event end',nameJa:'固定時間のイベント終了',template:'DATEADD({Insert start datetime field}, 1, "hours")'},
-  {id:'dtr2',type:'datetime-range',icon:'ti-clock',name:'Variable-duration end',nameJa:'可変期間の終了',template:'DATEADD({Insert start datetime field}, {Insert number field}, "hours")'},
-  {id:'dtr3',type:'datetime-range',icon:'ti-moon',name:'Overnight window',nameJa:'夜間ウィンドウ',template:'DATEADD({Insert start datetime field}, 8, "hours")'},
-  {id:'dtr4',type:'datetime-range',icon:'ti-calendar-stats',name:'Multi-day range end',nameJa:'複数日の範囲終了',template:'DATEADD({Insert start datetime field}, {Insert number field}, "days")'},
+  {id:'dtr1',type:'datetime-range',icon:'ti-clock-plus',name:'Fixed-hour event end',nameJa:'固定時間のイベント終了',template:'DATEADD({Insert date field}, 1, "hours")'},
+  {id:'dtr2',type:'datetime-range',icon:'ti-clock',name:'Variable-duration end',nameJa:'可変期間の終了',template:'DATEADD({Insert date field}, {Insert number field}, "hours")'},
+  {id:'dtr3',type:'datetime-range',icon:'ti-moon',name:'Overnight window',nameJa:'夜間ウィンドウ',template:'DATEADD({Insert date field}, 8, "hours")'},
+  {id:'dtr4',type:'datetime-range',icon:'ti-calendar-stats',name:'Multi-day range end',nameJa:'複数日の範囲終了',template:'DATEADD({Insert date field}, {Insert number field}, "days")'},
   // Time only
-  {id:'t1',type:'time',icon:'ti-clock-plus',name:'Add hours to time',nameJa:'時刻に時間を追加',template:'DATEADD({Insert time field}, 2, "hours")'},
-  {id:'t2',type:'time',icon:'ti-clock',name:'Add minutes to time',nameJa:'時刻に分を追加',template:'DATEADD({Insert time field}, 30, "minutes")'},
-  {id:'t3',type:'time',icon:'ti-hourglass',name:'End time from duration',nameJa:'期間から終了時刻',template:'DATEADD({Insert start time field}, {Insert number field}, "hours")'},
-  {id:'t4',type:'time',icon:'ti-coffee',name:'Lunch break end',nameJa:'昼休み終了',template:'DATEADD({Insert start time field}, 1, "hours")'},
+  {id:'t1',type:'time',icon:'ti-clock-plus',name:'Add hours to time',nameJa:'時刻に時間を追加',template:'DATEADD({Insert date field}, 2, "hours")'},
+  {id:'t2',type:'time',icon:'ti-clock',name:'Add minutes to time',nameJa:'時刻に分を追加',template:'DATEADD({Insert date field}, 30, "minutes")'},
+  {id:'t3',type:'time',icon:'ti-hourglass',name:'End time from duration',nameJa:'期間から終了時刻',template:'DATEADD({Insert date field}, {Insert number field}, "hours")'},
+  {id:'t4',type:'time',icon:'ti-coffee',name:'Lunch break end',nameJa:'昼休み終了',template:'DATEADD({Insert date field}, 1, "hours")'},
   // Time range
-  {id:'tr1',type:'time-range',icon:'ti-clock',name:'Fixed-length slot end',nameJa:'固定枠の終了時刻',template:'DATEADD({Insert start time field}, 30, "minutes")'},
-  {id:'tr2',type:'time-range',icon:'ti-clock-plus',name:'Variable slot end',nameJa:'可変枠の終了時刻',template:'DATEADD({Insert start time field}, {Insert number field}, "hours")'},
-  {id:'tr3',type:'time-range',icon:'ti-briefcase',name:'Standard workday end',nameJa:'標準勤務日の終了',template:'DATEADD({Insert start time field}, 8, "hours")'},
+  {id:'tr1',type:'time-range',icon:'ti-clock',name:'Fixed-length slot end',nameJa:'固定枠の終了時刻',template:'DATEADD({Insert date field}, 30, "minutes")'},
+  {id:'tr2',type:'time-range',icon:'ti-clock-plus',name:'Variable slot end',nameJa:'可変枠の終了時刻',template:'DATEADD({Insert date field}, {Insert number field}, "hours")'},
+  {id:'tr3',type:'time-range',icon:'ti-briefcase',name:'Standard workday end',nameJa:'標準勤務日の終了',template:'DATEADD({Insert date field}, 8, "hours")'},
   // Number
-  {id:'n1',type:'number',icon:'ti-calculator',name:'Multiply two fields',nameJa:'2つのフィールドを掛ける',template:'{Insert number field A} * {Insert number field B}'},
-  {id:'n2',type:'number',icon:'ti-plus',name:'Sum of two fields',nameJa:'2つのフィールドの合計',template:'{Insert number field A} + {Insert number field B}'},
-  {id:'n3',type:'number',icon:'ti-minus',name:'Difference',nameJa:'差分',template:'{Insert number field A} - {Insert number field B}'},
-  {id:'n4',type:'number',icon:'ti-percentage',name:'Percentage of total',nameJa:'合計に対する割合',template:'ROUND({Insert number field A} / {Insert number field B} * 100, 1)'},
-  {id:'n5',type:'number',icon:'ti-math-function',name:'Round result',nameJa:'結果を丸める',template:'ROUND({Insert number field A} * {Insert number field B}, 0)'},
-  {id:'n6',type:'number',icon:'ti-arrow-bar-down',name:'Cap at maximum',nameJa:'最大値で上限設定',template:'MIN({Insert number field A} * {Insert number field B}, {Insert max value})'},
+  {id:'n1',type:'number',icon:'ti-calculator',name:'Multiply two fields',nameJa:'2つのフィールドを掛ける',template:'{Insert number field} * {Insert number field}'},
+  {id:'n2',type:'number',icon:'ti-plus',name:'Sum of two fields',nameJa:'2つのフィールドの合計',template:'{Insert number field} + {Insert number field}'},
+  {id:'n3',type:'number',icon:'ti-minus',name:'Difference',nameJa:'差分',template:'{Insert number field} - {Insert number field}'},
+  {id:'n4',type:'number',icon:'ti-percentage',name:'Percentage of total',nameJa:'合計に対する割合',template:'ROUND({Insert number field} / {Insert number field} * 100, 1)'},
+  {id:'n5',type:'number',icon:'ti-math-function',name:'Round result',nameJa:'結果を丸める',template:'ROUND({Insert number field} * {Insert number field}, 0)'},
+  {id:'n6',type:'number',icon:'ti-arrow-bar-down',name:'Cap at maximum',nameJa:'最大値で上限設定',template:'MIN({Insert number field} * {Insert number field}, {Insert max value})'},
   {id:'n7',type:'number',icon:'ti-arrow-bar-up',name:'Enforce minimum',nameJa:'最小値を強制',template:'MAX({Insert number field}, {Insert min value})'},
   {id:'n8',type:'number',icon:'ti-calendar-time',name:'Days until date',nameJa:'日付まで残り日数',template:'DATEDIF(TODAY(), {Insert date field}, "days")'},
   {id:'n9',type:'number',icon:'ti-clock',name:'Days since date',nameJa:'経過日数',template:'DATEDIF({Insert date field}, TODAY(), "days")'},
   {id:'n10',type:'number',icon:'ti-alarm',name:'Overdue days only',nameJa:'超過日数のみ',template:'IF(DATEDIF(TODAY(), {Insert date field}, "days") < 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)'},
   {id:'n11',type:'number',icon:'ti-clock-hour-4',name:'Overtime hours',nameJa:'残業時間',template:'IF({Insert number field} > 8, {Insert number field} - 8, 0)'},
-  {id:'n12',type:'number',icon:'ti-git-branch',name:'Conditional value',nameJa:'条件付きの値',template:'IF({Insert number field} >= {Insert threshold}, {Insert number field A}, {Insert number field B})'},
-  {id:'n13',type:'number',icon:'ti-divide',name:'Average of two fields',nameJa:'2つのフィールドの平均',template:'({Insert number field A} + {Insert number field B}) / 2'},
+  {id:'n12',type:'number',icon:'ti-git-branch',name:'Conditional value',nameJa:'条件付きの値',template:'IF({Insert number field} >= {Insert threshold}, {Insert number field}, {Insert number field})'},
+  {id:'n13',type:'number',icon:'ti-divide',name:'Average of two fields',nameJa:'2つのフィールドの平均',template:'({Insert number field} + {Insert number field}) / 2'},
   // Number with currency
-  {id:'c1',type:'currency',icon:'ti-calculator',name:'Unit price × quantity',nameJa:'単価 × 数量',template:'{Insert unit price field} * {Insert quantity field}'},
-  {id:'c2',type:'currency',icon:'ti-math-function',name:'Rounded total',nameJa:'合計（丸め）',template:'ROUND({Insert unit price field} * {Insert quantity field}, 0)'},
-  {id:'c3',type:'currency',icon:'ti-percentage',name:'Bulk discount (qty-based)',nameJa:'数量ベースの一括割引',template:'IF({Insert quantity field} >= 10, {Insert unit price field} * {Insert quantity field} * 0.9, {Insert unit price field} * {Insert quantity field})'},
+  {id:'c1',type:'currency',icon:'ti-calculator',name:'Unit price × quantity',nameJa:'単価 × 数量',template:'{Insert number field} * {Insert number field}'},
+  {id:'c2',type:'currency',icon:'ti-math-function',name:'Rounded total',nameJa:'合計（丸め）',template:'ROUND({Insert number field} * {Insert number field}, 0)'},
+  {id:'c3',type:'currency',icon:'ti-percentage',name:'Bulk discount (qty-based)',nameJa:'数量ベースの一括割引',template:'IF({Insert number field} >= 10, {Insert number field} * {Insert number field} * 0.9, {Insert number field} * {Insert number field})'},
   {id:'c4',type:'currency',icon:'ti-receipt-tax',name:'Tax included',nameJa:'税込み',template:'ROUND({Insert number field} * 1.1, 0)'},
   {id:'c5',type:'currency',icon:'ti-receipt',name:'Tax amount only',nameJa:'税額のみ',template:'ROUND({Insert number field} * 0.1, 0)'},
-  {id:'c6',type:'currency',icon:'ti-coin',name:'Commission',nameJa:'コミッション',template:'ROUND({Insert number field} * {Insert rate field} / 100, 0)'},
-  {id:'c7',type:'currency',icon:'ti-arrow-bar-down',name:'Cap at budget',nameJa:'予算での上限設定',template:'MIN({Insert unit price field} * {Insert quantity field}, {Insert budget field})'},
+  {id:'c6',type:'currency',icon:'ti-coin',name:'Commission',nameJa:'コミッション',template:'ROUND({Insert number field} * {Insert number field} / 100, 0)'},
+  {id:'c7',type:'currency',icon:'ti-arrow-bar-down',name:'Cap at budget',nameJa:'予算での上限設定',template:'MIN({Insert number field} * {Insert number field}, {Insert number field})'},
   {id:'c8',type:'currency',icon:'ti-arrow-bar-up',name:'Minimum fee',nameJa:'最低手数料',template:'MAX({Insert number field}, {Insert min fee})'},
-  {id:'c9',type:'currency',icon:'ti-report-money',name:'Budget remaining',nameJa:'残り予算',template:'{Insert budget field} - {Insert spent field}'},
+  {id:'c9',type:'currency',icon:'ti-report-money',name:'Budget remaining',nameJa:'残り予算',template:'{Insert number field} - {Insert number field}'},
   {id:'c10',type:'currency',icon:'ti-stairs',name:'Tiered discount',nameJa:'段階的割引',template:'IF({Insert number field} >= 100, {Insert number field} * 0.85, IF({Insert number field} >= 50, {Insert number field} * 0.9, {Insert number field}))'},
-  {id:'c11',type:'currency',icon:'ti-receipt-2',name:'Subtotal + tax, capped',nameJa:'小計＋税（上限あり）',template:'MIN(ROUND({Insert unit price field} * {Insert quantity field} * 1.1, 0), {Insert budget field})'},
+  {id:'c11',type:'currency',icon:'ti-receipt-2',name:'Subtotal + tax, capped',nameJa:'小計＋税（上限あり）',template:'MIN(ROUND({Insert number field} * {Insert number field} * 1.1, 0), {Insert number field})'},
 ];
 function tokenize(s){const tok=[];let i=0;s=s.replace(/\n/g,' ').replace(/\s+/g,' ').trim();while(i<s.length){if(s[i]===' '){i++;continue;}if(s[i]=='"'){let j=++i;while(j<s.length&&s[j]!='"')j++;tok.push({t:'str',v:s.slice(i,j)});i=j+1;continue;}if(s[i]==='{'){let j=++i;while(j<s.length&&s[j]!=='}')j++;tok.push({t:'fld',v:s.slice(i,j).trim()});i=j+1;continue;}if(/\d/.test(s[i])){let j=i;while(j<s.length&&/[\d.]/.test(s[j]))j++;tok.push({t:'num',v:parseFloat(s.slice(i,j))});i=j;continue;}if(i+1<s.length){const w=s.slice(i,i+2);if(['>=','<=','!='].includes(w)){tok.push({t:'op',v:w});i+=2;continue;}}if(/[A-Z]/.test(s[i])){let j=i;while(j<s.length&&/[A-Z0-9_]/.test(s[j]))j++;tok.push({t:'id',v:s.slice(i,j)});i=j;continue;}const ch=s[i++];if(ch==='(')tok.push({t:'lp'});else if(ch===')')tok.push({t:'rp'});else if(ch===',')tok.push({t:'cm'});else tok.push({t:'op',v:ch});}return tok;}
 function evalFormula(formula,row){if(!formula||!formula.trim())return undefined;if(/\{Insert\b/i.test(formula))return null;const tok=tokenize(formula);let pos=0;const p=()=>tok[pos],nx=()=>tok[pos++];function expr(){return cmp();}function cmp(){let L=cat();if(p()&&p().t==='op'&&['>=','<=','>','<','=','!='].includes(p().v)){const op=nx().v,R=cat();return op==='>'?L>R:op==='>='?L>=R:op==='<'?L<R:op==='<='?L<=R:op==='='?L==R:L!=R;}return L;}function cat(){let L=add();while(p()&&p().t==='op'&&p().v==='&'){nx();L=String(L)+String(add());}return L;}function add(){let L=mul();while(p()&&p().t==='op'&&['+','-'].includes(p().v)){const op=nx().v;L=op==='+'?L+mul():L-mul();}return L;}function mul(){let L=atom();while(p()&&p().t==='op'&&['*','/'].includes(p().v)){const op=nx().v;L=op==='*'?L*atom():L/atom();}return L;}function atom(){const t=p();if(!t)throw 0;if(t.t==='num'){nx();return t.v;}if(t.t==='str'){nx();return t.v;}if(t.t==='fld'){nx();const v=row[t.v];if(v===undefined)throw new Error('?');return v;}if(t.t==='lp'){nx();const v=expr();if(p()&&p().t==='rp')nx();return v;}if(t.t==='id'){const name=nx().v;if(name==='TODAY'){if(p()&&p().t==='lp')nx();if(p()&&p().t==='rp')nx();return new Date();}if(p()&&p().t==='lp')nx();const args=[];while(p()&&p().t!=='rp'){args.push(expr());if(p()&&p().t==='cm')nx();}if(p()&&p().t==='rp')nx();return applyFn(name,args);}nx();return null;}function applyFn(name,a){switch(name){case 'IF':return a[0]?a[1]:a[2];case 'ROUND':{const f=Math.pow(10,a[1]||0);return Math.round((a[0]||0)*f)/f;}case 'FLOOR':return Math.floor(a[0]||0);case 'CEILING':return Math.ceil(a[0]||0);case 'ROUNDUP':{const f=Math.pow(10,a[1]||0);return Math.ceil((a[0]||0)*f)/f;}case 'ROUNDDOWN':{const f=Math.pow(10,a[1]||0);return Math.floor((a[0]||0)*f)/f;}case 'SUM':return a.reduce((s,v)=>s+(+v||0),0);case 'COUNT':return a.length;case 'AVERAGE':return a.length?a.reduce((s,v)=>s+(+v||0),0)/a.length:0;case 'MIN':return Math.min(a[0],a[1]);case 'MAX':return Math.max(a[0],a[1]);case 'DATEDIF':{const d1=a[0] instanceof Date?a[0].getTime():a[0],d2=a[1] instanceof Date?a[1].getTime():a[1];if(a[2]==='days')return Math.round((d2-d1)/MS);if(a[2]==='weeks')return Math.round((d2-d1)/(7*MS));return 0;}case 'DATEADD':{const b=a[0] instanceof Date?a[0].getTime():(typeof a[0]==='number'?a[0]:now.getTime());if(a[2]==='days')return new Date(b+a[1]*MS);if(a[2]==='weeks')return new Date(b+a[1]*7*MS);if(a[2]==='months'){const d=new Date(b);d.setMonth(d.getMonth()+a[1]);return d;}return new Date(b);}default:throw 0;}}try{return expr();}catch(e){return undefined;}}
-function pillType(name){if(/^Insert\b/i.test(name))return /field/i.test(name)?'placeholder':'literal';const f=FIELDS.find(x=>x.name===name);return f?f.type:'unknown';}
-function createPill(name){const span=document.createElement('span');span.className='field-pill '+pillType(name);span.dataset.field=name;span.contentEditable='false';span.textContent='{'+name+'}';span.title=pillType(name)==='literal'?'Click to type a value':'Click to change field';return span;}
+function pillType(name){if(/^Insert\b/i.test(name)){if(!/field/i.test(name))return 'literal';if(/number/i.test(name))return 'placeholder-number';if(/date|time/i.test(name))return 'placeholder-date';return 'placeholder-number';}const f=FIELDS.find(x=>x.name===name);return f?f.type:'unknown';}
+function createPill(name){const pt=pillType(name);const span=document.createElement('span');span.className='field-pill '+pt;span.dataset.field=name;span.contentEditable='false';span.textContent=pt==='literal'?name:'{'+name+'}';span.title=pt==='literal'?'Click to type a value':'Click to change field';return span;}
 function getFormulaString(){const editor=document.getElementById('formula-editor');let s='';function walk(node){if(node.nodeType===3){s+=node.textContent.replace(/​/g,'');}else if(node.nodeType===1){if(node.classList.contains('field-pill')){s+='{'+node.dataset.field+'}';}else if(node.tagName==='BR'){s+=' ';}else{for(const c of node.childNodes)walk(c);}}}for(const c of editor.childNodes)walk(c);return s.replace(/\s+/g,' ').trim();}
 function setFormulaHTML(formula){const editor=document.getElementById('formula-editor');editor.innerHTML='';const pat=/\{([^{}]+)\}/g;let last=0,m;while((m=pat.exec(formula))!==null){if(m.index>last)editor.appendChild(document.createTextNode(formula.slice(last,m.index)));editor.appendChild(createPill(m[1]));last=m.index+m[0].length;}if(last<formula.length)editor.appendChild(document.createTextNode(formula.slice(last)));if(!editor.lastChild||editor.lastChild.nodeType!==3)editor.appendChild(document.createTextNode('​'));updatePlaceholder();}
 function convertTextToPills(){const editor=document.getElementById('formula-editor');let changed=true;while(changed){changed=false;const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT,null);while(walker.nextNode()){const node=walker.currentNode;let p=node.parentNode,inPill=false;while(p&&p!==editor){if(p.classList&&p.classList.contains('field-pill')){inPill=true;break;}p=p.parentNode;}if(inPill)continue;const m=/\{([^{}]+)\}/.exec(node.textContent);if(!m)continue;const before=node.textContent.slice(0,m.index),after=node.textContent.slice(m.index+m[0].length);const pill=createPill(m[1]),parent=node.parentNode;if(before){node.textContent=before;parent.insertBefore(pill,node.nextSibling);}else{parent.insertBefore(pill,node);parent.removeChild(node);}if(after){parent.insertBefore(document.createTextNode(after),pill.nextSibling);}changed=true;break;}}}
@@ -908,7 +909,8 @@ function checkForOpenBrace(){if(currentPillTarget)return;const{node,pos,filter}=
 function pickField(name){const editor=document.getElementById('formula-editor');if(currentPillTarget){currentPillTarget.parentNode.replaceChild(createPill(name),currentPillTarget);currentPillTarget=null;hideAc();renderPreview();return;}const sel=window.getSelection();if(!sel.rangeCount){hideAc();return;}const range=sel.getRangeAt(0),node=range.startContainer,offset=range.startOffset;if(node.nodeType!==3){hideAc();return;}const text=node.textContent;let bp=-1;for(let i=offset-1;i>=0;i--){if(text[i]==='}')break;if(text[i]==='{'){bp=i;break;}}const pill=createPill(name);if(bp>=0){const before=text.slice(0,bp),after=text.slice(offset);node.textContent=before;node.parentNode.insertBefore(pill,node.nextSibling);const an=document.createTextNode(after||'​');node.parentNode.insertBefore(an,pill.nextSibling);const nr=document.createRange();nr.setStart(an,after?0:1);nr.collapse(true);sel.removeAllRanges();sel.addRange(nr);}else{range.insertNode(pill);const an=document.createTextNode('​');pill.parentNode.insertBefore(an,pill.nextSibling);const nr=document.createRange();nr.setStart(an,1);nr.collapse(true);sel.removeAllRanges();sel.addRange(nr);}editor.focus();hideAc();updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}
 function onEditorInput(){updatePlaceholder();const sel=window.getSelection();if(sel.rangeCount){const n=sel.getRangeAt(0).startContainer,off=sel.getRangeAt(0).startOffset;if(n.nodeType===3&&off>0&&n.textContent[off-1]==='}'){convertTextToPills();updatePlaceholder();checkForOpenBrace();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);return;}}checkForOpenBrace();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,250);}
 function onEditorKey(e){if(e.key==='Enter'){e.preventDefault();return;}if(acMatches.length){if(e.key==='ArrowDown'){e.preventDefault();acIndex=Math.min(acIndex+1,acMatches.length-1);highlightAc();return;}if(e.key==='ArrowUp'){e.preventDefault();acIndex=Math.max(acIndex-1,0);highlightAc();return;}if((e.key==='Enter'||e.key==='Tab')&&acIndex>=0){e.preventDefault();pickField(acMatches[acIndex].name);return;}if(e.key==='Escape'){hideAc();return;}}if(e.key==='Backspace'){const sel=window.getSelection();if(!sel.rangeCount)return;const range=sel.getRangeAt(0);if(!range.collapsed)return;const node=range.startContainer,offset=range.startOffset;let prev=null;if(node.nodeType===3&&offset===0)prev=node.previousSibling;else if(node.nodeType===1&&offset>0)prev=node.childNodes[offset-1];if(prev&&prev.classList&&prev.classList.contains('field-pill')){e.preventDefault();prev.parentNode.removeChild(prev);updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}}}
-function onEditorClick(e){const pill=e.target.closest('.field-pill');if(pill){if(pill.classList.contains('literal')){hideAc();currentPillTarget=null;showValInput(pill);}else{currentPillTarget=pill;hideValInput();showAc(FIELDS);}}else{hideAc();hideValInput();}}
+function pillFieldType(name){if(/number/i.test(name))return 'number';if(/date|time/i.test(name))return 'date';return null;}
+function onEditorClick(e){const pill=e.target.closest('.field-pill');if(pill){if(pill.classList.contains('literal')){hideAc();currentPillTarget=null;showValInput(pill);}else{currentPillTarget=pill;hideValInput();const ft=pillFieldType(pill.dataset.field);showAc(ft?FIELDS.filter(f=>f.type===ft):FIELDS);}}else{hideAc();hideValInput();}}
 let activePid=null;
 function renderChips(){
   var sel=document.getElementById('output-type-select');
@@ -970,60 +972,60 @@ var jaTbodies = {
           <tr><td>日付に週数を追加</td><td><code>DATEADD({Insert date field}, 2, "weeks")</code></td><td></td></tr>
           <tr><td>日付に月数を追加</td><td><code>DATEADD({Insert date field}, 1, "months")</code></td><td></td></tr>
           <tr><td>今日からN日後</td><td><code>DATEADD(TODAY(), 30, "days")</code></td><td></td></tr>
-          <tr><td>開始＋期間から締切日</td><td><code>DATEADD({Insert start date field}, {Insert number field}, "days")</code></td><td>期間は数値フィールドから取得</td></tr>
-          <tr><td>2つの日付のうち遅い方</td><td><code>IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") &gt; 0, {Insert date field B}, {Insert date field A})</code></td><td></td></tr>
-          <tr><td>2つの日付のうち早い方</td><td><code>IF(DATEDIF({Insert date field A}, {Insert date field B}, "days") &gt; 0, {Insert date field A}, {Insert date field B})</code></td><td></td></tr>`,
+          <tr><td>開始＋期間から締切日</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td>期間は数値フィールドから取得</td></tr>
+          <tr><td>2つの日付のうち遅い方</td><td><code>IF(DATEDIF({Insert date field}, {Insert date field}, "days") &gt; 0, {Insert date field}, {Insert date field})</code></td><td></td></tr>
+          <tr><td>2つの日付のうち早い方</td><td><code>IF(DATEDIF({Insert date field}, {Insert date field}, "days") &gt; 0, {Insert date field}, {Insert date field})</code></td><td></td></tr>`,
   'preset-date-range-tbody': `
-          <tr><td>固定期間の範囲</td><td><code>DATEADD({Insert start date field}, 14, "days")</code></td><td></td></tr>
-          <tr><td>フィールドから動的な期間</td><td><code>DATEADD({Insert start date field}, {Insert number field}, "days")</code></td><td></td></tr>
+          <tr><td>固定期間の範囲</td><td><code>DATEADD({Insert date field}, 14, "days")</code></td><td></td></tr>
+          <tr><td>フィールドから動的な期間</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td></td></tr>
           <tr><td>今日から30日間</td><td><code>DATEADD(TODAY(), 30, "days")</code></td><td>開始 = TODAY()</td></tr>
-          <tr><td>スプリント終了日</td><td><code>DATEADD({Insert start date field}, 2, "weeks")</code></td><td></td></tr>
-          <tr><td>契約期間</td><td><code>DATEADD({Insert start date field}, 1, "months")</code></td><td></td></tr>`,
+          <tr><td>スプリント終了日</td><td><code>DATEADD({Insert date field}, 2, "weeks")</code></td><td></td></tr>
+          <tr><td>契約期間</td><td><code>DATEADD({Insert date field}, 1, "months")</code></td><td></td></tr>`,
   'preset-datetime-tbody': `
-          <tr><td>日時に時間を追加</td><td><code>DATEADD({Insert datetime field}, 2, "hours")</code></td><td></td></tr>
-          <tr><td>日を追加（時刻を保持）</td><td><code>DATEADD({Insert datetime field}, 7, "days")</code></td><td></td></tr>
-          <tr><td>会議の終了時刻</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "hours")</code></td><td>期間は数値フィールドから取得</td></tr>
+          <tr><td>日時に時間を追加</td><td><code>DATEADD({Insert date field}, 2, "hours")</code></td><td></td></tr>
+          <tr><td>日を追加（時刻を保持）</td><td><code>DATEADD({Insert date field}, 7, "days")</code></td><td></td></tr>
+          <tr><td>会議の終了時刻</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td>期間は数値フィールドから取得</td></tr>
           <tr><td>当日の締切時刻</td><td><code>DATEADD({Insert date field}, 17, "hours")</code></td><td>その日の17:00になります</td></tr>`,
   'preset-datetime-range-tbody': `
-          <tr><td>固定時間のイベント終了</td><td><code>DATEADD({Insert start datetime field}, 1, "hours")</code></td><td></td></tr>
-          <tr><td>可変期間の終了</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>夜間ウィンドウ</td><td><code>DATEADD({Insert start datetime field}, 8, "hours")</code></td><td></td></tr>
-          <tr><td>複数日の範囲終了</td><td><code>DATEADD({Insert start datetime field}, {Insert number field}, "days")</code></td><td></td></tr>`,
+          <tr><td>固定時間のイベント終了</td><td><code>DATEADD({Insert date field}, 1, "hours")</code></td><td></td></tr>
+          <tr><td>可変期間の終了</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>夜間ウィンドウ</td><td><code>DATEADD({Insert date field}, 8, "hours")</code></td><td></td></tr>
+          <tr><td>複数日の範囲終了</td><td><code>DATEADD({Insert date field}, {Insert number field}, "days")</code></td><td></td></tr>`,
   'preset-time-tbody': `
-          <tr><td>時刻に時間を追加</td><td><code>DATEADD({Insert time field}, 2, "hours")</code></td><td></td></tr>
-          <tr><td>時刻に分を追加</td><td><code>DATEADD({Insert time field}, 30, "minutes")</code></td><td></td></tr>
-          <tr><td>期間から終了時刻</td><td><code>DATEADD({Insert start time field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>昼休み終了</td><td><code>DATEADD({Insert start time field}, 1, "hours")</code></td><td></td></tr>`,
+          <tr><td>時刻に時間を追加</td><td><code>DATEADD({Insert date field}, 2, "hours")</code></td><td></td></tr>
+          <tr><td>時刻に分を追加</td><td><code>DATEADD({Insert date field}, 30, "minutes")</code></td><td></td></tr>
+          <tr><td>期間から終了時刻</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>昼休み終了</td><td><code>DATEADD({Insert date field}, 1, "hours")</code></td><td></td></tr>`,
   'preset-time-range-tbody': `
-          <tr><td>固定枠の終了時刻</td><td><code>DATEADD({Insert start time field}, 30, "minutes")</code></td><td></td></tr>
-          <tr><td>可変枠の終了時刻</td><td><code>DATEADD({Insert start time field}, {Insert number field}, "hours")</code></td><td></td></tr>
-          <tr><td>標準勤務日の終了</td><td><code>DATEADD({Insert start time field}, 8, "hours")</code></td><td></td></tr>`,
+          <tr><td>固定枠の終了時刻</td><td><code>DATEADD({Insert date field}, 30, "minutes")</code></td><td></td></tr>
+          <tr><td>可変枠の終了時刻</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
+          <tr><td>標準勤務日の終了</td><td><code>DATEADD({Insert date field}, 8, "hours")</code></td><td></td></tr>`,
   'preset-number-tbody': `
-          <tr><td>2つのフィールドを掛ける</td><td><code>{Insert number field A} * {Insert number field B}</code></td><td></td></tr>
-          <tr><td>2つのフィールドの合計</td><td><code>{Insert number field A} + {Insert number field B}</code></td><td></td></tr>
-          <tr><td>差分</td><td><code>{Insert number field A} - {Insert number field B}</code></td><td></td></tr>
-          <tr><td>合計に対する割合</td><td><code>ROUND({Insert number field A} / {Insert number field B} * 100, 1)</code></td><td></td></tr>
-          <tr><td>結果を丸める</td><td><code>ROUND({Insert number field A} * {Insert number field B}, 0)</code></td><td></td></tr>
-          <tr><td>最大値で上限設定</td><td><code>MIN({Insert number field A} * {Insert number field B}, {Insert max value})</code></td><td></td></tr>
+          <tr><td>2つのフィールドを掛ける</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
+          <tr><td>2つのフィールドの合計</td><td><code>{Insert number field} + {Insert number field}</code></td><td></td></tr>
+          <tr><td>差分</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
+          <tr><td>合計に対する割合</td><td><code>ROUND({Insert number field} / {Insert number field} * 100, 1)</code></td><td></td></tr>
+          <tr><td>結果を丸める</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
+          <tr><td>最大値で上限設定</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert max value})</code></td><td></td></tr>
           <tr><td>最小値を強制</td><td><code>MAX({Insert number field}, {Insert min value})</code></td><td></td></tr>
           <tr><td>日付まで残り日数</td><td><code>DATEDIF(TODAY(), {Insert date field}, "days")</code></td><td>負の値 = 期日超過</td></tr>
           <tr><td>経過日数</td><td><code>DATEDIF({Insert date field}, TODAY(), "days")</code></td><td></td></tr>
           <tr><td>超過日数のみ</td><td><code>IF(DATEDIF(TODAY(), {Insert date field}, "days") &lt; 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)</code></td><td>期日前は0を返す</td></tr>
           <tr><td>残業時間</td><td><code>IF({Insert number field} &gt; 8, {Insert number field} - 8, 0)</code></td><td></td></tr>
-          <tr><td>条件付きの値</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field A}, {Insert number field B})</code></td><td></td></tr>
-          <tr><td>2つのフィールドの平均</td><td><code>({Insert number field A} + {Insert number field B}) / 2</code></td><td></td></tr>`,
+          <tr><td>条件付きの値</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field}, {Insert number field})</code></td><td></td></tr>
+          <tr><td>2つのフィールドの平均</td><td><code>({Insert number field} + {Insert number field}) / 2</code></td><td></td></tr>`,
   'preset-currency-tbody': `
-          <tr><td>単価 × 数量</td><td><code>{Insert unit price field} * {Insert quantity field}</code></td><td></td></tr>
-          <tr><td>合計（丸め）</td><td><code>ROUND({Insert unit price field} * {Insert quantity field}, 0)</code></td><td></td></tr>
-          <tr><td>数量ベースの一括割引</td><td><code>IF({Insert quantity field} &gt;= 10, {Insert unit price field} * {Insert quantity field} * 0.9, {Insert unit price field} * {Insert quantity field})</code></td><td></td></tr>
+          <tr><td>単価 × 数量</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
+          <tr><td>合計（丸め）</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
+          <tr><td>数量ベースの一括割引</td><td><code>IF({Insert number field} &gt;= 10, {Insert number field} * {Insert number field} * 0.9, {Insert number field} * {Insert number field})</code></td><td></td></tr>
           <tr><td>税込み</td><td><code>ROUND({Insert number field} * 1.1, 0)</code></td><td></td></tr>
           <tr><td>税額のみ</td><td><code>ROUND({Insert number field} * 0.1, 0)</code></td><td></td></tr>
-          <tr><td>コミッション</td><td><code>ROUND({Insert number field} * {Insert rate field} / 100, 0)</code></td><td></td></tr>
-          <tr><td>予算での上限設定</td><td><code>MIN({Insert unit price field} * {Insert quantity field}, {Insert budget field})</code></td><td></td></tr>
+          <tr><td>コミッション</td><td><code>ROUND({Insert number field} * {Insert number field} / 100, 0)</code></td><td></td></tr>
+          <tr><td>予算での上限設定</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert number field})</code></td><td></td></tr>
           <tr><td>最低手数料</td><td><code>MAX({Insert number field}, {Insert min fee})</code></td><td></td></tr>
-          <tr><td>残り予算</td><td><code>{Insert budget field} - {Insert spent field}</code></td><td></td></tr>
+          <tr><td>残り予算</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
           <tr><td>段階的割引</td><td><code>IF({Insert number field} &gt;= 100, {Insert number field} * 0.85, IF({Insert number field} &gt;= 50, {Insert number field} * 0.9, {Insert number field}))</code></td><td></td></tr>
-          <tr><td>小計＋税（上限あり）</td><td><code>MIN(ROUND({Insert unit price field} * {Insert quantity field} * 1.1, 0), {Insert budget field})</code></td><td></td></tr>`,
+          <tr><td>小計＋税（上限あり）</td><td><code>MIN(ROUND({Insert number field} * {Insert number field} * 1.1, 0), {Insert number field})</code></td><td></td></tr>`,
   'warn-tbody': `
         <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-E">E</span></td><td>時刻はデフォルトで00:00になります。</td></tr>
         <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-B">B</span></td><td>フォーミュラは終了日に適用されます。開始は別途設定してください。</td></tr>
