@@ -663,7 +663,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 
     <div class="callout info">
       <div class="callout-icon">ℹ️</div>
-      <div class="callout-body" data-i18n="callout_body"><strong>Non-destructive first.</strong> Always preserve the formula when possible. Only require the user to clear and rewrite when the types are fundamentally incompatible (Pattern A). For all other patterns, show a contextual warning and allow the user to proceed.</div>
+      <div class="callout-body" data-i18n="callout_body"><strong>Preserve the formula whenever possible.</strong> Only block when types are fundamentally incompatible (Pattern A). All other patterns show a soft warning and let the user proceed.</div>
     </div>
 
     <h3 style="margin-bottom:16px;" data-i18n="h3_warning_patterns">Warning patterns</h3>
@@ -673,7 +673,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge red">Pattern A</span>
         <span class="pattern-name" data-i18n="pat_a_name">Fully incompatible</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_a_body">Formula returns the wrong fundamental type (e.g. date formula → number output). The user must clear or rewrite the formula before the type change takes effect. <strong>UI action:</strong> block the type change with a confirmation dialog offering "Clear formula and switch" or "Cancel".</div>
+      <div class="pattern-card-body" data-i18n="pat_a_body">Formula type is fundamentally incompatible with the new output type. Block the switch with a dialog: "Clear formula and switch" / "Cancel".</div>
     </div>
 
     <div class="pattern-card">
@@ -681,7 +681,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge amber">Pattern B</span>
         <span class="pattern-name" data-i18n="pat_b_name">Single → Range</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_b_body">The formula currently computes a single value, but the new output type requires two endpoints (start + end). The formula will apply to the <strong>end</strong> value; the user must configure the start separately. Show a soft warning and allow the user to proceed.</div>
+      <div class="pattern-card-body" data-i18n="pat_b_body">New type needs two values (start + end), but formula computes one. Formula applies to the <strong>end</strong>; user must configure the start. Soft warning, allow proceed.</div>
     </div>
 
     <div class="pattern-card">
@@ -689,7 +689,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge amber">Pattern C</span>
         <span class="pattern-name" data-i18n="pat_c_name">Range → Single</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_c_body">The formula was computing one endpoint of a range. The other endpoint (start) was configured outside the formula and will now be ignored. Show a soft warning: "The configured start value will no longer apply."</div>
+      <div class="pattern-card-body" data-i18n="pat_c_body">Switching from a range: only the formula's end value is kept. The configured start is discarded. Soft warning, allow proceed.</div>
     </div>
 
     <div class="pattern-card">
@@ -697,7 +697,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge amber">Pattern D</span>
         <span class="pattern-name" data-i18n="pat_d_name">Time stripped</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_d_body">Formula returns a datetime value, but the new output type is date-only or date-range. The time component will be dropped from the output. Show a soft warning and allow the user to proceed.</div>
+      <div class="pattern-card-body" data-i18n="pat_d_body">Formula includes a time component, but the new output type doesn't. Time is dropped from the output. Soft warning, allow proceed.</div>
     </div>
 
     <div class="pattern-card">
@@ -705,7 +705,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge amber">Pattern E</span>
         <span class="pattern-name" data-i18n="pat_e_name">Time defaulted</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_e_body">Formula returns a date-only value, but the new output type includes a time component. The time will default to <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code>. Show a soft warning and allow the user to proceed.</div>
+      <div class="pattern-card-body" data-i18n="pat_e_body">Formula has no time component, but the new output type requires one. Time defaults to <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code>. Soft warning, allow proceed.</div>
     </div>
 
     <div class="pattern-card">
@@ -713,7 +713,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <span class="pattern-badge amber">Pattern F</span>
         <span class="pattern-name" data-i18n="pat_f_name">Context-dependent</span>
       </div>
-      <div class="pattern-card-body" data-i18n="pat_f_body">Compatibility depends on which functions and fields the formula uses. For example, <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> returns a number, while <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> returns a date. Show a soft warning asking the user to verify the formula returns the expected type, and allow the user to proceed.</div>
+      <div class="pattern-card-body" data-i18n="pat_f_body">Compatibility depends on the formula's functions and fields — e.g. <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> returns a number, <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> returns a date. Warn the user to verify the return type and allow proceed.</div>
     </div>
 
     <h3 style="margin-top:32px;margin-bottom:16px;" data-i18n="h3_matrix">FROM → TO matrix</h3>
@@ -729,69 +729,69 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       </thead>
       <tbody id="warn-tbody">
         <!-- Date only -->
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-E">E</span></td><td>Your formula returns a date without time. The time will default to 00:00.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-B">B</span></td><td>Date range needs a start and end date. Your formula will apply to the end date — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-B">B</span> <span class="pat-E">E</span></td><td>Date time range needs two datetime endpoints. Your formula will apply to the end date, and time will default to 00:00 — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a date, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a date, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Date formulas are only compatible with Number output if they compute a count (e.g. DATEDIF). Check that your formula returns a number, not a date.</td></tr>
-        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a date. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-E">E</span></td><td>Time will default to 00:00.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-B">B</span></td><td>Formula applies to the end date. Configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-B">B</span> <span class="pat-E">E</span></td><td>Formula applies to the end date; time defaults to 00:00. Configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a count (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Date only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Date time only -->
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-D">D</span></td><td>Switching to Date only will remove the time component from your formula's output.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-B">B</span> <span class="pat-D">D</span></td><td>Date range needs two date endpoints. Your formula will apply to the end date; the time component will be stripped. Configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-B">B</span></td><td>Date time range needs two datetime endpoints. Your formula will apply to the end datetime — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a datetime, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a datetime, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Date formulas are only compatible with Number output if they compute a count (e.g. DATEDIF). Check that your formula returns a number, not a date.</td></tr>
-        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a datetime. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-D">D</span></td><td>Time component will be removed from the output.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-B">B</span> <span class="pat-D">D</span></td><td>Formula applies to the end date; time component is removed. Configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-B">B</span></td><td>Formula applies to the end datetime. Configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a count (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Date time only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Date range -->
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-C">C</span></td><td>Switching to Date only will use only your formula's output (the end date). The configured start date will no longer apply.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-C">C</span> <span class="pat-E">E</span></td><td>Switching to Date time only will use only your formula's computed end date; the start will no longer apply. Time will default to 00:00.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-E">E</span></td><td>Your formula returns dates without time. Both endpoints will default to 00:00 for the time component.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns dates, not times. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns dates, not times. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Date formulas are only compatible with Number output if they compute a count (e.g. DATEDIF). Check that your formula returns a number, not a date.</td></tr>
-        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a date. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-C">C</span></td><td>Only the formula's end date will be used. The configured start will no longer apply.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-C">C</span> <span class="pat-E">E</span></td><td>Only the formula's end date will be used; time defaults to 00:00. The configured start will no longer apply.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-E">E</span></td><td>Both endpoints will default to 00:00 for the time component.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a count (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Date range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a date. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Date time range -->
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-C">C</span> <span class="pat-D">D</span></td><td>Switching to Date only will use only your formula's end datetime output; the start and time components will be dropped.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-C">C</span></td><td>Switching to Date time only will use only your formula's computed end datetime. The configured start will no longer apply.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-D">D</span></td><td>Switching to Date range will strip the time component from both endpoints of your formula's output.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns datetimes, not times. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns datetimes, not times. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Date formulas are only compatible with Number output if they compute a count (e.g. DATEDIF). Check that your formula returns a number, not a date.</td></tr>
-        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a datetime. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-C">C</span> <span class="pat-D">D</span></td><td>Only the formula's end datetime will be used; time component is removed. The configured start will no longer apply.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-C">C</span></td><td>Only the formula's end datetime will be used. The configured start will no longer apply.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-D">D</span></td><td>Time component will be removed from both endpoints.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a count (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Date time range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a datetime. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Time only -->
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-B">B</span></td><td>Time range needs a start and end time. Your formula will apply to the end time — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time, not a date. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time, not a date. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time, not a date. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time, not a date. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Time formulas are only compatible with Number output if they compute a duration (e.g. hours between two times using DATEDIF). Check that your formula returns a number.</td></tr>
-        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-B">B</span></td><td>Formula applies to the end time. Configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a duration (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Time only</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Time range -->
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-C">C</span></td><td>Switching to Time only will use only your formula's computed end time. The configured start time will no longer apply.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns times, not dates. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns times, not dates. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns times, not dates. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns times, not dates. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Time formulas are only compatible with Number output if they compute a duration (e.g. using DATEDIF). Check that your formula returns a number.</td></tr>
-        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a time. Currency output requires a number formula.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-C">C</span></td><td>Only the formula's end time will be used. The configured start will no longer apply.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time, not a date. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula computes a duration (e.g. DATEDIF). Verify it returns a number.</td></tr>
+        <tr><td><span class="from-badge">Time range</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-A">A</span></td><td>Formula returns a time. Currency requires a number formula. Clear or rewrite to switch.</td></tr>
         <!-- Number -->
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-none">None</span></td><td>No warning. Display format only — formula is fully compatible.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-F">F</span></td><td>Number formulas are only compatible with Date output if they use DATEADD or reference a date field directly. Pure arithmetic formulas are incompatible.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-F">F</span></td><td>Number formulas are only compatible with Date output if they use DATEADD or reference a date field directly. Pure arithmetic formulas are incompatible.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Verify your formula returns a date (not a number). If compatible, it will apply to the end date — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Verify your formula returns a datetime (not a number). If compatible, it will apply to the end datetime — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a number, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a number, not a time. Switch or clear the formula before changing output type.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Number with currency</span></td><td><span class="pat-none">None</span></td><td>No warning — formula is fully compatible.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula uses DATEADD or references a date field. Verify it returns a date.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula uses DATEADD or references a date field. Verify it returns a date.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Compatible only if formula returns a date. If so, it applies to the end date — configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Compatible only if formula returns a datetime. If so, it applies to the end datetime — configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a number, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Number</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a number, not a time. Clear or rewrite to switch.</td></tr>
         <!-- Number with currency -->
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-none">None</span></td><td>No warning. Display format only — formula is fully compatible.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-F">F</span></td><td>Number formulas are only compatible with Date output if they use DATEADD or reference a date field directly. Pure arithmetic formulas are incompatible.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-F">F</span></td><td>Number formulas are only compatible with Date output if they use DATEADD or reference a date field directly. Pure arithmetic formulas are incompatible.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Verify your formula returns a date (not a number). If compatible, it will apply to the end date — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Verify your formula returns a datetime (not a number). If compatible, it will apply to the end datetime — configure the start separately.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a number, not a time. Switch or clear the formula before changing output type.</td></tr>
-        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Your formula returns a number, not a time. Switch or clear the formula before changing output type.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Number</span></td><td><span class="pat-none">None</span></td><td>No warning — formula is fully compatible.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date only</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula uses DATEADD or references a date field. Verify it returns a date.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date time only</span></td><td><span class="pat-F">F</span></td><td>Compatible only if formula uses DATEADD or references a date field. Verify it returns a date.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Compatible only if formula returns a date. If so, it applies to the end date — configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Date time range</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>Compatible only if formula returns a datetime. If so, it applies to the end datetime — configure the start separately.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Time only</span></td><td><span class="pat-A">A</span></td><td>Formula returns a number, not a time. Clear or rewrite to switch.</td></tr>
+        <tr><td><span class="from-badge">Number with currency</span></td><td><span class="to-badge">Time range</span></td><td><span class="pat-A">A</span></td><td>Formula returns a number, not a time. Clear or rewrite to switch.</td></tr>
       </tbody>
     </table>
   </section>
@@ -1003,62 +1003,62 @@ var jaTbodies = {
           <tr><td>段階的割引</td><td><code>IF({Insert number field} &gt;= 100, {Insert number field} * 0.85, IF({Insert number field} &gt;= 50, {Insert number field} * 0.9, {Insert number field}))</code></td><td></td></tr>
           <tr><td>小計＋税（上限あり）</td><td><code>MIN(ROUND({Insert unit price field} * {Insert quantity field} * 1.1, 0), {Insert budget field})</code></td><td></td></tr>`,
   'warn-tbody': `
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-E">E</span></td><td>フォーミュラは時刻なしの日付を返します。時刻はデフォルトで00:00になります。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-B">B</span></td><td>日付範囲には開始日と終了日が必要です。フォーミュラは終了日に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-B">B</span> <span class="pat-E">E</span></td><td>日時範囲には2つの日時エンドポイントが必要です。フォーミュラは終了日に適用され、時刻はデフォルトで00:00になります — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日付を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日付を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>日付フォーミュラは、件数を計算する場合（例：DATEDIF）のみ数値出力と互換性があります。フォーミュラが日付ではなく数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-D">D</span></td><td>日付のみに切り替えると、フォーミュラの出力から時刻コンポーネントが削除されます。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-B">B</span> <span class="pat-D">D</span></td><td>日付範囲には2つの日付エンドポイントが必要です。フォーミュラは終了日に適用され、時刻コンポーネントは除去されます。開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-B">B</span></td><td>日時範囲には2つの日時エンドポイントが必要です。フォーミュラは終了日時に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日時を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日時を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>日付フォーミュラは、件数を計算する場合（例：DATEDIF）のみ数値出力と互換性があります。フォーミュラが日付ではなく数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-C">C</span></td><td>日付のみに切り替えると、フォーミュラの出力（終了日）のみが使用されます。設定された開始日は適用されなくなります。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-C">C</span> <span class="pat-E">E</span></td><td>日時のみに切り替えると、フォーミュラが計算した終了日のみが使用されます。開始は適用されなくなります。時刻はデフォルトで00:00になります。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-E">E</span></td><td>フォーミュラは時刻なしの日付を返します。両エンドポイントの時刻コンポーネントはデフォルトで00:00になります。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日付を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日付を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>日付フォーミュラは、件数を計算する場合（例：DATEDIF）のみ数値出力と互換性があります。フォーミュラが日付ではなく数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-C">C</span> <span class="pat-D">D</span></td><td>日付のみに切り替えると、フォーミュラの終了日時出力のみが使用されます。開始と時刻コンポーネントは除去されます。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-C">C</span></td><td>日時のみに切り替えると、フォーミュラが計算した終了日時のみが使用されます。設定された開始は適用されなくなります。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-D">D</span></td><td>日付範囲に切り替えると、フォーミュラの出力の両エンドポイントから時刻コンポーネントが除去されます。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日時を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく日時を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>日付フォーミュラは、件数を計算する場合（例：DATEDIF）のみ数値出力と互換性があります。フォーミュラが日付ではなく数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-B">B</span></td><td>時刻範囲には開始時刻と終了時刻が必要です。フォーミュラは終了時刻に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>時刻フォーミュラは、期間を計算する場合（例：DATEDIFで2つの時刻の時間差を求める）のみ数値出力と互換性があります。フォーミュラが数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-C">C</span></td><td>時刻のみに切り替えると、フォーミュラが計算した終了時刻のみが使用されます。設定された開始時刻は適用されなくなります。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付ではなく時刻を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>時刻フォーミュラは、期間を計算する場合（例：DATEDIFを使用）のみ数値出力と互換性があります。フォーミュラが数値を返すことを確認してください。</td></tr>
-        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します。通貨出力には数値フォーミュラが必要です。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-None">None</span></td><td>警告なし。表示形式のみの変更 — フォーミュラは完全に互換性があります。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-F">F</span></td><td>数値フォーミュラは、DATEADDを使用するか日付フィールドを直接参照する場合のみ日付出力と互換性があります。純粋な算術フォーミュラは互換性がありません。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-F">F</span></td><td>数値フォーミュラは、DATEADDを使用するか日付フィールドを直接参照する場合のみ日付出力と互換性があります。純粋な算術フォーミュラは互換性がありません。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>フォーミュラが（数値ではなく）日付を返すことを確認してください。互換性がある場合、終了日に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>フォーミュラが（数値ではなく）日時を返すことを確認してください。互換性がある場合、終了日時に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく数値を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく数値を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-None">None</span></td><td>警告なし。表示形式のみの変更 — フォーミュラは完全に互換性があります。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-F">F</span></td><td>数値フォーミュラは、DATEADDを使用するか日付フィールドを直接参照する場合のみ日付出力と互換性があります。純粋な算術フォーミュラは互換性がありません。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-F">F</span></td><td>数値フォーミュラは、DATEADDを使用するか日付フィールドを直接参照する場合のみ日付出力と互換性があります。純粋な算術フォーミュラは互換性がありません。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>フォーミュラが（数値ではなく）日付を返すことを確認してください。互換性がある場合、終了日に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>フォーミュラが（数値ではなく）日時を返すことを確認してください。互換性がある場合、終了日時に適用されます — 開始は別途設定してください。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく数値を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>
-        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻ではなく数値を返します。出力タイプを変更する前にフォーミュラを切り替えるかクリアしてください。</td></tr>`
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-E">E</span></td><td>時刻はデフォルトで00:00になります。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-B">B</span></td><td>フォーミュラは終了日に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-B">B</span> <span class="pat-E">E</span></td><td>フォーミュラは終了日に適用されます。時刻は00:00になります。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>カウントを計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">日付のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-D">D</span></td><td>出力から時刻が除去されます。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-B">B</span> <span class="pat-D">D</span></td><td>フォーミュラは終了日に適用されます。時刻は除去されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-B">B</span></td><td>フォーミュラは終了日時に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>カウントを計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">日時のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-C">C</span></td><td>フォーミュラの終了日のみが使用されます。設定された開始は適用されなくなります。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-C">C</span> <span class="pat-E">E</span></td><td>フォーミュラの終了日のみが使用されます。時刻は00:00になります。設定された開始は適用されなくなります。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-E">E</span></td><td>両エンドポイントの時刻はデフォルトで00:00になります。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>カウントを計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">日付範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日付を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-C">C</span> <span class="pat-D">D</span></td><td>フォーミュラの終了日時のみが使用されます。時刻は除去されます。設定された開始は適用されなくなります。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-C">C</span></td><td>フォーミュラの終了日時のみが使用されます。設定された開始は適用されなくなります。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-D">D</span></td><td>両エンドポイントから時刻が除去されます。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>カウントを計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">日時範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは日時を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-B">B</span></td><td>フォーミュラは終了時刻に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>期間を計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">時刻のみ</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-C">C</span></td><td>フォーミュラの終了時刻のみが使用されます。設定された開始は適用されなくなります。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します（日付ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-F">F</span></td><td>期間を計算するフォーミュラ（例：DATEDIF）のみ互換性があります。数値を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">時刻範囲</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは時刻を返します。通貨には数値フォーミュラが必要です。クリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">通貨付き数値</span></td><td><span class="pat-none">None</span></td><td>警告なし — フォーミュラは完全に互換性があります。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-F">F</span></td><td>DATEADDを使用するか日付フィールドを参照するフォーミュラのみ互換性があります。日付を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-F">F</span></td><td>DATEADDを使用するか日付フィールドを参照するフォーミュラのみ互換性があります。日付を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>日付を返す場合のみ互換性があります。互換性がある場合、終了日に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>日時を返す場合のみ互換性があります。互換性がある場合、終了日時に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは数値を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">数値</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは数値を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">数値</span></td><td><span class="pat-none">None</span></td><td>警告なし — フォーミュラは完全に互換性があります。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日付のみ</span></td><td><span class="pat-F">F</span></td><td>DATEADDを使用するか日付フィールドを参照するフォーミュラのみ互換性があります。日付を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日時のみ</span></td><td><span class="pat-F">F</span></td><td>DATEADDを使用するか日付フィールドを参照するフォーミュラのみ互換性があります。日付を返すことを確認してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日付範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>日付を返す場合のみ互換性があります。互換性がある場合、終了日に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">日時範囲</span></td><td><span class="pat-F">F</span> <span class="pat-B">B</span></td><td>日時を返す場合のみ互換性があります。互換性がある場合、終了日時に適用されます。開始は別途設定してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">時刻のみ</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは数値を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>
+        <tr><td><span class="from-badge">通貨付き数値</span></td><td><span class="to-badge">時刻範囲</span></td><td><span class="pat-A">A</span></td><td>フォーミュラは数値を返します（時刻ではありません）。切り替えるにはクリアまたは書き直してください。</td></tr>`
 };
 
 // ── i18n ─────────────────────────────────────────────────────────────────────
@@ -1111,20 +1111,20 @@ T = {
     note_time_range: 'Formula computes the <strong>end time</strong>. The start time is configured separately.',
     note_currency: 'Formula logic is identical to Number. Currency symbol and formatting (JPY, USD, BRL, KRW, EUR, DON; comma-separated) are configured as separate display settings.',
     // callout
-    callout_body: '<strong>Non-destructive first.</strong> Always preserve the formula when possible. Only require the user to clear and rewrite when the types are fundamentally incompatible (Pattern A). For all other patterns, show a contextual warning and allow the user to proceed.',
+    callout_body: '<strong>Preserve the formula whenever possible.</strong> Only block when types are fundamentally incompatible (Pattern A). All other patterns show a soft warning and let the user proceed.',
     // pattern cards
     pat_a_name: 'Fully incompatible',
-    pat_a_body: 'Formula returns the wrong fundamental type (e.g. date formula → number output). The user must clear or rewrite the formula before the type change takes effect. <strong>UI action:</strong> block the type change with a confirmation dialog offering “Clear formula and switch” or “Cancel”.',
+    pat_a_body: 'Formula type is fundamentally incompatible with the new output type. Block the switch with a dialog: “Clear formula and switch” / “Cancel”.',
     pat_b_name: 'Single → Range',
-    pat_b_body: 'The formula currently computes a single value, but the new output type requires two endpoints (start + end). The formula will apply to the <strong>end</strong> value; the user must configure the start separately. Show a soft warning and allow the user to proceed.',
+    pat_b_body: 'New type needs two values (start + end), but formula computes one. Formula applies to the <strong>end</strong>; user must configure the start. Soft warning, allow proceed.',
     pat_c_name: 'Range → Single',
-    pat_c_body: 'The formula was computing one endpoint of a range. The other endpoint (start) was configured outside the formula and will now be ignored. Show a soft warning: “The configured start value will no longer apply.”',
+    pat_c_body: 'Switching from a range: only the formula\'s end value is kept. The configured start is discarded. Soft warning, allow proceed.',
     pat_d_name: 'Time stripped',
-    pat_d_body: 'Formula returns a datetime value, but the new output type is date-only or date-range. The time component will be dropped from the output. Show a soft warning and allow the user to proceed.',
+    pat_d_body: 'Formula includes a time component, but the new output type doesn\'t. Time is dropped from the output. Soft warning, allow proceed.',
     pat_e_name: 'Time defaulted',
-    pat_e_body: 'Formula returns a date-only value, but the new output type includes a time component. The time will default to <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code>. Show a soft warning and allow the user to proceed.',
+    pat_e_body: 'Formula has no time component, but the new output type requires one. Time defaults to <code style=”font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;”>00:00</code>. Soft warning, allow proceed.',
     pat_f_name: 'Context-dependent',
-    pat_f_body: 'Compatibility depends on which functions and fields the formula uses. For example, <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> returns a number, while <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> returns a date. Show a soft warning asking the user to verify the formula returns the expected type, and allow the user to proceed.',
+    pat_f_body: 'Compatibility depends on the formula\'s functions and fields — e.g. <code style=”font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;”>DATEDIF</code> returns a number, <code style=”font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;”>DATEADD</code> returns a date. Warn the user to verify the return type and allow proceed.',
     // table headers
     th_output_type: 'Output type',
     th_description: 'Description',
@@ -1201,19 +1201,19 @@ T = {
     note_datetime_range: 'フォーミュラは<strong>終了日時</strong>を計算します。開始日時は別途設定します。',
     note_time_range: 'フォーミュラは<strong>終了時刻</strong>を計算します。開始時刻は別途設定します。',
     note_currency: 'フォーミュラのロジックは数値と同じです。通貨記号と書式（JPY、USD、BRL、KRW、EUR、DON；カンマ区切り）は別の表示設定として設定されます。',
-    callout_body: '<strong>非破壊優先。</strong> 可能な限りフォーミュラを保持します。タイプが根本的に互換性がない場合（パターンA）のみ、クリアして書き直しを要求します。その他のパターンでは、文脈に応じた警告を表示し、ユーザーが続行できるようにします。',
+    callout_body: '<strong>可能な限りフォーミュラを保持します。</strong>根本的に互換性がない場合（パターンA）のみブロックします。それ以外はソフト警告を表示して続行を許可します。',
     pat_a_name: '完全非互換',
-    pat_a_body: 'フォーミュラが基本的に間違ったタイプを返します（例：日付フォーミュラ → 数値出力）。タイプ変更を有効にする前に、フォーミュラをクリアまたは書き直す必要があります。<strong>UIアクション：</strong>「フォーミュラをクリアして切り替え」または「キャンセル」の確認ダイアログでタイプ変更をブロックします。',
+    pat_a_body: 'フォーミュラのタイプが新しい出力タイプと根本的に互換性がありません。ダイアログでスイッチをブロックします：「フォーミュラをクリアして切り替え」/「キャンセル」。',
     pat_b_name: '単一 → 範囲',
-    pat_b_body: 'フォーミュラは現在単一の値を計算していますが、新しい出力タイプには2つのエンドポイント（開始・終了）が必要です。フォーミュラは<strong>終了</strong>値に適用されます。開始は別途設定してください。ソフト警告を表示してユーザーが続行できるようにします。',
+    pat_b_body: '新しいタイプは2つの値（開始＋終了）が必要ですが、フォーミュラは1つのみ計算します。フォーミュラは<strong>終了</strong>値に適用されます。開始はユーザーが設定します。ソフト警告を表示して続行を許可します。',
     pat_c_name: '範囲 → 単一',
-    pat_c_body: 'フォーミュラは範囲の1つのエンドポイントを計算していました。フォーミュラの外で設定されたもう一方のエンドポイント（開始）は無視されます。ソフト警告を表示：「設定された開始値は適用されなくなります。」',
+    pat_c_body: '範囲からの切り替え：フォーミュラの終了値のみが保持されます。設定された開始は破棄されます。ソフト警告を表示して続行を許可します。',
     pat_d_name: '時刻除去',
-    pat_d_body: 'フォーミュラは日時値を返しますが、新しい出力タイプは日付のみまたは日付範囲です。時刻コンポーネントは出力から除去されます。ソフト警告を表示してユーザーが続行できるようにします。',
+    pat_d_body: 'フォーミュラは時刻コンポーネントを含みますが、新しい出力タイプは含みません。出力から時刻が除去されます。ソフト警告を表示して続行を許可します。',
     pat_e_name: '時刻デフォルト',
-    pat_e_body: 'フォーミュラは日付のみの値を返しますが、新しい出力タイプには時刻コンポーネントが含まれます。時刻はデフォルトで <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code> になります。ソフト警告を表示してユーザーが続行できるようにします。',
+    pat_e_body: 'フォーミュラに時刻コンポーネントがありませんが、新しい出力タイプは必要とします。時刻はデフォルトで <code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">00:00</code> になります。ソフト警告を表示して続行を許可します。',
     pat_f_name: 'コンテキスト依存',
-    pat_f_body: '互換性はフォーミュラが使用する関数とフィールドによって異なります。例えば、<code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> は数値を返し、<code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> は日付を返します。フォーミュラが期待するタイプを返すか確認するよう促すソフト警告を表示し、ユーザーが続行できるようにします。',
+    pat_f_body: '互換性はフォーミュラの関数とフィールドに依存します — 例：<code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEDIF</code> は数値を返し、<code style="font-family:var(--mono);font-size:12px;background:var(--surface-alt);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;">DATEADD</code> は日付を返します。戻り値のタイプを確認するよう警告し、続行を許可します。',
     th_output_type: '出力タイプ',
     th_description: '説明',
     th_example: '例',
