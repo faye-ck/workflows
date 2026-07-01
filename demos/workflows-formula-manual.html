@@ -475,52 +475,59 @@
     <div class="sidebar-logo">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
         <a href="../index.html" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">← Back</a>
-        <a href="workflows-formula-manual.html" download="workflows-formula-manual.html" style="font-size:11px;color:var(--accent);text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">↓ .html</a>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <a href="workflows-formula-manual.html" download="workflows-formula-manual.html" style="font-size:11px;color:var(--accent);text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">↓ .html</a>
+          <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:2px 9px;font-size:11px;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:2px;color:var(--text-muted);">
+            <span id="lt-en" style="font-weight:600;color:var(--text-primary);">EN</span>
+            <span style="opacity:.4;margin:0 1px;">|</span>
+            <span id="lt-ja" style="font-weight:400;">JA</span>
+          </button>
+        </div>
       </div>
-      <div class="product">Workflows</div>
-      <div class="title">Formula Guide</div>
+      <div class="product" data-i18n="nav_product">Workflows</div>
+      <div class="title" data-i18n="nav_title">Formula Guide</div>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Getting Started</div>
-      <a class="nav-item active" href="#intro">What is a formula?</a>
-      <a class="nav-item" href="#syntax">How to write one</a>
-      <a class="nav-item" href="#field-ref">Referencing fields</a>
-      <a class="nav-item" href="#duplicate-fields">Duplicate field names</a>
-      <a class="nav-item" href="#renaming-fields">Renaming fields</a>
+      <div class="nav-section-label" data-i18n="nav_label_getting_started">Getting Started</div>
+      <a class="nav-item active" href="#intro" data-i18n="nav_intro">What is a formula?</a>
+      <a class="nav-item" href="#syntax" data-i18n="nav_syntax">How to write one</a>
+      <a class="nav-item" href="#field-ref" data-i18n="nav_field_ref">Referencing fields</a>
+      <a class="nav-item" href="#duplicate-fields" data-i18n="nav_duplicate_fields">Duplicate field names</a>
+      <a class="nav-item" href="#renaming-fields" data-i18n="nav_renaming_fields">Renaming fields</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Number Formulas</div>
-      <a class="nav-item" href="#arithmetic">Basic arithmetic</a>
-      <a class="nav-item" href="#rounding">Rounding</a>
-      <a class="nav-item" href="#minmax">MIN / MAX</a>
-      <a class="nav-item" href="#if">IF (conditions)</a>
+      <div class="nav-section-label" data-i18n="nav_label_number">Number Formulas</div>
+      <a class="nav-item" href="#arithmetic" data-i18n="nav_arithmetic">Basic arithmetic</a>
+      <a class="nav-item" href="#rounding" data-i18n="nav_rounding">Rounding</a>
+      <a class="nav-item" href="#minmax" data-i18n="nav_minmax">MIN / MAX</a>
+      <a class="nav-item" href="#if" data-i18n="nav_if">IF (conditions)</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Date Formulas</div>
-      <a class="nav-item" href="#date-add">Add / subtract days</a>
-      <a class="nav-item" href="#date-diff">Days between dates</a>
-      <a class="nav-item" href="#today">TODAY()</a>
+      <div class="nav-section-label" data-i18n="nav_label_date">Date Formulas</div>
+      <a class="nav-item" href="#date-add" data-i18n="nav_date_add">Add / subtract days</a>
+      <a class="nav-item" href="#date-diff" data-i18n="nav_date_diff">Days between dates</a>
+      <a class="nav-item" href="#today" data-i18n="nav_today">TODAY()</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Multi-entry Sections</div>
-      <a class="nav-item" href="#multi-entry">Overview</a>
-      <a class="nav-item" href="#row-formula">Row-level formula</a>
-      <a class="nav-item" href="#aggregate-formula">Aggregate formula</a>
+      <div class="nav-section-label" data-i18n="nav_label_multi">Multi-entry Sections</div>
+      <a class="nav-item" href="#multi-entry" data-i18n="nav_multi_entry">Overview</a>
+      <a class="nav-item" href="#row-formula" data-i18n="nav_row_formula">Row-level formula</a>
+      <a class="nav-item" href="#aggregate-formula" data-i18n="nav_aggregate_formula">Aggregate formula</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Reference</div>
-      <a class="nav-item" href="#cheatsheet">Quick cheatsheet</a>
-      <a class="nav-item" href="#errors">Common errors</a>
+      <div class="nav-section-label" data-i18n="nav_label_reference">Reference</div>
+      <a class="nav-item" href="#cheatsheet" data-i18n="nav_cheatsheet">Quick cheatsheet</a>
+      <a class="nav-item" href="#errors" data-i18n="nav_errors">Common errors</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Engineering</div>
-      <a class="nav-item" href="#eng-notes" style="color:#F78C6C;">Implementation Notes</a>
+      <div class="nav-section-label" data-i18n="nav_label_engineering">Engineering</div>
+      <a class="nav-item" href="#eng-notes" style="color:#F78C6C;" data-i18n="nav_eng_notes">Implementation Notes</a>
     </div>
   </nav>
 
@@ -529,29 +536,29 @@
 
     <!-- Hero -->
     <div class="hero">
-      <div class="section-eyebrow">Template Builder</div>
-      <h1>Formula Guide</h1>
-      <p>Formulas let your templates do the math automatically — so totals, deadlines, and calculations fill in on their own without anyone typing them manually.</p>
+      <div class="section-eyebrow" data-i18n="eyebrow">Template Builder</div>
+      <h1 data-i18n="h1">Formula Guide</h1>
+      <p data-i18n="hero_p">Formulas let your templates do the math automatically — so totals, deadlines, and calculations fill in on their own without anyone typing them manually.</p>
     </div>
 
     <!-- INTRO -->
     <div class="section" id="intro">
-      <h2>What is a formula?</h2>
-      <p>A formula is an instruction you write once in a field, telling the system how to calculate its value based on other fields. Once set up, it runs automatically every time someone fills in the template.</p>
+      <h2 data-i18n="h2_intro">What is a formula?</h2>
+      <p data-i18n="p_intro">A formula is an instruction you write once in a field, telling the system how to calculate its value based on other fields. Once set up, it runs automatically every time someone fills in the template.</p>
 
       <div class="callout info">
         <div class="callout-icon">💡</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_intro">
           <strong>Think of it like a calculator.</strong> Instead of someone manually typing "Total = Item 1 + Item 2 + Item 3", you write the formula once and the system calculates it for every submission.
         </div>
       </div>
 
-      <h3>Two types of formula fields</h3>
+      <h3 data-i18n="h3_two_types">Two types of formula fields</h3>
       <table>
         <thead>
           <tr><th>Type</th><th>What it calculates</th><th>Example use</th></tr>
         </thead>
-        <tbody>
+        <tbody id="intro-tbody">
           <tr>
             <td><span class="tag tag-number">Number</span></td>
             <td>Amounts, totals, counts, percentages</td>
@@ -570,8 +577,8 @@
 
     <!-- SYNTAX -->
     <div class="section" id="syntax">
-      <h2>How to write a formula</h2>
-      <p>A formula always follows a predictable structure. Once you learn the pattern, all formulas work the same way.</p>
+      <h2 data-i18n="h2_syntax">How to write a formula</h2>
+      <p data-i18n="p_syntax">A formula always follows a predictable structure. Once you learn the pattern, all formulas work the same way.</p>
 
       <div class="anatomy">
         <div class="anatomy-formula">
@@ -585,16 +592,16 @@
           <span class="anatomy-part part-paren">)</span>
         </div>
         <div class="anatomy-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#3D8A3D"></div> Function name</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#2A5AC7"></div> Field reference (your template's field labels)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#C05A2A"></div> A plain number</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Operator or separator</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3D8A3D"></div> <span data-i18n="legend_fn">Function name</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2A5AC7"></div> <span data-i18n="legend_field">Field reference (your template's field labels)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C05A2A"></div> <span data-i18n="legend_num">A plain number</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> <span data-i18n="legend_op">Operator or separator</span></div>
         </div>
       </div>
 
       <div class="callout tip">
         <div class="callout-icon">✅</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_syntax">
           <strong>You don't need to memorize all of this.</strong> In the formula editor, you can click on a field to insert it automatically. The curly braces <code>{}</code> are added for you.
         </div>
       </div>
@@ -604,14 +611,14 @@
 
     <!-- FIELD REFERENCES -->
     <div class="section" id="field-ref">
-      <h2>Referencing your fields</h2>
-      <p>To use a field's value in a formula, wrap its label in curly braces: <code>{Field Label}</code>.</p>
+      <h2 data-i18n="h2_field_ref">Referencing your fields</h2>
+      <p data-i18n="p_field_ref">To use a field's value in a formula, wrap its label in curly braces: <code>{Field Label}</code>.</p>
 
       <table>
         <thead>
           <tr><th>Your field label</th><th>How to reference it</th></tr>
         </thead>
-        <tbody>
+        <tbody id="fieldref-tbody">
           <tr><td>Unit Price</td><td><code>{Unit Price}</code></td></tr>
           <tr><td>Release Date</td><td><code>{Release Date}</code></td></tr>
           <tr><td>Number of Items</td><td><code>{Number of Items}</code></td></tr>
@@ -621,28 +628,28 @@
 
       <div class="callout tip">
         <div class="callout-icon">✅</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_fieldref_tip">
           <strong>Always use the field picker.</strong> Click a field in the picker to insert its reference automatically — you never need to type curly braces yourself. This also prevents typos that would break the formula.
         </div>
       </div>
 
       <div class="callout info">
         <div class="callout-icon">📋</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_fieldref_info">
           <strong>Master list fields work like any other field.</strong> If your template has a dropdown linked to a master list, both the dropdown field and any autofill fields it populates can be referenced in formulas using the same <code>{Field Label}</code> syntax — no special treatment needed. Once the user makes a selection and autofill runs, those values are available to your formulas immediately. If the user changes their selection, autofill fields update and any dependent formulas recalculate automatically.
         </div>
       </div>
 
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
-      <h3 id="duplicate-fields">When two fields have the same name</h3>
-      <p>Templates can have fields with the same label — for example, "Amount" appearing in multiple sections. When that happens, the formula needs a way to tell them apart. A number suffix is added automatically.</p>
+      <h3 id="duplicate-fields" data-i18n="h3_duplicate_fields">When two fields have the same name</h3>
+      <p data-i18n="p_duplicate_fields">Templates can have fields with the same label — for example, "Amount" appearing in multiple sections. When that happens, the formula needs a way to tell them apart. A number suffix is added automatically.</p>
 
       <table>
         <thead>
           <tr><th>Situation</th><th>What you see in the picker</th><th>What gets inserted</th></tr>
         </thead>
-        <tbody>
+        <tbody id="dupfields-tbody">
           <tr>
             <td>Only one field named "Amount"</td>
             <td>Amount</td>
@@ -662,51 +669,51 @@
       </table>
 
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin: 20px 0;">
-        <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:14px;">Example — adding two "Amount" fields from different sections</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:14px;" data-i18n="dupfields_example_title">Example — adding two "Amount" fields from different sections</div>
         <div class="code-block">
           <span class="field">{Amount#1}</span> <span class="op">+</span> <span class="field">{Amount#2}</span>
         </div>
-        <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Hover over <code>{Amount#1}</code> or <code>{Amount#2}</code> in the formula editor to see a tooltip showing which section each field belongs to.</div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-top:4px;" data-i18n="dupfields_example_desc">Hover over <code>{Amount#1}</code> or <code>{Amount#2}</code> in the formula editor to see a tooltip showing which section each field belongs to.</div>
 
         <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
           <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12.5px; min-width:160px;">
-            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Tooltip on Amount #1</div>
+            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;" data-i18n="tooltip_amount1_label">Tooltip on Amount #1</div>
             <div style="font-family:var(--mono); color:var(--purple); margin-bottom:3px;">{Amount#1}</div>
-            <div style="color:var(--text-secondary);">Section: Travel Expenses</div>
+            <div style="color:var(--text-secondary);" data-i18n="tooltip_amount1_section">Section: Travel Expenses</div>
           </div>
           <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:12.5px; min-width:160px;">
-            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Tooltip on Amount #2</div>
+            <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;" data-i18n="tooltip_amount2_label">Tooltip on Amount #2</div>
             <div style="font-family:var(--mono); color:var(--purple); margin-bottom:3px;">{Amount#2}</div>
-            <div style="color:var(--text-secondary);">Section: Meal Expenses</div>
+            <div style="color:var(--text-secondary);" data-i18n="tooltip_amount2_section">Section: Meal Expenses</div>
           </div>
         </div>
       </div>
 
       <div class="callout info">
         <div class="callout-icon">💡</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_dupfields_info">
           <strong>The numbers don't change when you reorder sections.</strong> <code>#1</code> and <code>#2</code> are assigned in the order the fields were <em>created</em>, not the order they appear on screen. Moving sections around will never break an existing formula.
         </div>
       </div>
 
       <div class="callout warning">
         <div class="callout-icon">⚠️</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_dupfields_warning">
           <strong>The suffix only appears when there's a conflict.</strong> If your template has only one field named "Amount", it stays as <code>{Amount}</code> — no suffix. The suffix appears the moment a second field with the same name is added.
         </div>
       </div>
 
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
-      <h3 id="renaming-fields">Renaming a field that's used in a formula</h3>
-      <p>If you rename any field that is referenced in a formula, the formula updates automatically to match the new name. You don't need to edit the formula yourself.</p>
+      <h3 id="renaming-fields" data-i18n="h3_renaming_fields">Renaming a field that's used in a formula</h3>
+      <p data-i18n="p_renaming_fields">If you rename any field that is referenced in a formula, the formula updates automatically to match the new name. You don't need to edit the formula yourself.</p>
 
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin: 16px 0;">
         <div style="background:var(--surface-alt); padding:12px 18px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border);">Example — renaming a field</div>
         <div style="padding:18px 20px; display:flex; flex-direction:column; gap:14px;">
-          <div style="font-size:13px; color:var(--text-secondary);">Before rename — formula reads:</div>
+          <div style="font-size:13px; color:var(--text-secondary);" data-i18n="rename_before">Before rename — formula reads:</div>
           <div class="code-block" style="margin:0;">{<span class="field">Unit Price</span>} <span class="op">*</span> {<span class="field">Quantity</span>}</div>
-          <div style="font-size:13px; color:var(--text-secondary);">You rename <strong style="color:var(--text-primary);">Unit Price</strong> → <strong style="color:var(--text-primary);">Price Per Item</strong>. After save, formula automatically becomes:</div>
+          <div style="font-size:13px; color:var(--text-secondary);" data-i18n="rename_after">You rename <strong style="color:var(--text-primary);">Unit Price</strong> → <strong style="color:var(--text-primary);">Price Per Item</strong>. After save, formula automatically becomes:</div>
           <div class="code-block" style="margin:0;">{<span class="field">Price Per Item</span>} <span class="op">*</span> {<span class="field">Quantity</span>}</div>
         </div>
       </div>
@@ -738,8 +745,8 @@
 
       <div class="callout warning">
         <div class="callout-icon">⚠️</div>
-        <div class="callout-body">
-          <strong>You'll always see a warning before a rename takes effect.</strong> The warning lists every formula that will be updated, so you can review the impact before confirming. No formula changes without your approval.
+        <div class="callout-body" data-i18n="callout_rename_warning">
+          <strong>Renaming always updates the formula immediately.</strong> There is no undo for this. If you rename a field and then rename it back, the formula will reflect both changes.
         </div>
       </div>
     </div>
@@ -748,8 +755,8 @@
 
     <!-- ARITHMETIC -->
     <div class="section" id="arithmetic">
-      <h2>Basic arithmetic</h2>
-      <p>The four basic operations work exactly like a calculator — or like Excel.</p>
+      <h2 data-i18n="h2_arithmetic">Basic arithmetic</h2>
+      <p data-i18n="p_arithmetic">Number formulas use standard arithmetic operators. You can combine fields, numbers, and operators in any order.</p>
 
       <table>
         <thead>
@@ -827,8 +834,8 @@
 
     <!-- ROUNDING -->
     <div class="section" id="rounding">
-      <h2>Rounding numbers</h2>
-      <p>Use these when your result has too many decimal places and you want to clean it up.</p>
+      <h2 data-i18n="h2_rounding">Rounding</h2>
+      <p data-i18n="p_rounding">Use rounding functions when you need to control decimal precision — for example, to display a currency total to two decimal places.</p>
 
       <div class="formula-card">
         <div class="formula-card-header">
@@ -916,8 +923,8 @@
 
     <!-- MIN MAX -->
     <div class="section" id="minmax">
-      <h2>MIN and MAX</h2>
-      <p>Pick the smaller or larger value between two fields — useful for caps and floors on numbers.</p>
+      <h2 data-i18n="h2_minmax">MIN and MAX</h2>
+      <p data-i18n="p_minmax">MIN and MAX compare two values and return the smaller or larger one. Useful for setting caps or floors on calculated values.</p>
 
       <div class="formula-card">
         <div class="formula-card-header">
@@ -974,8 +981,8 @@
 
     <!-- IF -->
     <div class="section" id="if">
-      <h2>IF — show different results based on a condition</h2>
-      <p>IF lets your formula make a decision: "if this is true, use this value — otherwise, use that value."</p>
+      <h2 data-i18n="h2_if">IF — conditional formulas</h2>
+      <p data-i18n="p_if">IF lets you return different values depending on a condition. If the condition is true, it returns the first value; if false, it returns the second.</p>
 
       <div class="anatomy">
         <div class="anatomy-formula" style="font-size:13px; gap:4px;">
@@ -1058,8 +1065,8 @@
 
     <!-- DATE ADD -->
     <div class="section" id="date-add">
-      <h2>Adding or subtracting days from a date</h2>
-      <p>Use <code>DATEADD</code> to calculate a future or past date based on a date field.</p>
+      <h2 data-i18n="h2_date_add">Adding and subtracting days</h2>
+      <p data-i18n="p_date_add">DATEADD shifts a date forward or backward by a given number of units. Use it to calculate deadlines, review dates, or expiry dates.</p>
 
       <div class="anatomy">
         <div class="anatomy-formula" style="font-size:13px; gap:4px;">
@@ -1124,7 +1131,7 @@
         <thead>
           <tr><th>Unit</th><th>Write as</th><th>Example</th></tr>
         </thead>
-        <tbody>
+        <tbody id="dateadd-tbody">
           <tr><td>Days</td><td><code>"days"</code></td><td><code>DATEADD({Start}, 7, "days")</code></td></tr>
           <tr><td>Weeks</td><td><code>"weeks"</code></td><td><code>DATEADD({Start}, 2, "weeks")</code></td></tr>
           <tr><td>Months</td><td><code>"months"</code></td><td><code>DATEADD({Start}, 1, "months")</code></td></tr>
@@ -1136,8 +1143,8 @@
 
     <!-- DATE DIFF -->
     <div class="section" id="date-diff">
-      <h2>Days between two dates</h2>
-      <p>Use <code>DATEDIF</code> to calculate how many days, weeks, or months are between two date fields.</p>
+      <h2 data-i18n="h2_date_diff">Days between two dates</h2>
+      <p data-i18n="p_date_diff">DATEDIF calculates the difference between two dates. The result is a number — use it in a number formula field.</p>
 
       <div class="formula-card">
         <div class="formula-card-header">
@@ -1167,13 +1174,13 @@
 
     <!-- TODAY -->
     <div class="section" id="today">
-      <h2>TODAY() — use the submission date in a formula</h2>
-      <p><code>TODAY()</code> captures the date the form is submitted — not a live date that keeps updating. Think of it as a snapshot: once the form is submitted, the value is locked to that day.</p>
+      <h2 data-i18n="h2_today">TODAY()</h2>
+      <p data-i18n="p_today">TODAY() returns today's date. It updates automatically — so formulas using TODAY() will recalculate every day.</p>
 
       <div class="callout warning">
         <div class="callout-icon">📌</div>
-        <div class="callout-body">
-          <strong>TODAY() is a snapshot, not a live clock.</strong> The result is fixed at the moment the form is submitted. If someone views the submitted form a week later, <code>TODAY()</code> still reflects the original submission date — it does not recalculate.
+        <div class="callout-body" data-i18n="callout_today_tip">
+          <strong>TODAY() is ideal for deadline calculations.</strong> Use it anywhere you need "from now" or "until now" logic — days remaining, days overdue, and so on.
         </div>
       </div>
 
@@ -1219,8 +1226,8 @@
 
     <!-- MULTI-ENTRY SECTIONS -->
     <div class="section" id="multi-entry">
-      <h2>Formulas in multi-entry sections</h2>
-      <p>A multi-entry section lets the person filling the form add multiple rows of the same fields — for example, a list of expense items, each with a name, price, and quantity. Formulas work at two levels: inside the multi-entry section (per row), and outside it (across all rows).</p>
+      <h2 data-i18n="h2_multi_entry">Multi-entry sections</h2>
+      <p data-i18n="p_multi_entry">A multi-entry section lets the person filling the form add multiple rows — like a list of items in an order, or a list of tasks. Formulas inside the section calculate per row. Formulas outside can aggregate across all rows.</p>
 
       <div class="callout info">
         <div class="callout-icon">💡</div>
@@ -1231,8 +1238,8 @@
 
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
-      <h3 id="row-formula">Row-level formula — calculate per row</h3>
-      <p>A formula field placed <strong>inside</strong> the multi-entry section runs independently for each row. It only sees the fields in that row — not other rows.</p>
+      <h3 id="row-formula" data-i18n="h2_row_formula">Row-level formula</h3>
+      <p data-i18n="p_row_formula">A formula inside a multi-entry section runs once for each row. It references sibling fields — other fields in the same row — directly by name.</p>
 
       <div class="formula-card">
         <div class="formula-card-header">
@@ -1277,8 +1284,8 @@
 
       <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
 
-      <h3 id="aggregate-formula">Aggregate formula — calculate across all rows</h3>
-      <p>A formula field placed <strong>outside</strong> the multi-entry section can pull values from it using dot notation: <code>{SectionName.FieldName}</code>. This tells the system you want all values of that field across every row.</p>
+      <h3 id="aggregate-formula" data-i18n="h2_aggregate_formula">Aggregate formula</h3>
+      <p data-i18n="p_aggregate_formula">An aggregate formula lives outside the multi-entry section and summarises values across all rows. It uses dot notation to reference fields inside the section.</p>
 
       <div class="callout warning">
         <div class="callout-icon">⚠️</div>
@@ -1394,17 +1401,17 @@
         <div style="background:var(--surface-alt); padding:12px 18px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border);">Full example — expense form</div>
         <div style="padding:20px 24px; display:flex; flex-direction:column; gap:16px;">
           <div>
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 1 — Row-level formula inside "Items" multi-entry section</div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;" data-i18n="step1_label">Step 1 — Row-level formula inside "Items" multi-entry section</div>
             <div class="code-block" style="margin:0;"><span class="comment">Field: Subtotal</span>
 <span class="field">{Price}</span> <span class="op">*</span> <span class="field">{Quantity}</span></div>
           </div>
           <div>
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 2 — Aggregate formula in a separate "Summary" section</div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;" data-i18n="step2_label">Step 2 — Aggregate formula in a separate "Summary" section</div>
             <div class="code-block" style="margin:0;"><span class="comment">Field: Grand Total</span>
 <span class="fn">SUM</span>(<span class="field">{Items.Subtotal}</span>)</div>
           </div>
           <div>
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">Step 3 — Optional: use Grand Total in another formula</div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;" data-i18n="step3_label">Step 3 — Optional: use Grand Total in another formula</div>
             <div class="code-block" style="margin:0;"><span class="comment">Field: Tax (10%)</span>
 <span class="field">{Grand Total}</span> <span class="op">*</span> <span class="num">0.1</span></div>
           </div>
@@ -1413,7 +1420,7 @@
 
       <div class="callout tip">
         <div class="callout-icon">✅</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_aggregate_tip">
           <strong>Aggregate formulas update in real time.</strong> As the person filling the form adds or removes rows, any SUM, COUNT, AVERAGE, MIN, or MAX referencing that section recalculates automatically.
         </div>
       </div>
@@ -1423,73 +1430,73 @@
 
     <!-- CHEATSHEET -->
     <div class="section" id="cheatsheet">
-      <h2>Quick cheatsheet</h2>
-      <p>All formulas at a glance — copy and adapt for your own fields.</p>
+      <h2 data-i18n="h2_cheatsheet">Quick cheatsheet</h2>
+      <p data-i18n="p_cheatsheet">All formulas at a glance — copy and adapt for your own fields.</p>
 
       <div class="cheatsheet-grid">
         <div class="cheat-card">
           <div class="cheat-name">+  −  *  /</div>
-          <div class="cheat-desc">Basic math between fields or numbers</div>
+          <div class="cheat-desc" data-i18n="cheat_arithmetic">Basic math between fields or numbers</div>
           <div class="cheat-example">{Price} * {Qty}</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">ROUND(value, places)</div>
-          <div class="cheat-desc">Round to N decimal places</div>
+          <div class="cheat-desc" data-i18n="cheat_round">Round to N decimal places</div>
           <div class="cheat-example">ROUND({Total}, 2)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">ROUNDDOWN(value, digits)</div>
-          <div class="cheat-desc">Always round down — use 0 for whole number</div>
+          <div class="cheat-desc" data-i18n="cheat_rounddown">Always round down — use 0 for whole number</div>
           <div class="cheat-example">ROUNDDOWN({Hours}, 0)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">ROUNDUP(value, digits)</div>
-          <div class="cheat-desc">Always round up — use 0 for whole number</div>
+          <div class="cheat-desc" data-i18n="cheat_roundup">Always round up — use 0 for whole number</div>
           <div class="cheat-example">ROUNDUP({Units}, 0)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">MIN(a, b)</div>
-          <div class="cheat-desc">Return the smaller of two values</div>
+          <div class="cheat-desc" data-i18n="cheat_min">Return the smaller of two values</div>
           <div class="cheat-example">MIN({Amount}, 10000)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">MAX(a, b)</div>
-          <div class="cheat-desc">Return the larger of two values</div>
+          <div class="cheat-desc" data-i18n="cheat_max">Return the larger of two values</div>
           <div class="cheat-example">MAX({Fee}, 500)</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">IF(condition, a, b)</div>
-          <div class="cheat-desc">Return a if true, b if false</div>
+          <div class="cheat-desc" data-i18n="cheat_if">Return a if true, b if false</div>
           <div class="cheat-example">IF({Qty} >= 10, {Price} * 0.9, {Price})</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">DATEADD(date, n, unit)</div>
-          <div class="cheat-desc">Add days/weeks/months to a date</div>
+          <div class="cheat-desc" data-i18n="cheat_dateadd">Add days/weeks/months to a date</div>
           <div class="cheat-example">DATEADD({Start}, 14, "days")</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">DATEDIF(date1, date2, unit)</div>
-          <div class="cheat-desc">Difference between two dates</div>
+          <div class="cheat-desc" data-i18n="cheat_datedif">Difference between two dates</div>
           <div class="cheat-example">DATEDIF({Start}, {End}, "days")</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">TODAY()</div>
-          <div class="cheat-desc">Today's date (updates automatically)</div>
+          <div class="cheat-desc" data-i18n="cheat_today">Today's date (updates automatically)</div>
           <div class="cheat-example">DATEADD(TODAY(), 7, "days")</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">SUM({Section.Field})</div>
-          <div class="cheat-desc">Total a field across all multi-entry rows</div>
+          <div class="cheat-desc" data-i18n="cheat_sum">Total a field across all multi-entry rows</div>
           <div class="cheat-example">SUM({Items.Subtotal})</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">COUNT({Section.Field})</div>
-          <div class="cheat-desc">Count how many rows have a value</div>
+          <div class="cheat-desc" data-i18n="cheat_count">Count how many rows have a value</div>
           <div class="cheat-example">COUNT({Items.Item})</div>
         </div>
         <div class="cheat-card">
           <div class="cheat-name">AVERAGE({Section.Field})</div>
-          <div class="cheat-desc">Average value across all multi-entry rows</div>
+          <div class="cheat-desc" data-i18n="cheat_average">Average value across all multi-entry rows</div>
           <div class="cheat-example">AVERAGE({Items.Price})</div>
         </div>
       </div>
@@ -1499,15 +1506,15 @@
 
     <!-- ERRORS -->
     <div class="section" id="errors">
-      <h2>Common errors and how to fix them</h2>
-      <p>Some errors happen while writing a formula. Others happen later, when someone edits the template. Both are covered here.</p>
+      <h2 data-i18n="h2_errors">Common errors and how to fix them</h2>
+      <p data-i18n="p_errors">Some errors happen while writing a formula. Others happen later, when someone edits the template. Both are covered here.</p>
 
-      <h3 style="margin-bottom:12px;">Errors while writing a formula</h3>
+      <h3 style="margin-bottom:12px;" data-i18n="h3_errors_writing">Errors while writing a formula</h3>
       <table>
         <thead>
-          <tr><th>Error</th><th>Most likely cause</th><th>How to fix</th></tr>
+          <tr><th data-i18n="th_error">Error</th><th data-i18n="th_cause_writing">Most likely cause</th><th data-i18n="th_fix">How to fix</th></tr>
         </thead>
-        <tbody>
+        <tbody id="errors-writing-tbody">
           <tr>
             <td><code>Field not found</code></td>
             <td>The field label inside <code>{ }</code> doesn't match any field in your template — usually a typo or capitalization mismatch</td>
@@ -1541,14 +1548,14 @@
         </tbody>
       </table>
 
-      <h3 style="margin-top:32px; margin-bottom:12px;">Errors caused by editing the template later</h3>
-      <p>These errors don't appear when you first write the formula — they're triggered later when someone modifies the template structure.</p>
+      <h3 style="margin-top:32px; margin-bottom:12px;" data-i18n="h3_errors_editing">Errors caused by editing the template later</h3>
+      <p data-i18n="p_errors_editing">These errors don't appear when you first write the formula — they're triggered later when someone modifies the template structure.</p>
 
       <table>
         <thead>
-          <tr><th>Error</th><th>What caused it</th><th>How to fix</th></tr>
+          <tr><th data-i18n="th_error">Error</th><th data-i18n="th_cause_editing">What caused it</th><th data-i18n="th_fix">How to fix</th></tr>
         </thead>
-        <tbody>
+        <tbody id="errors-editing-tbody">
           <tr>
             <td><code>Field was deleted</code></td>
             <td>A field that was referenced in a formula has been deleted from the template. This is different from "field not found" — the field existed before and was intentionally removed.</td>
@@ -1568,7 +1575,7 @@
 
       <div class="callout info">
         <div class="callout-icon">💡</div>
-        <div class="callout-body">
+        <div class="callout-body" data-i18n="callout_errors">
           <strong>Warnings always appear before a destructive change.</strong> Deleting a field or changing its type will show you a list of affected formulas before the action is confirmed — so nothing breaks without you knowing about it first.
         </div>
       </div>
@@ -1719,6 +1726,9 @@
 </div>
 
 <script>
+  var currentLang = 'en';
+  var T = {};
+
   // Highlight active nav item on scroll
   const sections = document.querySelectorAll('.section');
   const navItems = document.querySelectorAll('.nav-item');
@@ -1743,6 +1753,342 @@
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   });
+
+  // i18n
+  T = {
+    en: {
+      nav_product: 'Workflows',
+      nav_title: 'Formula Guide',
+      nav_label_getting_started: 'Getting Started',
+      nav_label_number: 'Number Formulas',
+      nav_label_date: 'Date Formulas',
+      nav_label_multi: 'Multi-entry Sections',
+      nav_label_reference: 'Reference',
+      nav_label_engineering: 'Engineering',
+      nav_intro: 'What is a formula?',
+      nav_syntax: 'How to write one',
+      nav_field_ref: 'Referencing fields',
+      nav_duplicate_fields: 'Duplicate field names',
+      nav_renaming_fields: 'Renaming fields',
+      nav_arithmetic: 'Basic arithmetic',
+      nav_rounding: 'Rounding',
+      nav_minmax: 'MIN / MAX',
+      nav_if: 'IF (conditions)',
+      nav_date_add: 'Add / subtract days',
+      nav_date_diff: 'Days between dates',
+      nav_today: 'TODAY()',
+      nav_multi_entry: 'Overview',
+      nav_row_formula: 'Row-level formula',
+      nav_aggregate_formula: 'Aggregate formula',
+      nav_cheatsheet: 'Quick cheatsheet',
+      nav_errors: 'Common errors',
+      nav_eng_notes: 'Implementation Notes',
+      eyebrow: 'Template Builder',
+      h1: 'Formula Guide',
+      hero_p: 'Formulas let your templates do the math automatically — so totals, deadlines, and calculations fill in on their own without anyone typing them manually.',
+      h2_intro: 'What is a formula?',
+      p_intro: 'A formula is an instruction you write once in a field, telling the system how to calculate its value based on other fields. Once set up, it runs automatically every time someone fills in the template.',
+      callout_intro: '<strong>Think of it like a calculator.</strong> Instead of someone manually typing "Total = Item 1 + Item 2 + Item 3", you write the formula once and the system calculates it for every submission.',
+      h3_two_types: 'Two types of formula fields',
+      h2_syntax: 'How to write a formula',
+      p_syntax: 'A formula always follows a predictable structure. Once you learn the pattern, all formulas work the same way.',
+      callout_syntax: '<strong>You don\'t need to memorize all of this.</strong> In the formula editor, you can click on a field to insert it automatically. The curly braces <code>{}</code> are added for you.',
+      legend_fn: 'Function name',
+      legend_field: 'Field reference (your template\'s field labels)',
+      legend_num: 'A plain number',
+      legend_op: 'Operator or separator',
+      h2_field_ref: 'Referencing your fields',
+      p_field_ref: 'To use a field\'s value in a formula, wrap its label in curly braces: <code>{Field Label}</code>.',
+      callout_fieldref_tip: '<strong>Always use the field picker.</strong> Click a field in the picker to insert its reference automatically — you never need to type curly braces yourself. This also prevents typos that would break the formula.',
+      callout_fieldref_info: '<strong>Master list fields work like any other field.</strong> If your template has a dropdown linked to a master list, both the dropdown field and any autofill fields it populates can be referenced in formulas using the same <code>{Field Label}</code> syntax — no special treatment needed. Once the user makes a selection and autofill runs, those values are available to your formulas immediately. If the user changes their selection, autofill fields update and any dependent formulas recalculate automatically.',
+      h3_duplicate_fields: 'When two fields have the same name',
+      p_duplicate_fields: 'Templates can have fields with the same label — for example, "Amount" appearing in multiple sections. When that happens, the formula needs a way to tell them apart. A number suffix is added automatically.',
+      dupfields_example_title: 'Example — adding two "Amount" fields from different sections',
+      dupfields_example_desc: 'Hover over <code>{Amount#1}</code> or <code>{Amount#2}</code> in the formula editor to see a tooltip showing which section each field belongs to.',
+      tooltip_amount1_label: 'Tooltip on Amount #1',
+      tooltip_amount1_section: 'Section: Travel Expenses',
+      tooltip_amount2_label: 'Tooltip on Amount #2',
+      tooltip_amount2_section: 'Section: Meal Expenses',
+      callout_dupfields_info: '<strong>The numbers don\'t change when you reorder sections.</strong> <code>#1</code> and <code>#2</code> are assigned in the order the fields were <em>created</em>, not the order they appear on screen. Moving sections around will never break an existing formula.',
+      callout_dupfields_warning: '<strong>The suffix only appears when there\'s a conflict.</strong> If your template has only one field named "Amount", it stays as <code>{Amount}</code> — no suffix. The suffix appears the moment a second field with the same name is added.',
+      h3_renaming_fields: 'Renaming a field that\'s used in a formula',
+      p_renaming_fields: 'If you rename any field that is referenced in a formula, the formula updates automatically to match the new name. You don\'t need to edit the formula yourself.',
+      rename_before: 'Before rename — formula reads:',
+      rename_after: 'You rename <strong style="color:var(--text-primary);">Unit Price</strong> → <strong style="color:var(--text-primary);">Price Per Item</strong>. After save, formula automatically becomes:',
+      callout_rename_warning: '<strong>Renaming always updates the formula immediately.</strong> There is no undo for this. If you rename a field and then rename it back, the formula will reflect both changes.',
+      h2_arithmetic: 'Basic arithmetic',
+      p_arithmetic: 'Number formulas use standard arithmetic operators. You can combine fields, numbers, and operators in any order.',
+      h2_rounding: 'Rounding',
+      p_rounding: 'Use rounding functions when you need to control decimal precision — for example, to display a currency total to two decimal places.',
+      h2_minmax: 'MIN and MAX',
+      p_minmax: 'MIN and MAX compare two values and return the smaller or larger one. Useful for setting caps or floors on calculated values.',
+      h2_if: 'IF — conditional formulas',
+      p_if: 'IF lets you return different values depending on a condition. If the condition is true, it returns the first value; if false, it returns the second.',
+      h2_date_add: 'Adding and subtracting days',
+      p_date_add: 'DATEADD shifts a date forward or backward by a given number of units. Use it to calculate deadlines, review dates, or expiry dates.',
+      h2_date_diff: 'Days between two dates',
+      p_date_diff: 'DATEDIF calculates the difference between two dates. The result is a number — use it in a number formula field.',
+      h2_today: 'TODAY()',
+      p_today: 'TODAY() returns today\'s date. It updates automatically — so formulas using TODAY() will recalculate every day.',
+      callout_today_tip: '<strong>TODAY() is ideal for deadline calculations.</strong> Use it anywhere you need "from now" or "until now" logic — days remaining, days overdue, and so on.',
+      h2_multi_entry: 'Multi-entry sections',
+      p_multi_entry: 'A multi-entry section lets the person filling the form add multiple rows — like a list of items in an order, or a list of tasks. Formulas inside the section calculate per row. Formulas outside can aggregate across all rows.',
+      h2_row_formula: 'Row-level formula',
+      p_row_formula: 'A formula inside a multi-entry section runs once for each row. It references sibling fields — other fields in the same row — directly by name.',
+      h2_aggregate_formula: 'Aggregate formula',
+      p_aggregate_formula: 'An aggregate formula lives outside the multi-entry section and summarises values across all rows. It uses dot notation to reference fields inside the section.',
+      callout_aggregate_tip: '<strong>Aggregate formulas update in real time.</strong> As the person filling the form adds or removes rows, any SUM, COUNT, AVERAGE, MIN, or MAX referencing that section recalculates automatically.',
+      step1_label: 'Step 1 — Row-level formula inside "Items" multi-entry section',
+      step2_label: 'Step 2 — Aggregate formula in a separate "Summary" section',
+      step3_label: 'Step 3 — Optional: use Grand Total in another formula',
+      h2_cheatsheet: 'Quick cheatsheet',
+      p_cheatsheet: 'All formulas at a glance — copy and adapt for your own fields.',
+      cheat_arithmetic: 'Basic math between fields or numbers',
+      cheat_round: 'Round to N decimal places',
+      cheat_rounddown: 'Always round down — use 0 for whole number',
+      cheat_roundup: 'Always round up — use 0 for whole number',
+      cheat_min: 'Return the smaller of two values',
+      cheat_max: 'Return the larger of two values',
+      cheat_if: 'Return a if true, b if false',
+      cheat_dateadd: 'Add days/weeks/months to a date',
+      cheat_datedif: 'Difference between two dates',
+      cheat_today: 'Today\'s date (updates automatically)',
+      cheat_sum: 'Total a field across all multi-entry rows',
+      cheat_count: 'Count how many rows have a value',
+      cheat_average: 'Average value across all multi-entry rows',
+      h2_errors: 'Common errors and how to fix them',
+      p_errors: 'Some errors happen while writing a formula. Others happen later, when someone edits the template. Both are covered here.',
+      h3_errors_writing: 'Errors while writing a formula',
+      h3_errors_editing: 'Errors caused by editing the template later',
+      p_errors_editing: 'These errors don\'t appear when you first write the formula — they\'re triggered later when someone modifies the template structure.',
+      callout_errors: '<strong>Warnings always appear before a destructive change.</strong> Deleting a field or changing its type will show you a list of affected formulas before the action is confirmed — so nothing breaks without you knowing about it first.',
+      th_error: 'Error',
+      th_cause_writing: 'Most likely cause',
+      th_fix: 'How to fix',
+      th_cause_editing: 'What caused it',
+    },
+    ja: {
+      nav_product: 'Workflows',
+      nav_title: 'フォーミュラガイド',
+      nav_label_getting_started: 'はじめに',
+      nav_label_number: '数値フォーミュラ',
+      nav_label_date: '日付フォーミュラ',
+      nav_label_multi: '繰り返しセクション',
+      nav_label_reference: 'リファレンス',
+      nav_label_engineering: 'エンジニアリング',
+      nav_intro: 'フォーミュラとは？',
+      nav_syntax: '記述方法',
+      nav_field_ref: 'フィールドの参照',
+      nav_duplicate_fields: '重複フィールド名',
+      nav_renaming_fields: 'フィールドの名前変更',
+      nav_arithmetic: '四則演算',
+      nav_rounding: '丸め',
+      nav_minmax: 'MIN / MAX',
+      nav_if: 'IF（条件分岐）',
+      nav_date_add: '日数の加減算',
+      nav_date_diff: '日数差の計算',
+      nav_today: 'TODAY()',
+      nav_multi_entry: '概要',
+      nav_row_formula: '行レベルフォーミュラ',
+      nav_aggregate_formula: '集計フォーミュラ',
+      nav_cheatsheet: 'クイックチートシート',
+      nav_errors: 'よくあるエラー',
+      nav_eng_notes: '実装ノート',
+      eyebrow: 'テンプレートビルダー',
+      h1: 'フォーミュラガイド',
+      hero_p: 'フォーミュラを使うと、テンプレートが自動で計算を行います。合計金額・期限・各種数値を、入力者が手動で入力することなく自動で埋めることができます。',
+      h2_intro: 'フォーミュラとは？',
+      p_intro: 'フォーミュラとは、フィールドに一度だけ記述する計算指示です。他のフィールドの値をもとに、システムが自動的に計算します。一度設定すれば、誰かがテンプレートを入力するたびに自動で実行されます。',
+      callout_intro: '<strong>電卓をイメージしてください。</strong>「合計 = 項目1 + 項目2 + 項目3」を手動で入力する代わりに、フォーミュラを一度書くだけで、すべての送信に対してシステムが自動的に計算します。',
+      h3_two_types: 'フォーミュラフィールドの2種類',
+      h2_syntax: 'フォーミュラの記述方法',
+      p_syntax: 'フォーミュラは常に一定の構造に従います。パターンを覚えると、すべてのフォーミュラが同じように書けます。',
+      callout_syntax: '<strong>すべてを暗記する必要はありません。</strong>フォーミュラエディターでフィールドをクリックすると、自動的に挿入されます。波括弧 <code>{}</code> も自動で付加されます。',
+      legend_fn: '関数名',
+      legend_field: 'フィールド参照（テンプレートのフィールドラベル）',
+      legend_num: '数値リテラル',
+      legend_op: '演算子またはセパレーター',
+      h2_field_ref: 'フィールドの参照',
+      p_field_ref: 'フォーミュラでフィールドの値を使うには、そのラベルを波括弧で囲みます：<code>{フィールドラベル}</code>。',
+      callout_fieldref_tip: '<strong>常にフィールドピッカーを使用してください。</strong>ピッカーでフィールドをクリックすると参照が自動挿入されます。波括弧を自分で入力する必要はなく、タイポによるエラーも防げます。',
+      callout_fieldref_info: '<strong>マスターリストのフィールドも通常のフィールドと同様に扱えます。</strong>テンプレートにマスターリスト連携のドロップダウンがある場合、そのフィールドおよび自動入力されるフィールドも、同じ <code>{フィールドラベル}</code> 構文でフォーミュラから参照できます。ユーザーが選択するとオートフィルが実行され、依存するフォーミュラは自動で再計算されます。',
+      h3_duplicate_fields: '同じ名前のフィールドが複数ある場合',
+      p_duplicate_fields: 'テンプレートには同じラベルのフィールドを複数設置できます（例：複数セクションに「金額」フィールドがある場合）。その際、フォーミュラで区別できるよう番号サフィックスが自動付加されます。',
+      dupfields_example_title: '例 — 異なるセクションの「金額」フィールドを2つ加算する',
+      dupfields_example_desc: 'フォーミュラエディターで <code>{Amount#1}</code> または <code>{Amount#2}</code> にカーソルを合わせると、各フィールドが属するセクションを示すツールチップが表示されます。',
+      tooltip_amount1_label: 'Amount #1 のツールチップ',
+      tooltip_amount1_section: 'セクション: 出張費',
+      tooltip_amount2_label: 'Amount #2 のツールチップ',
+      tooltip_amount2_section: 'セクション: 食費',
+      callout_dupfields_info: '<strong>セクションを並び替えても番号は変わりません。</strong><code>#1</code>・<code>#2</code> は表示順ではなく、フィールドの<em>作成順</em>に割り当てられます。セクションを移動しても既存のフォーミュラは壊れません。',
+      callout_dupfields_warning: '<strong>サフィックスは競合がある場合のみ表示されます。</strong>「金額」フィールドが1つだけなら <code>{金額}</code> のまま表示されます。同名のフィールドが追加された時点でサフィックスが付きます。',
+      h3_renaming_fields: 'フォーミュラで使用中のフィールドを名前変更する',
+      p_renaming_fields: 'フォーミュラで参照されているフィールドの名前を変更すると、フォーミュラは自動的に新しい名前に更新されます。フォーミュラを手動で編集する必要はありません。',
+      rename_before: '名前変更前 — フォーミュラ：',
+      rename_after: 'Unit Price を Price Per Item に変更しました。保存後、フォーミュラは自動的に次のようになります：',
+      callout_rename_warning: '<strong>名前変更はフォーミュラに即時反映されます。</strong>この操作は取り消せません。フィールドを名前変更してから元の名前に戻した場合も、フォーミュラには両方の変更が反映されます。',
+      h2_arithmetic: '四則演算',
+      p_arithmetic: '数値フォーミュラは標準的な算術演算子を使います。フィールド・数値・演算子を任意の順序で組み合わせられます。',
+      h2_rounding: '丸め',
+      p_rounding: '小数点以下の桁数を制御したい場合に丸め関数を使用します。例えば、通貨の合計を小数点2桁で表示する場合などに便利です。',
+      h2_minmax: 'MIN と MAX',
+      p_minmax: 'MIN と MAX は2つの値を比較し、小さい方または大きい方を返します。計算値に上限・下限を設けたい場合に便利です。',
+      h2_if: 'IF — 条件分岐フォーミュラ',
+      p_if: 'IF を使うと、条件に応じて異なる値を返せます。条件が真の場合は1番目の値、偽の場合は2番目の値を返します。',
+      h2_date_add: '日数の加減算',
+      p_date_add: 'DATEADD は日付を指定した単位だけ前後にずらします。期限・レビュー日・有効期限の計算に使用します。',
+      h2_date_diff: '2つの日付の差（日数）',
+      p_date_diff: 'DATEDIF は2つの日付の差を計算します。結果は数値なので、数値フォーミュラフィールドで使用します。',
+      h2_today: 'TODAY()',
+      p_today: 'TODAY() は今日の日付を返します。自動的に更新されるため、TODAY() を使ったフォーミュラは毎日再計算されます。',
+      callout_today_tip: '<strong>TODAY() は期限計算に最適です。</strong>「今から」「今まで」のロジックが必要な箇所に使用してください。残り日数・経過日数などに対応します。',
+      h2_multi_entry: '繰り返しセクション',
+      p_multi_entry: '繰り返しセクションを使うと、入力者が複数の行を追加できます（例：注文の品目一覧、タスク一覧）。セクション内のフォーミュラは行ごとに計算されます。セクション外のフォーミュラはすべての行を集計できます。',
+      h2_row_formula: '行レベルフォーミュラ',
+      p_row_formula: '繰り返しセクション内のフォーミュラは、行ごとに1回実行されます。同じ行の兄弟フィールド（他のフィールド）を直接名前で参照します。',
+      h2_aggregate_formula: '集計フォーミュラ',
+      p_aggregate_formula: '集計フォーミュラは繰り返しセクションの外に設置し、すべての行の値を集計します。セクション内のフィールドを参照するにはドット記法を使います。',
+      callout_aggregate_tip: '<strong>集計フォーミュラはリアルタイムで更新されます。</strong>入力者が行を追加・削除するたびに、そのセクションを参照する SUM・COUNT・AVERAGE・MIN・MAX は自動で再計算されます。',
+      step1_label: 'ステップ1 — 各注文行の行レベルフォーミュラ',
+      step2_label: 'ステップ2 — 別の「集計」セクションの集計フォーミュラ',
+      step3_label: 'ステップ3 — オプション：Grand Total を別のフォーミュラで使用する',
+      h2_cheatsheet: 'クイックチートシート',
+      p_cheatsheet: '全フォーミュラを一覧表示しています。コピーして自分のフィールドに合わせて活用してください。',
+      cheat_arithmetic: 'フィールドまたは数値の四則演算',
+      cheat_round: '小数点N桁に丸める',
+      cheat_rounddown: '常に切り捨て — 整数にするには 0 を使用',
+      cheat_roundup: '常に切り上げ — 整数にするには 0 を使用',
+      cheat_min: '2つの値のうち小さい方を返す',
+      cheat_max: '2つの値のうち大きい方を返す',
+      cheat_if: '真なら a、偽なら b を返す',
+      cheat_dateadd: '日付に日数・週数・月数を加算する',
+      cheat_datedif: '2つの日付の差を計算する',
+      cheat_today: '今日の日付（自動更新）',
+      cheat_sum: '繰り返しセクションの全行でフィールドを合計する',
+      cheat_count: '値が入っている行数をカウントする',
+      cheat_average: '繰り返しセクションの全行の平均値を計算する',
+      h2_errors: 'よくあるエラーとその対処法',
+      p_errors: 'フォーミュラ記述中に発生するエラーと、後でテンプレートを編集した際に発生するエラーがあります。両方をこちらで説明します。',
+      h3_errors_writing: 'フォーミュラ記述中のエラー',
+      h3_errors_editing: 'テンプレート編集後に発生するエラー',
+      p_errors_editing: 'これらのエラーはフォーミュラを最初に書いた時点では発生しません。後でテンプレートの構造を変更した際にトリガーされます。',
+      callout_errors: '<strong>破壊的な変更の前には必ず警告が表示されます。</strong>フィールドを削除したり種類を変更しようとすると、影響を受けるフォーミュラの一覧が表示され、確定前に確認できます。何も知らないまま壊れることはありません。',
+      th_error: 'エラー',
+      th_cause_writing: '主な原因',
+      th_fix: '対処法',
+      th_cause_editing: '原因',
+    }
+  };
+
+  // Capture original tbody HTML at load time
+  var origTbodies = {};
+  (function() {
+    var ids = ['intro-tbody','fieldref-tbody','dupfields-tbody','dateadd-tbody','errors-writing-tbody','errors-editing-tbody'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) origTbodies[id] = el.innerHTML;
+    });
+  })();
+
+  var jaTbodies = {
+    'intro-tbody': `
+          <tr>
+            <td><span class="tag tag-number">数値</span></td>
+            <td>金額・合計・カウント・パーセンテージ</td>
+            <td>合計費用・税額・品目数</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-date">日付</span></td>
+            <td>期限・期間・時間差</td>
+            <td>期日・レビュー期限・残り日数</td>
+          </tr>`,
+    'fieldref-tbody': null, // set after origTbodies populated
+    'dupfields-tbody': `
+          <tr>
+            <td>「金額」フィールドが1つだけ</td>
+            <td>金額</td>
+            <td><code>{Amount}</code></td>
+          </tr>
+          <tr>
+            <td>「金額」フィールドが2つ</td>
+            <td>金額 #1 &nbsp; 金額 #2</td>
+            <td><code>{Amount#1}</code> &nbsp; <code>{Amount#2}</code></td>
+          </tr>
+          <tr>
+            <td>「金額」フィールドが3つ</td>
+            <td>金額 #1 &nbsp; 金額 #2 &nbsp; 金額 #3</td>
+            <td><code>{Amount#1}</code> &nbsp; <code>{Amount#2}</code> &nbsp; <code>{Amount#3}</code></td>
+          </tr>`,
+    'dateadd-tbody': null, // same in both languages (code examples)
+    'errors-writing-tbody': `
+          <tr>
+            <td><code>Field not found</code></td>
+            <td><code>{ }</code> 内のフィールドラベルがテンプレートのどのフィールドとも一致しない — 多くの場合タイポや大文字・小文字の不一致</td>
+            <td>フィールドピッカーを使って参照を挿入してください — これによりこのエラーを完全に回避できます。</td>
+          </tr>
+          <tr>
+            <td><code>Wrong field type</code></td>
+            <td>日付フィールドを数値フォーミュラで使用している、または数値フィールドを日付フォーミュラで使用している。テキストフィールド（ドロップダウン・短文回答など）をフォーミュラで参照した場合にも発生する</td>
+            <td>テンプレートのフィールド種類を確認してください。数値フォーミュラには数値フィールド、日付フォーミュラには日付フィールドが必要です。テキストフィールドはフォーミュラで使用できません。</td>
+          </tr>
+          <tr>
+            <td><code>Missing parenthesis</code></td>
+            <td>開き括弧 <code>(</code> に対応する閉じ括弧 <code>)</code> がない</td>
+            <td>括弧の数を確認してください — すべての <code>(</code> に対して <code>)</code> が必要です。<code>IF(ROUND(...))</code> のようなネスト関数は最後に2つの閉じ括弧が必要です。</td>
+          </tr>
+          <tr>
+            <td><code>Divide by zero</code></td>
+            <td>除算に使用しているフィールドが、送信時点で空白または0になっている</td>
+            <td>IF でゼロ除算を防護してください：<code>IF({Count} = 0, 0, {Total} / {Count})</code></td>
+          </tr>
+          <tr>
+            <td><code>Circular reference</code></td>
+            <td>フィールドAのフォーミュラがフィールドBを参照し、フィールドBのフォーミュラがフィールドAを参照している — 終わりのないループが発生している</td>
+            <td>どちらかのフォーミュラを開いて、ループを生み出している参照を削除してください。フォーミュラフィールドは、自分を参照しているフォーミュラフィールドを参照することはできません。</td>
+          </tr>
+          <tr>
+            <td>結果が空白</td>
+            <td>フォームを送信する人が、参照されているフィールドの1つ以上をまだ入力していない</td>
+            <td>これは正常な動作です — フォーミュラは参照されているすべてのフィールドに値が入力された時点で計算されます。入力されると自動的に結果が表示されます。</td>
+          </tr>`,
+    'errors-editing-tbody': `
+          <tr>
+            <td><code>Field was deleted</code></td>
+            <td>フォーミュラで参照されていたフィールドがテンプレートから削除された。これは「Field not found」とは異なり、フィールドは以前存在していたが意図的に削除されたケースです。</td>
+            <td>フォーミュラで使用されているフィールドは削除前に警告が表示されます。すでに削除された場合は、フォーミュラを開いて壊れた参照を削除するか、別のフィールドに置き換えてください。</td>
+          </tr>
+          <tr>
+            <td><code>Field type changed</code></td>
+            <td>フォーミュラで参照されていたフィールドの種類が変更された（例：数値フィールド → テキストフィールド、日付フィールド → ドロップダウン）。フォーミュラが期待していた型の値を受け取れなくなった。</td>
+            <td>フォーミュラで使用されているフィールドの種類を変更しようとすると警告が表示されます。すでに変更された場合は、フォーミュラを開いて互換性のあるフィールドに更新するか、フィールドの種類を元に戻してください。</td>
+          </tr>`,
+  };
+  // Set same-content tbodies
+  jaTbodies['fieldref-tbody'] = origTbodies['fieldref-tbody'];
+  jaTbodies['dateadd-tbody'] = origTbodies['dateadd-tbody'];
+
+  function applyLang(lang) {
+    currentLang = lang;
+    document.getElementById('lt-en').style.fontWeight = lang === 'en' ? '600' : '400';
+    document.getElementById('lt-en').style.color = lang === 'en' ? 'var(--text-primary)' : '';
+    document.getElementById('lt-ja').style.fontWeight = lang === 'ja' ? '600' : '400';
+    document.getElementById('lt-ja').style.color = lang === 'ja' ? 'var(--text-primary)' : '';
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      var val = T[lang][key];
+      if (val !== undefined) el.innerHTML = val;
+    });
+    Object.keys(jaTbodies).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = lang === 'ja' ? jaTbodies[id] : origTbodies[id];
+    });
+    document.title = lang === 'ja' ? 'フォーミュラガイド — Workflows テンプレートビルダー' : 'Formula Guide — Workflows Template Builder';
+  }
+
+  function toggleLang() {
+    applyLang(currentLang === 'en' ? 'ja' : 'en');
+  }
 </script>
 
 </body>
