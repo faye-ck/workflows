@@ -432,16 +432,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <div style="border-top:0.5px solid var(--border);background:var(--surface-1);">
           <div style="padding:10px 18px 8px;display:flex;align-items:center;justify-content:space-between;">
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;" data-i18n="widget_preview_label">Preview</div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span id="pv-status" style="font-size:11px;color:var(--text-muted);"></span>
-              <button onclick="resetTestVals()" style="font-size:11px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:var(--font-sans);padding:0;display:flex;align-items:center;gap:3px;">
-                <i class="ti ti-refresh" style="font-size:11px;" aria-hidden="true"></i><span data-i18n="widget_reset">Reset</span>
-              </button>
-            </div>
-          </div>
-          <div id="pv-note" style="display:none;margin:0 18px 8px;padding:8px 11px;background:var(--bg-warning);border:0.5px solid var(--border-warning);border-radius:var(--radius);font-size:12px;color:var(--text-warning);">
-            <i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px;" aria-hidden="true"></i>
-            Click any <span style="font-family:var(--font-mono);font-size:11px;background:var(--bg-warning);border:0.5px dashed var(--border-warning);border-radius:3px;padding:0 5px;color:var(--text-warning);">{placeholder}</span> pill to assign a real field.
+            <button onclick="resetTestVals()" style="font-size:11px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:var(--font-sans);padding:0;display:flex;align-items:center;gap:3px;">
+              <i class="ti ti-refresh" style="font-size:11px;" aria-hidden="true"></i><span data-i18n="widget_reset">Reset</span>
+            </button>
           </div>
           <div style="margin:0 18px 14px;border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;">
             <div id="pv-wrap"></div>
@@ -631,9 +624,6 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
       <table class="ref-table">
         <thead><tr><th data-i18n="th_preset_name">Preset name</th><th data-i18n="th_formula_template">Formula template</th><th data-i18n="th_notes">Notes</th></tr></thead>
         <tbody id="preset-number-tbody">
-          <tr><td>Multiply two fields</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
-          <tr><td>Sum of two fields</td><td><code>{Insert number field} + {Insert number field}</code></td><td></td></tr>
-          <tr><td>Difference</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
           <tr><td>Percentage of total</td><td><code>ROUND({Insert number field} / {Insert number field} * 100, 1)</code></td><td></td></tr>
           <tr><td>Round result</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
           <tr><td>Cap at maximum</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert max value})</code></td><td></td></tr>
@@ -642,7 +632,6 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <tr><td>Days since date</td><td><code>DATEDIF({Insert date field}, TODAY(), "days")</code></td><td></td></tr>
           <tr><td>Overdue days only</td><td><code>IF(DATEDIF(TODAY(), {Insert date field}, "days") &lt; 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)</code></td><td>Returns 0 if not yet due</td></tr>
           <tr><td>Overtime hours</td><td><code>IF({Insert number field} &gt; 8, {Insert number field} - 8, 0)</code></td><td></td></tr>
-          <tr><td>Conditional value</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field}, {Insert number field})</code></td><td></td></tr>
           <tr><td>Average of two fields</td><td><code>({Insert number field} + {Insert number field}) / 2</code></td><td></td></tr>
         </tbody>
       </table>
@@ -861,9 +850,6 @@ const PRESETS=[
   {id:'tr2',type:'time-range',icon:'ti-clock-plus',name:'Variable slot end',nameJa:'可変枠の終了時刻',template:'DATEADD({Insert date field}, {Insert number field}, "hours")'},
   {id:'tr3',type:'time-range',icon:'ti-briefcase',name:'Standard workday end',nameJa:'標準勤務日の終了',template:'DATEADD({Insert date field}, 8, "hours")'},
   // Number
-  {id:'n1',type:'number',icon:'ti-calculator',name:'Multiply two fields',nameJa:'2つのフィールドを掛ける',template:'{Insert number field} * {Insert number field}'},
-  {id:'n2',type:'number',icon:'ti-plus',name:'Sum of two fields',nameJa:'2つのフィールドの合計',template:'{Insert number field} + {Insert number field}'},
-  {id:'n3',type:'number',icon:'ti-minus',name:'Difference',nameJa:'差分',template:'{Insert number field} - {Insert number field}'},
   {id:'n4',type:'number',icon:'ti-percentage',name:'Percentage of total',nameJa:'合計に対する割合',template:'ROUND({Insert number field} / {Insert number field} * 100, 1)'},
   {id:'n5',type:'number',icon:'ti-math-function',name:'Round result',nameJa:'結果を丸める',template:'ROUND({Insert number field} * {Insert number field}, 0)'},
   {id:'n6',type:'number',icon:'ti-arrow-bar-down',name:'Cap at maximum',nameJa:'最大値で上限設定',template:'MIN({Insert number field} * {Insert number field}, {Insert max value})'},
@@ -872,7 +858,6 @@ const PRESETS=[
   {id:'n9',type:'number',icon:'ti-clock',name:'Days since date',nameJa:'経過日数',template:'DATEDIF({Insert date field}, TODAY(), "days")'},
   {id:'n10',type:'number',icon:'ti-alarm',name:'Overdue days only',nameJa:'超過日数のみ',template:'IF(DATEDIF(TODAY(), {Insert date field}, "days") < 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)'},
   {id:'n11',type:'number',icon:'ti-clock-hour-4',name:'Overtime hours',nameJa:'残業時間',template:'IF({Insert number field} > 8, {Insert number field} - 8, 0)'},
-  {id:'n12',type:'number',icon:'ti-git-branch',name:'Conditional value',nameJa:'条件付きの値',template:'IF({Insert number field} >= {Insert threshold}, {Insert number field}, {Insert number field})'},
   {id:'n13',type:'number',icon:'ti-divide',name:'Average of two fields',nameJa:'2つのフィールドの平均',template:'({Insert number field} + {Insert number field}) / 2'},
   // Number with currency
   {id:'c1',type:'currency',icon:'ti-calculator',name:'Unit price × quantity',nameJa:'単価 × 数量',template:'{Insert number field} * {Insert number field}'},
@@ -928,13 +913,13 @@ function renderChips(){
     container.appendChild(btn);
   });
 }
-function loadPreset(id){activePid=id;renderChips();const p=PRESETS.find(x=>x.id===id);setFormulaHTML(p.template);hideAc();renderPreview();}
+function loadPreset(id){activePid=null;renderChips();const p=PRESETS.find(x=>x.id===id);setFormulaHTML(p.template);hideAc();renderPreview();}
 const DEFAULT_TEST={'Unit Price':1500,'Quantity':1,'Due Date':later(2),'Start Date':ago(10),'Budget':5000,'Hours':12};
 let testVals=Object.assign({},DEFAULT_TEST);
-function updateTestVal(name,type,val){if(type==='number')testVals[name]=parseFloat(val)||0;else if(type==='date')testVals[name]=fromDateInput(val);const el=document.getElementById('trc');if(!el)return;const v=evalFormula(getFormulaString(),testVals);const fmt=v===undefined?'error':v===null?'(fill placeholders)':fmtVal(v);el.className=v===undefined||v===null?'terr':'tres';el.textContent=fmt;}
+function updateTestVal(name,type,val){if(type==='number')testVals[name]=parseFloat(val)||0;else if(type==='date')testVals[name]=fromDateInput(val);const el=document.getElementById('trc');if(!el)return;const v=evalFormula(getFormulaString(),testVals);el.className=v===undefined?'terr':'tres';el.textContent=v===undefined?'—':fmtVal(v);}
 function resetTestVals(){testVals=Object.assign({},DEFAULT_TEST);renderPreview();}
 function getRefFields(formula){const refs=[];for(const m of (formula||'').matchAll(/\{([^}]+)\}/g)){const f=FIELDS.find(x=>x.name===m[1]);if(f&&!refs.find(r=>r.name===f.name))refs.push(f);}return refs;}
-function renderPreview(){const formula=getFormulaString();const fname='Result';const pv=document.getElementById('pv-wrap'),status=document.getElementById('pv-status'),note=document.getElementById('pv-note');if(!formula){pv.innerHTML='<div style="padding:20px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_empty+'</div>';status.textContent='';note.style.display='none';return;}const hasPlaceholder=/\{Insert\b/i.test(formula);note.style.display=hasPlaceholder?'block':'none';status.innerHTML=hasPlaceholder?'<span style="color:var(--text-warning);">'+T[currentLang].fill_placeholders+'</span>':'<span style="color:var(--text-accent);">'+T[currentLang].enter_values+'</span>';const cols=getRefFields(formula).slice(0,4);if(!cols.length){const v=evalFormula(formula,testVals);const fmt=v===undefined?'error':v===null?'(fill placeholders)':fmtVal(v);pv.innerHTML='<div style="padding:20px;text-align:center;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Result:</div><div class="'+(v===undefined||v===null?'terr':'tres')+'" style="font-size:20px;font-weight:500;">'+fmt+'</div></div>';return;}const colPct=Math.floor(70/cols.length);let h='<table class="pv-table"><colgroup>';cols.forEach(()=>h+='<col style="width:'+colPct+'%">');h+='<col></colgroup><thead><tr>';cols.forEach(f=>{const bg=f.type==='date'?'var(--bg-success)':'var(--bg-accent)';const cl=f.type==='date'?'var(--text-success)':'var(--text-accent)';h+='<th><span style="display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;background:'+bg+';color:'+cl+';font-family:var(--font-mono);">{'+f.name+'}</span></th>';});h+='<th>'+fname+'</th></tr></thead><tbody><tr>';cols.forEach(f=>{const v=testVals[f.name],sn=f.name.replace(/'/g,"\\'");if(f.type==='number'){h+='<td style="padding:6px 8px;"><input class="test-inp" type="number" value="'+(typeof v==='number'?v:0)+'" oninput="updateTestVal(\''+sn+'\',\'number\',this.value)" aria-label="'+f.name+'"></td>';}else{h+='<td style="padding:6px 8px;"><input class="test-inp" type="date" value="'+toDateInput(v)+'" onchange="updateTestVal(\''+sn+'\',\'date\',this.value)" aria-label="'+f.name+'"></td>';}});const iv=evalFormula(formula,testVals);const ifmt=iv===undefined?'error':iv===null?'(fill placeholders)':fmtVal(iv);h+='<td id="trc" class="'+(iv===undefined||iv===null?'terr':'tres')+'">'+ifmt+'</td></tr></tbody></table>';pv.innerHTML=h;}
+function renderPreview(){const formula=getFormulaString();const pv=document.getElementById('pv-wrap');if(!formula){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_empty+'</div>';return;}if(/\{Insert\b/i.test(formula)){pv.innerHTML='<div style="padding:16px 18px;text-align:center;font-size:12px;color:var(--text-warning);display:flex;align-items:center;justify-content:center;gap:6px;"><i class="ti ti-pencil" style="font-size:13px;" aria-hidden="true"></i>'+T[currentLang].preview_unfilled+'</div>';return;}const cols=getRefFields(formula).slice(0,4);if(!cols.length){const v=evalFormula(formula,testVals);if(v===undefined){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_error+'</div>';}else{pv.innerHTML='<div style="padding:20px;text-align:center;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Result</div><div class="tres" style="font-size:20px;font-weight:500;">'+fmtVal(v)+'</div></div>';}return;}const colPct=Math.floor(70/cols.length);let h='<table class="pv-table"><colgroup>';cols.forEach(()=>h+='<col style="width:'+colPct+'%">');h+='<col></colgroup><thead><tr>';cols.forEach(f=>{const bg=f.type==='date'?'var(--bg-success)':'var(--bg-accent)';const cl=f.type==='date'?'var(--text-success)':'var(--text-accent)';h+='<th><span style="display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;background:'+bg+';color:'+cl+';font-family:var(--font-mono);">{'+f.name+'}</span></th>';});h+='<th>Result</th></tr></thead><tbody><tr>';cols.forEach(f=>{const v=testVals[f.name],sn=f.name.replace(/'/g,"\\'");if(f.type==='number'){h+='<td style="padding:6px 8px;"><input class="test-inp" type="number" value="'+(typeof v==='number'?v:0)+'" oninput="updateTestVal(\''+sn+'\',\'number\',this.value)" aria-label="'+f.name+'"></td>';}else{h+='<td style="padding:6px 8px;"><input class="test-inp" type="date" value="'+toDateInput(v)+'" onchange="updateTestVal(\''+sn+'\',\'date\',this.value)" aria-label="'+f.name+'"></td>';}});const iv=evalFormula(formula,testVals);h+='<td id="trc" class="'+(iv===undefined?'terr':'tres')+'">'+(iv===undefined?'—':fmtVal(iv))+'</td></tr></tbody></table>';pv.innerHTML=h;}
 function ins(text){const editor=document.getElementById('formula-editor');editor.focus();const sel=window.getSelection();if(sel.rangeCount){const range=sel.getRangeAt(0);range.deleteContents();const tn=document.createTextNode(text);range.insertNode(tn);range.setStartAfter(tn);range.collapse(true);sel.removeAllRanges();sel.addRange(range);}else{editor.appendChild(document.createTextNode(text));}updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}
 function clearFormula(){document.getElementById('formula-editor').innerHTML='';hideAc();hideValInput();activePid=null;currentPillTarget=null;renderChips();updatePlaceholder();renderPreview();}
 
@@ -1001,9 +986,6 @@ var jaTbodies = {
           <tr><td>可変枠の終了時刻</td><td><code>DATEADD({Insert date field}, {Insert number field}, "hours")</code></td><td></td></tr>
           <tr><td>標準勤務日の終了</td><td><code>DATEADD({Insert date field}, 8, "hours")</code></td><td></td></tr>`,
   'preset-number-tbody': `
-          <tr><td>2つのフィールドを掛ける</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
-          <tr><td>2つのフィールドの合計</td><td><code>{Insert number field} + {Insert number field}</code></td><td></td></tr>
-          <tr><td>差分</td><td><code>{Insert number field} - {Insert number field}</code></td><td></td></tr>
           <tr><td>合計に対する割合</td><td><code>ROUND({Insert number field} / {Insert number field} * 100, 1)</code></td><td></td></tr>
           <tr><td>結果を丸める</td><td><code>ROUND({Insert number field} * {Insert number field}, 0)</code></td><td></td></tr>
           <tr><td>最大値で上限設定</td><td><code>MIN({Insert number field} * {Insert number field}, {Insert max value})</code></td><td></td></tr>
@@ -1012,7 +994,6 @@ var jaTbodies = {
           <tr><td>経過日数</td><td><code>DATEDIF({Insert date field}, TODAY(), "days")</code></td><td></td></tr>
           <tr><td>超過日数のみ</td><td><code>IF(DATEDIF(TODAY(), {Insert date field}, "days") &lt; 0, DATEDIF({Insert date field}, TODAY(), "days"), 0)</code></td><td>期日前は0を返す</td></tr>
           <tr><td>残業時間</td><td><code>IF({Insert number field} &gt; 8, {Insert number field} - 8, 0)</code></td><td></td></tr>
-          <tr><td>条件付きの値</td><td><code>IF({Insert number field} &gt;= {Insert threshold}, {Insert number field}, {Insert number field})</code></td><td></td></tr>
           <tr><td>2つのフィールドの平均</td><td><code>({Insert number field} + {Insert number field}) / 2</code></td><td></td></tr>`,
   'preset-currency-tbody': `
           <tr><td>単価 × 数量</td><td><code>{Insert number field} * {Insert number field}</code></td><td></td></tr>
@@ -1180,9 +1161,9 @@ T = {
     opt_number: 'Number',
     opt_currency: 'Number with currency',
     // preview messages
-    preview_empty: 'Enter a formula above to preview results.',
-    fill_placeholders: 'Fill placeholders',
-    enter_values: 'Enter values to test',
+    preview_empty: 'Pick a preset or type a formula above to see a preview.',
+    preview_unfilled: 'Click the dashed pills to assign fields, or the amber ones to type values.',
+    preview_error: '— Can\'t evaluate · check for missing fields or syntax errors.',
     val_btn: 'Set',
     val_inp_ph: 'Type a value, press Enter',
   },
@@ -1267,9 +1248,9 @@ T = {
     opt_time_range: '時刻範囲',
     opt_number: '数値',
     opt_currency: '通貨付き数値',
-    preview_empty: '上にフォーミュラを入力すると結果がプレビューされます。',
-    fill_placeholders: 'プレースホルダーを入力',
-    enter_values: 'テスト値を入力',
+    preview_empty: 'プリセットを選ぶかフォーミュラを入力するとプレビューされます。',
+    preview_unfilled: '破線のピルをクリックしてフィールドを割り当てるか、アンバーのピルをクリックして値を入力してください。',
+    preview_error: '— 評価できません · フィールドの割り当て漏れや構文エラーを確認してください。',
     val_btn: '設定',
     val_inp_ph: '値を入力してEnterキー',
   }
