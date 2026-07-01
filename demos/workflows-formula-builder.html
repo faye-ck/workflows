@@ -390,7 +390,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div id="val-wrap" style="display:none;">
             <div class="ac-wrap" style="padding:8px;display:flex;gap:6px;align-items:center;">
               <input id="val-inp" type="text" placeholder="Type a value, press Enter" autocomplete="off" onkeydown="onValKey(event)" onblur="onValBlur()">
-              <button id="val-btn" onmousedown="event.preventDefault();commitValInput();">Set</button>
+              <button id="val-btn" data-i18n="val_btn" onmousedown="event.preventDefault();commitValInput();">Set</button>
             </div>
           </div>
           <div style="display:flex;justify-content:flex-end;margin-top:6px;">
@@ -532,7 +532,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
   <section class="section" id="presets">
     <div class="section-eyebrow" data-i18n="eyebrow_reference_presets">Reference</div>
     <h2 data-i18n="h2_presets">Presets by Output Type</h2>
-    <p data-i18n="p_presets">Each preset uses <code>{Insert … field}</code> placeholders for unassigned references. The user clicks a placeholder pill to pick a real field from the form.</p>
+    <p data-i18n="p_presets">Each preset uses placeholder pills for unassigned references. <strong>Dashed-border pills</strong> (field) — click to pick a field from the form. <strong>Solid-border pills</strong> (value) — click to type a literal number directly.</p>
 
     <!-- Date only -->
     <div class="subsection" id="preset-date">
@@ -1112,7 +1112,7 @@ T = {
     p_output_types: 'When creating a formula field, the user selects one of 8 output types. This determines how the computed value is displayed and which presets are shown.',
     eyebrow_reference_presets: 'Reference',
     h2_presets: 'Presets by Output Type',
-    p_presets: 'Each preset uses <code>{Insert … field}</code> placeholders for unassigned references. The user clicks a placeholder pill to pick a real field from the form.',
+    p_presets: 'Each preset uses placeholder pills for unassigned references. <strong>Dashed-border pills</strong> (field) — click to pick a field from the form. <strong>Solid-border pills</strong> (value) — click to type a literal number directly.',
     eyebrow_reference_warnings: 'Reference',
     h2_warnings: 'Output Type Change Warnings',
     p_warnings: 'When a user changes the output type of a formula field that already has a formula, the system checks for compatibility. There are 6 warning patterns. The full FROM→TO matrix follows.',
@@ -1181,6 +1181,8 @@ T = {
     preview_empty: 'Enter a formula above to preview results.',
     fill_placeholders: 'Fill placeholders',
     enter_values: 'Enter values to test',
+    val_btn: 'Set',
+    val_inp_ph: 'Type a value, press Enter',
   },
   ja: {
     title: 'フォーミュラフィールドビルダー',
@@ -1205,7 +1207,7 @@ T = {
     p_output_types: 'フォーミュラフィールドを作成する際、ユーザーは8つの出力タイプのいずれかを選択します。これにより、計算値の表示方法と表示されるプリセットが決まります。',
     eyebrow_reference_presets: 'リファレンス',
     h2_presets: '出力タイプ別プリセット',
-    p_presets: '各プリセットは未割り当てフィールドに <code>{フィールドを挿入}</code> プレースホルダーを使用します。プレースホルダーをクリックするとフォームの実際のフィールドを選択できます。',
+    p_presets: '各プリセットはプレースホルダーを使用します。<strong>破線ボーダー</strong>（フィールド）— クリックしてフォームのフィールドを選択。<strong>実線ボーダー</strong>（値）— クリックして数値を直接入力。',
     eyebrow_reference_warnings: 'リファレンス',
     h2_warnings: '出力タイプ変更の警告',
     p_warnings: 'フォーミュラが設定済みのフォーミュラフィールドの出力タイプを変更すると、システムが互換性を確認します。6つの警告パターンがあります。以下にFROM→TOの全マトリックスを示します。',
@@ -1266,6 +1268,8 @@ T = {
     preview_empty: '上にフォーミュラを入力すると結果がプレビューされます。',
     fill_placeholders: 'プレースホルダーを入力',
     enter_values: 'テスト値を入力',
+    val_btn: '設定',
+    val_inp_ph: '値を入力してEnterキー',
   }
 };
 
@@ -1301,6 +1305,9 @@ function applyLang(lang) {
     if (!el) return;
     el.innerHTML = lang === 'ja' ? jaTbodies[id] : origTbodies[id];
   });
+  // Update value input placeholder
+  var valInp = document.getElementById('val-inp');
+  if (valInp) valInp.placeholder = T[lang].val_inp_ph;
   // Re-render chips with new language
   renderChips();
   // Update page title
