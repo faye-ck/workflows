@@ -381,6 +381,12 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;" data-i18n="widget_presets_label">Presets</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;" id="preset-chips"></div>
         </div>
+        <div id="discard-strip" style="display:none;background:var(--bg-warning);border-top:0.5px solid var(--border-warning);border-bottom:0.5px solid var(--border-warning);padding:8px 18px;align-items:center;gap:8px;font-size:12px;color:var(--text-warning);">
+          <i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>
+          <span style="flex:1;" data-i18n="discard_msg">Your changes will be discarded and can't be undone.</span>
+          <button onclick="closeDiscardModal()" style="font-size:12px;padding:3px 10px;border-radius:5px;border:0.5px solid var(--border-warning);background:none;color:var(--text-warning);cursor:pointer;font-family:var(--font-sans);" data-i18n="discard_cancel">Cancel</button>
+          <button onclick="confirmDiscardAction()" style="font-size:12px;padding:3px 10px;border-radius:5px;border:none;background:#c0392b;color:#fff;cursor:pointer;font-family:var(--font-sans);" data-i18n="discard_ok">Discard &amp; continue</button>
+        </div>
         <div style="padding:14px 18px;">
           <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;" data-i18n="widget_formula_label">Formula</div>
           <div style="position:relative;">
@@ -909,8 +915,8 @@ function renderChips(){
 }
 function loadPreset(id){maybeDiscard(function(){const p=PRESETS.find(x=>x.id===id);setFormulaHTML(p.template);activePid=id;activePresetFormula=getFormulaString();renderChips();hideAc();renderPreview();});}
 let pendingDiscardAction=null;
-function maybeDiscard(action){if(!getFormulaString()||activePid!==null){action();return;}pendingDiscardAction=action;document.getElementById('discard-modal').style.display='flex';}
-function closeDiscardModal(){document.getElementById('discard-modal').style.display='none';pendingDiscardAction=null;}
+function maybeDiscard(action){if(!getFormulaString()||activePid!==null){action();return;}pendingDiscardAction=action;document.getElementById('discard-strip').style.display='flex';}
+function closeDiscardModal(){document.getElementById('discard-strip').style.display='none';pendingDiscardAction=null;}
 function confirmDiscardAction(){document.getElementById('discard-modal').style.display='none';if(pendingDiscardAction){var fn=pendingDiscardAction;pendingDiscardAction=null;fn();}}
 const DEFAULT_TEST={'Unit Price':1500,'Quantity':1,'Due Date':later(2),'Start Date':ago(10),'Budget':5000,'Hours':12};
 let testVals=Object.assign({},DEFAULT_TEST);
@@ -1147,8 +1153,7 @@ T = {
     widget_formula_label: 'Formula',
     widget_formula_ph: 'Type a formula, or pick a preset above to start…',
     widget_clear: 'Clear formula',
-    discard_title: 'Discard changes?',
-    discard_msg: 'Are you sure? Your changes will be discarded and this cannot be undone.',
+    discard_msg: 'Your changes will be discarded and can\'t be undone.',
     discard_cancel: 'Cancel',
     discard_ok: 'Discard & continue',
     widget_insert_fn: 'Insert function',
@@ -1238,8 +1243,7 @@ T = {
     widget_formula_label: 'フォーミュラ',
     widget_formula_ph: 'フォーミュラを入力するか、上のプリセットを選択してください…',
     widget_clear: 'フォーミュラをクリア',
-    discard_title: '変更を破棄しますか？',
-    discard_msg: 'よろしいですか？変更は破棄され、元に戻すことはできません。',
+    discard_msg: '変更は破棄され、元に戻すことはできません。',
     discard_cancel: 'キャンセル',
     discard_ok: '破棄して続行',
     widget_insert_fn: '関数を挿入',
@@ -1313,16 +1317,5 @@ renderChips();
 renderPreview();
 onScroll();
 </script>
-<!-- Discard confirmation modal -->
-<div id="discard-modal" role="dialog" aria-modal="true" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px 24px 20px;max-width:380px;width:calc(100% - 48px);box-shadow:0 8px 32px rgba(0,0,0,0.2);">
-    <div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:8px;" data-i18n="discard_title">Discard changes?</div>
-    <div style="font-size:13px;color:var(--text-secondary);line-height:1.55;margin-bottom:20px;" data-i18n="discard_msg">Are you sure? Your changes will be discarded and this cannot be undone.</div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;">
-      <button onclick="closeDiscardModal()" style="font-size:13px;padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);cursor:pointer;font-family:var(--font-sans);" data-i18n="discard_cancel">Cancel</button>
-      <button onclick="confirmDiscardAction()" style="font-size:13px;padding:6px 14px;border-radius:6px;border:none;background:#e53e3e;color:#fff;cursor:pointer;font-family:var(--font-sans);" data-i18n="discard_ok">Discard &amp; continue</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
