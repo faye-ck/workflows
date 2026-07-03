@@ -749,6 +749,38 @@
           <strong>Renaming always updates the formula immediately.</strong> There is no undo for this. If you rename a field and then rename it back, the formula will reflect both changes.
         </div>
       </div>
+
+      <hr style="border:none; border-top: 1px solid var(--border); margin: 28px 0;">
+
+      <h3 id="range-field-ref" data-i18n="h3_range_ref">Referencing start and end of range fields</h3>
+      <p data-i18n="p_range_ref">Date range and datetime range fields store two values — a start and an end. You can reference each separately using <code>.START</code> and <code>.END</code> suffixes.</p>
+
+      <table>
+        <thead>
+          <tr><th>Field type</th><th>Syntax</th><th>What you get</th></tr>
+        </thead>
+        <tbody id="range-ref-tbody">
+          <tr><td>Date range</td><td><code>{Booking Period.START}</code></td><td>Start date (plain date, no time)</td></tr>
+          <tr><td>Date range</td><td><code>{Booking Period.END}</code></td><td>End date (plain date, no time)</td></tr>
+          <tr><td>Datetime range</td><td><code>{Event Window.START}</code></td><td>Start datetime. Time is stripped if the formula output type is date-only.</td></tr>
+          <tr><td>Datetime range</td><td><code>{Event Window.END}</code></td><td>End datetime. Time is stripped if the formula output type is date-only.</td></tr>
+          <tr><td>Datetime</td><td><code>{Deadline}</code></td><td>Full datetime — no start/end split. Output type determines whether date or time is preserved.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body" data-i18n="callout_range_ref_tip">
+          <strong>Use the field picker to insert these references.</strong> When you click a date range or datetime range field, the picker lets you choose <strong>.START</strong> or <strong>.END</strong> — you don't need to type the suffix by hand.
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body" data-i18n="callout_range_ref_datetime">
+          <strong>Datetime fields cannot be split into date and time parts.</strong> The full datetime value is always passed to the formula. What the formula preserves — the date part, the time part, or both — depends solely on the formula's output field type.
+        </div>
+      </div>
     </div>
 
     <hr class="divider">
@@ -1816,6 +1848,10 @@
       rename_before: 'Before rename — formula reads:',
       rename_after: 'You rename <strong style="color:var(--text-primary);">Unit Price</strong> → <strong style="color:var(--text-primary);">Price Per Item</strong>. After save, formula automatically becomes:',
       callout_rename_warning: '<strong>Renaming always updates the formula immediately.</strong> There is no undo for this. If you rename a field and then rename it back, the formula will reflect both changes.',
+      h3_range_ref: 'Referencing start and end of range fields',
+      p_range_ref: 'Date range and datetime range fields store two values — a start and an end. You can reference each separately using <code>.START</code> and <code>.END</code> suffixes.',
+      callout_range_ref_tip: '<strong>Use the field picker to insert these references.</strong> When you click a date range or datetime range field, the picker lets you choose <strong>.START</strong> or <strong>.END</strong> — you don\'t need to type the suffix by hand.',
+      callout_range_ref_datetime: '<strong>Datetime fields cannot be split into date and time parts.</strong> The full datetime value is always passed to the formula. What the formula preserves — the date part, the time part, or both — depends solely on the formula\'s output field type.',
       h2_arithmetic: 'Basic arithmetic',
       p_arithmetic: 'Number formulas use standard arithmetic operators. You can combine fields, numbers, and operators in any order.',
       h2_rounding: 'Rounding',
@@ -1927,6 +1963,10 @@
       rename_before: '名前変更前 — フォーミュラ：',
       rename_after: 'Unit Price を Price Per Item に変更しました。保存後、フォーミュラは自動的に次のようになります：',
       callout_rename_warning: '<strong>名前変更はフォーミュラに即時反映されます。</strong>この操作は取り消せません。フィールドを名前変更してから元の名前に戻した場合も、フォーミュラには両方の変更が反映されます。',
+      h3_range_ref: '範囲フィールドの開始・終了を参照する',
+      p_range_ref: '日付範囲フィールドと日時範囲フィールドは2つの値（開始と終了）を保持します。<code>.START</code> と <code>.END</code> サフィックスを使って、それぞれ個別に参照できます。',
+      callout_range_ref_tip: '<strong>フィールドピッカーを使って参照を挿入してください。</strong>日付範囲または日時範囲フィールドをクリックすると、ピッカーで <strong>.START</strong> または <strong>.END</strong> を選択できます。サフィックスを手動で入力する必要はありません。',
+      callout_range_ref_datetime: '<strong>日時フィールドは日付と時刻に分割できません。</strong>フル日時の値が常にフォーミュラに渡されます。日付・時刻のどちらが保持されるかは、フォーミュラの出力フィールドの種類のみによって決まります。',
       h2_arithmetic: '四則演算',
       p_arithmetic: '数値フォーミュラは標準的な算術演算子を使います。フィールド・数値・演算子を任意の順序で組み合わせられます。',
       h2_rounding: '丸め',
@@ -1983,7 +2023,7 @@
   // Capture original tbody HTML at load time
   var origTbodies = {};
   (function() {
-    var ids = ['intro-tbody','fieldref-tbody','dupfields-tbody','dateadd-tbody','errors-writing-tbody','errors-editing-tbody'];
+    var ids = ['intro-tbody','fieldref-tbody','dupfields-tbody','range-ref-tbody','dateadd-tbody','errors-writing-tbody','errors-editing-tbody'];
     ids.forEach(function(id) {
       var el = document.getElementById(id);
       if (el) origTbodies[id] = el.innerHTML;
@@ -2066,6 +2106,12 @@
   // Set same-content tbodies
   jaTbodies['fieldref-tbody'] = origTbodies['fieldref-tbody'];
   jaTbodies['dateadd-tbody'] = origTbodies['dateadd-tbody'];
+  jaTbodies['range-ref-tbody'] = `
+          <tr><td>日付範囲</td><td><code>{Booking Period.START}</code></td><td>開始日（時刻なしの純粋な日付）</td></tr>
+          <tr><td>日付範囲</td><td><code>{Booking Period.END}</code></td><td>終了日（時刻なしの純粋な日付）</td></tr>
+          <tr><td>日時範囲</td><td><code>{Event Window.START}</code></td><td>開始日時。フォーミュラの出力タイプが「日付のみ」の場合、時刻は自動的に除去されます。</td></tr>
+          <tr><td>日時範囲</td><td><code>{Event Window.END}</code></td><td>終了日時。フォーミュラの出力タイプが「日付のみ」の場合、時刻は自動的に除去されます。</td></tr>
+          <tr><td>日時</td><td><code>{Deadline}</code></td><td>フル日時 — 開始・終了への分割は不可。日付か時刻のどちらが保持されるかは、出力フィールドの種類によって決まります。</td></tr>`;
 
   function applyLang(lang) {
     currentLang = lang;
