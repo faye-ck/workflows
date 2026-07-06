@@ -469,10 +469,10 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
         <div class="help-popover-section">
           <div class="help-popover-label" data-i18n="help_fields_label">Field References</div>
           <div class="help-popover-row"><span class="hp-code">{Field Name}</span><span class="hp-desc" data-i18n="help_field_any">Reference an input field</span></div>
-          <div class="help-popover-row"><span class="hp-code">{Amount#1}</span><span class="hp-desc" data-i18n="help_field_repeat">Duplicated field names add number suffix</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Amount#1}</span><span class="hp-desc" data-i18n="help_field_repeat">Duplicated field names add suffix #1, #2…</span></div>
           <div class="help-popover-row"><span class="hp-code">{Period.START}</span><span class="hp-desc" data-i18n="help_field_range_start">Start of a date range field</span></div>
           <div class="help-popover-row"><span class="hp-code">{Period.END}</span><span class="hp-desc" data-i18n="help_field_range_end">End of a date range field</span></div>
-          <div class="help-popover-row"><span class="hp-code">{Items.Price}</span><span class="hp-desc" data-i18n="help_field_section">Field inside a multi-entry section</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Section.Field}</span><span class="hp-desc" data-i18n="help_field_section">Field inside a multi-entry section</span></div>
         </div>
         <div class="help-popover-section">
           <div class="help-popover-label" data-i18n="help_ops_label">Operators</div>
@@ -484,9 +484,10 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div class="help-popover-label" data-i18n="help_fns_label">Functions</div>
           <div class="help-popover-row"><span class="hp-code">IF(cond, yes, no)</span><span class="hp-desc" data-i18n="help_fn_if">Conditional</span></div>
           <div class="help-popover-row"><span class="hp-code">TODAY()</span><span class="hp-desc" data-i18n="help_fn_today">Date when the workflow is submitted</span></div>
-          <div class="help-popover-row"><span class="hp-code">DATEDIF(d1, d2, unit)</span><span class="hp-desc" data-i18n="help_fn_datedif">Days between two dates</span></div>
+          <div class="help-popover-row"><span class="hp-code">DATEIF(date1, date2, unit)</span><span class="hp-desc" data-i18n="help_fn_datedif">Days between two dates</span></div>
           <div class="help-popover-row"><span class="hp-code">DATEADD(date, n, unit)</span><span class="hp-desc" data-i18n="help_fn_dateadd">Add to a date</span></div>
-          <div class="help-popover-row"><span class="hp-code">"days" "weeks" "months" "years"</span><span class="hp-desc" data-i18n="help_fn_units">Valid units</span></div>
+          <div class="help-popover-row"><span class="hp-code">"days" "weeks" "months" "years"</span><span class="hp-desc" data-i18n="help_fn_units_date">Valid date units</span></div>
+          <div class="help-popover-row"><span class="hp-code">"hours" "minutes"</span><span class="hp-desc" data-i18n="help_fn_units_time">Valid time units</span></div>
           <div class="help-popover-row"><span class="hp-code">ROUND(value, decimals)</span><span class="hp-desc" data-i18n="help_fn_round">Round a number</span></div>
           <div class="help-popover-row"><span class="hp-code">MIN(a, b)</span><span class="hp-desc" data-i18n="help_fn_min">Smaller of two values</span></div>
           <div class="help-popover-row"><span class="hp-code">MAX(a, b)</span><span class="hp-desc" data-i18n="help_fn_max">Larger of two values</span></div>
@@ -1233,7 +1234,7 @@ T = {
     help_title: 'Formula quick reference',
     help_fields_label: 'Field References',
     help_field_any: 'Reference an input field',
-    help_field_repeat: 'Duplicated field names add number suffix',
+    help_field_repeat: 'Duplicated field names add suffix #1, #2…',
     help_field_range_start: 'Start of a date range field',
     help_field_range_end: 'End of a date range field',
     help_field_section: 'Field inside a multi-entry section',
@@ -1246,7 +1247,8 @@ T = {
     help_fn_today: 'Date when the workflow is submitted',
     help_fn_datedif: 'Days between two dates',
     help_fn_dateadd: 'Add to a date',
-    help_fn_units: 'Valid units',
+    help_fn_units_date: 'Valid date units',
+    help_fn_units_time: 'Valid time units',
     help_fn_round: 'Round a number',
     help_fn_min: 'Smaller of two values',
     help_fn_max: 'Larger of two values',
@@ -1343,7 +1345,7 @@ T = {
     help_title: 'フォーミュラ クイックリファレンス',
     help_fields_label: 'フィールド参照',
     help_field_any: '入力フィールドを参照',
-    help_field_repeat: '同名フィールドには番号サフィックスを追加',
+    help_field_repeat: '同名フィールドには #1, #2… のサフィックスを追加',
     help_field_range_start: '日付範囲フィールドの開始日',
     help_field_range_end: '日付範囲フィールドの終了日',
     help_field_section: '複数入力セクション内のフィールド',
@@ -1356,7 +1358,8 @@ T = {
     help_fn_today: 'ワークフロー送信日',
     help_fn_datedif: '2つの日付の差（日数など）',
     help_fn_dateadd: '日付に加算',
-    help_fn_units: '使用可能な単位',
+    help_fn_units_date: '使用可能な日付単位',
+    help_fn_units_time: '使用可能な時刻単位',
     help_fn_round: '数値を四捨五入',
     help_fn_min: '2つの値のうち小さい方',
     help_fn_max: '2つの値のうち大きい方',
