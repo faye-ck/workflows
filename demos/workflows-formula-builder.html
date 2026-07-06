@@ -289,6 +289,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 .field-pill.literal{background:var(--bg-warning);color:var(--text-warning);border:0.5px solid var(--border-warning)}
 .field-pill.literal.editing{cursor:text;user-select:text;outline:1.5px solid var(--border-warning);min-width:2ch;}
 .field-pill.unknown{background:var(--surface-1);color:var(--text-muted);border:0.5px solid var(--border)}
+.syntax-error{background:var(--bg-danger);color:var(--text-danger);border-radius:3px;padding:0 2px;}
 .ac-wrap{border:0.5px solid var(--border-accent);border-radius:var(--radius);background:var(--surface-2);overflow:hidden;margin-top:3px}
 .ac-item{padding:7px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid var(--border)}
 .ac-item:last-child{border-bottom:none}
@@ -306,6 +307,17 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
 .pv-table td.terr{color:var(--text-muted);font-style:italic;font-size:13px;vertical-align:middle}
 .test-inp{width:100%;font-size:12px;padding:5px 8px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--surface-0);color:var(--text-primary);font-family:var(--font-mono);box-sizing:border-box}
 .test-inp:focus{outline:none;border-color:var(--border-accent)}
+.help-popover{position:absolute;top:54px;right:0;width:300px;background:var(--surface-2);border:0.5px solid var(--border);border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.14);z-index:100;}
+.help-popover-header{padding:10px 14px 9px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.help-popover-section{padding:10px 14px;}
+.help-popover-section+.help-popover-section{border-top:0.5px solid var(--border);padding-top:9px;}
+.help-popover-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);font-weight:600;margin-bottom:6px;}
+.help-popover-row{display:flex;gap:8px;align-items:baseline;margin-bottom:4px;}
+.help-popover-row:last-child{margin-bottom:0;}
+.hp-code{font-family:var(--font-mono);font-size:11px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--text-primary);flex-shrink:0;white-space:nowrap;}
+.hp-desc{color:var(--text-muted);font-size:11px;}
+.hp-ops{display:flex;gap:4px;flex-wrap:wrap;}
+.hp-op{font-family:var(--font-mono);font-size:12px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:3px;padding:2px 6px;color:var(--text-primary);}
 </style>
 </head>
 <body>
@@ -355,7 +367,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
     <h1 data-i18n="h1_builder">Formula Field Builder</h1>
 
     <div class="widget-host">
-      <div style="max-width:680px;">
+      <div style="max-width:680px;position:relative;">
       <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;">
         <div style="padding:13px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;">
           <div style="width:28px;height:28px;border-radius:6px;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -363,16 +375,21 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           </div>
           <div style="flex:1;display:flex;align-items:center;justify-content:space-between;">
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;" data-i18n="widget_output_type_label">Output type</div>
-            <select id="output-type-select" style="font-size:12px;padding:3px 8px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--surface-2);color:var(--text-primary);font-family:var(--font-sans);cursor:pointer;outline:none;">
-              <option value="date">Date only</option>
-              <option value="date-range">Date range</option>
-              <option value="datetime">Date time only</option>
-              <option value="datetime-range">Date time range</option>
-              <option value="time">Time only</option>
-              <option value="time-range">Time range</option>
-              <option value="number">Number</option>
-              <option value="currency">Number with currency</option>
-            </select>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <select id="output-type-select" style="font-size:12px;padding:3px 8px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--surface-2);color:var(--text-primary);font-family:var(--font-sans);cursor:pointer;outline:none;">
+                <option value="date">Date only</option>
+                <option value="date-range">Date range</option>
+                <option value="datetime">Date time only</option>
+                <option value="datetime-range">Date time range</option>
+                <option value="time">Time only</option>
+                <option value="time-range">Time range</option>
+                <option value="number">Number</option>
+                <option value="currency">Number with currency</option>
+              </select>
+              <button id="help-btn" onclick="toggleHelpPopover(event)" aria-label="Quick reference" style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border:none;background:none;cursor:pointer;color:var(--text-muted);border-radius:5px;flex-shrink:0;padding:0;transition:color .15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">
+                <i class="ti ti-info-circle" style="font-size:17px;" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
         <div style="padding:10px 18px 12px;border-bottom:0.5px solid var(--border);background:var(--surface-1);">
@@ -389,7 +406,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;" data-i18n="widget_formula_label">Formula</div>
           <div style="position:relative;">
             <div id="formula-ph" style="position:absolute;top:11px;left:13px;font-size:13px;color:var(--text-muted);pointer-events:none;font-family:var(--font-sans);line-height:1.65;" data-i18n="widget_formula_ph">Type a formula, or pick a preset above to start…</div>
-            <div id="formula-editor" class="formula-editor" contenteditable="true" spellcheck="false" oninput="onEditorInput()" onkeydown="onEditorKey(event)" onclick="onEditorClick(event)" role="textbox" aria-label="Formula editor"></div>
+            <div id="formula-editor" class="formula-editor" contenteditable="true" spellcheck="false" oninput="onEditorInput()" onkeydown="onEditorKey(event)" onclick="onEditorClick(event)" onfocus="clearErrorHighlights()" onblur="onFormulaEditorBlur()" role="textbox" aria-label="Formula editor"></div>
           </div>
           <div id="ac-wrap" style="display:none;" role="listbox" aria-label="Field suggestions"></div>
           <div style="display:flex;justify-content:flex-end;margin-top:6px;">
@@ -437,6 +454,43 @@ p { color: var(--text-secondary); margin-bottom: 16px; }
           <div style="margin:0 18px 14px;border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;">
             <div id="pv-wrap"></div>
           </div>
+        </div>
+      </div>
+      <div id="help-popover" class="help-popover" style="display:none;">
+        <div class="help-popover-header">
+          <span style="font-size:12px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:6px;">
+            <i class="ti ti-info-circle" style="font-size:14px;" aria-hidden="true"></i>
+            <span data-i18n="help_title">Formula quick reference</span>
+          </span>
+          <button onclick="document.getElementById('help-popover').style.display='none'" aria-label="Close" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:14px;padding:0;display:flex;align-items:center;line-height:1;">
+            <i class="ti ti-x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="help-popover-section">
+          <div class="help-popover-label" data-i18n="help_fields_label">Field References</div>
+          <div class="help-popover-row"><span class="hp-code">{Field Name}</span><span class="hp-desc" data-i18n="help_field_any">Reference an input field</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Amount#1}</span><span class="hp-desc" data-i18n="help_field_repeat">Duplicated field names add number suffix</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Period.START}</span><span class="hp-desc" data-i18n="help_field_range_start">Start of a date range field</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Period.END}</span><span class="hp-desc" data-i18n="help_field_range_end">End of a date range field</span></div>
+          <div class="help-popover-row"><span class="hp-code">{Items.Price}</span><span class="hp-desc" data-i18n="help_field_section">Field inside a multi-entry section</span></div>
+        </div>
+        <div class="help-popover-section">
+          <div class="help-popover-label" data-i18n="help_ops_label">Operators</div>
+          <div class="help-popover-row"><span class="hp-code">+ - * /</span><span class="hp-desc" data-i18n="help_ops_arithmetic">Arithmetic — use () to control order</span></div>
+          <div class="help-popover-row"><span class="hp-code">= != &gt; &lt; &gt;= &lt;=</span><span class="hp-desc" data-i18n="help_ops_comparison">Comparisons — use inside IF</span></div>
+          <div class="help-popover-row"><span class="hp-code">"text"</span><span class="hp-desc" data-i18n="help_ops_text">Text values must be in double quotes</span></div>
+        </div>
+        <div class="help-popover-section">
+          <div class="help-popover-label" data-i18n="help_fns_label">Functions</div>
+          <div class="help-popover-row"><span class="hp-code">IF(cond, yes, no)</span><span class="hp-desc" data-i18n="help_fn_if">Conditional</span></div>
+          <div class="help-popover-row"><span class="hp-code">TODAY()</span><span class="hp-desc" data-i18n="help_fn_today">Date when the workflow is submitted</span></div>
+          <div class="help-popover-row"><span class="hp-code">DATEDIF(d1, d2, unit)</span><span class="hp-desc" data-i18n="help_fn_datedif">Days between two dates</span></div>
+          <div class="help-popover-row"><span class="hp-code">DATEADD(date, n, unit)</span><span class="hp-desc" data-i18n="help_fn_dateadd">Add to a date</span></div>
+          <div class="help-popover-row"><span class="hp-code">"days" "weeks" "months" "years"</span><span class="hp-desc" data-i18n="help_fn_units">Valid units</span></div>
+          <div class="help-popover-row"><span class="hp-code">ROUND(value, decimals)</span><span class="hp-desc" data-i18n="help_fn_round">Round a number</span></div>
+          <div class="help-popover-row"><span class="hp-code">MIN(a, b)</span><span class="hp-desc" data-i18n="help_fn_min">Smaller of two values</span></div>
+          <div class="help-popover-row"><span class="hp-code">MAX(a, b)</span><span class="hp-desc" data-i18n="help_fn_max">Larger of two values</span></div>
+          <div class="help-popover-row"><span class="hp-code">SUM() COUNT() AVERAGE()</span><span class="hp-desc" data-i18n="help_fn_aggregate">Aggregate multi-entry section</span></div>
         </div>
       </div>
       </div>
@@ -871,18 +925,23 @@ function getFormulaString(){const editor=document.getElementById('formula-editor
 function setFormulaHTML(formula){const editor=document.getElementById('formula-editor');editor.innerHTML='';const pat=/\{([^{}]+)\}/g;let last=0,m;while((m=pat.exec(formula))!==null){if(m.index>last)editor.appendChild(document.createTextNode(formula.slice(last,m.index)));editor.appendChild(createPill(m[1]));last=m.index+m[0].length;}if(last<formula.length)editor.appendChild(document.createTextNode(formula.slice(last)));if(!editor.lastChild||editor.lastChild.nodeType!==3)editor.appendChild(document.createTextNode('​'));updatePlaceholder();}
 function convertTextToPills(){const editor=document.getElementById('formula-editor');let changed=true;while(changed){changed=false;const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT,null);while(walker.nextNode()){const node=walker.currentNode;let p=node.parentNode,inPill=false;while(p&&p!==editor){if(p.classList&&p.classList.contains('field-pill')){inPill=true;break;}p=p.parentNode;}if(inPill)continue;const m=/\{([^{}]+)\}/.exec(node.textContent);if(!m)continue;const before=node.textContent.slice(0,m.index),after=node.textContent.slice(m.index+m[0].length);const pill=createPill(m[1]),parent=node.parentNode;if(before){node.textContent=before;parent.insertBefore(pill,node.nextSibling);}else{parent.insertBefore(pill,node);parent.removeChild(node);}if(after){parent.insertBefore(document.createTextNode(after),pill.nextSibling);}changed=true;break;}}}
 function updatePlaceholder(){const editor=document.getElementById('formula-editor');const ph=document.getElementById('formula-ph');const empty=!editor.textContent.replace(/​/g,'').trim()&&!editor.querySelector('.field-pill');ph.style.display=empty?'block':'none';}
-let acIndex=-1,acMatches=[],currentPillTarget=null,currentLiteralTarget=null,debTimer=null;
+let acIndex=-1,acMatches=[],acOpen=false,currentPillTarget=null,currentLiteralTarget=null,debTimer=null;
 function getOpenBrace(){const sel=window.getSelection();if(!sel.rangeCount)return{node:null,pos:-1};const range=sel.getRangeAt(0),node=range.startContainer;if(node.nodeType!==3)return{node:null,pos:-1};const text=node.textContent,offset=range.startOffset;for(let i=offset-1;i>=0;i--){if(text[i]==='}')return{node:null,pos:-1};if(text[i]==='{')return{node,pos:i,filter:text.slice(i+1,offset)};}return{node:null,pos:-1};}
-function showAc(matches){acMatches=matches;acIndex=-1;const wrap=document.getElementById('ac-wrap');if(!matches.length){wrap.style.display='none';return;}wrap.style.display='block';wrap.innerHTML='<div class="ac-wrap">'+matches.map((f,i)=>'<div class="ac-item" id="aci-'+i+'" onmousedown="event.preventDefault();pickField(\''+f.name.replace(/'/g,"\\'")+'\')"><i class="ti ti-'+(f.type==='date'?'calendar':'hash')+'" style="font-size:14px;color:var(--text-muted);" aria-hidden="true"></i><span style="flex:1;font-size:13px;">'+f.name+'</span><span class="ac-badge '+f.type+'">'+f.type+'</span></div>').join('')+'</div>';}
-function hideAc(){document.getElementById('ac-wrap').style.display='none';acMatches=[];acIndex=-1;currentPillTarget=null;}
+function showAc(matches){acMatches=matches;acIndex=-1;acOpen=true;const wrap=document.getElementById('ac-wrap');wrap.style.display='block';wrap.innerHTML='<div class="ac-wrap">'+matches.map((f,i)=>'<div class="ac-item" id="aci-'+i+'" onmousedown="event.preventDefault();pickField(\''+f.name.replace(/'/g,"\\'")+'\')"><i class="ti ti-'+(f.type==='date'?'calendar':'hash')+'" style="font-size:14px;color:var(--text-muted);" aria-hidden="true"></i><span style="flex:1;font-size:13px;">'+f.name+'</span><span class="ac-badge '+f.type+'">'+f.type+'</span></div>').join('')+(matches.length?'<div style="border-top:0.5px solid var(--border);margin:2px 0;"></div>':'')+'<div class="ac-item" id="aci-'+matches.length+'" onmousedown="event.preventDefault();insertCustomValue()"><span style="flex:1;font-size:13px;">'+T[currentLang].ac_custom_value+'</span></div></div>';}
+function hideAc(){document.getElementById('ac-wrap').style.display='none';acMatches=[];acIndex=-1;acOpen=false;currentPillTarget=null;}
 function editLiteralPill(pill){currentLiteralTarget=pill;pill.dataset.phText=pill.textContent;pill.contentEditable='plaintext-only';pill.classList.add('editing');pill.textContent='';pill.focus();const r=document.createRange();r.setStart(pill,0);r.collapse(true);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
 function commitLiteralEdit(){if(!currentLiteralTarget)return;const pill=currentLiteralTarget;currentLiteralTarget=null;const val=pill.textContent.trim();pill.contentEditable='false';pill.classList.remove('editing');if(val){const text=document.createTextNode(val);pill.parentNode.replaceChild(text,pill);document.getElementById('formula-editor').normalize();}else{pill.textContent=pill.dataset.phText||pill.dataset.field;}updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}
+function clearErrorHighlights(){const spans=[...document.querySelectorAll('#formula-editor .syntax-error')];if(!spans.length)return;spans.forEach(s=>{const p=s.parentNode;while(s.firstChild)p.insertBefore(s.firstChild,s);p.removeChild(s);});document.getElementById('formula-editor').normalize();}
+function findErrorsInText(text){const errors=[];let i=0;while(i<text.length){if(text[i]==='"'){i++;while(i<text.length&&text[i]!=='"')i++;i++;continue;}if(/[a-z]/.test(text[i])){const start=i;while(i<text.length&&/[a-zA-Z0-9_]/.test(text[i]))i++;errors.push({start,end:i});continue;}i++;}return errors;}
+function applyErrorHighlights(){const editor=document.getElementById('formula-editor');if(document.activeElement===editor||currentLiteralTarget)return;clearErrorHighlights();const textNodes=[];function collect(node){if(node.nodeType===3)textNodes.push(node);else if(node.nodeType===1&&!node.classList.contains('field-pill'))for(const c of node.childNodes)collect(c);}collect(editor);for(const tn of [...textNodes]){const errs=findErrorsInText(tn.textContent);if(!errs.length)continue;let rem=tn;for(let i=errs.length-1;i>=0;i--){const{start,end}=errs[i];rem.splitText(end);const errNode=rem.splitText(start);const sp=document.createElement('span');sp.className='syntax-error';errNode.parentNode.insertBefore(sp,errNode);sp.appendChild(errNode);}}}
+function onFormulaEditorBlur(){if(currentLiteralTarget)return;setTimeout(applyErrorHighlights,50);}
 function cancelLiteralEdit(){if(!currentLiteralTarget)return;const pill=currentLiteralTarget;currentLiteralTarget=null;pill.contentEditable='false';pill.classList.remove('editing');pill.textContent=pill.dataset.phText||pill.dataset.field;document.getElementById('formula-editor').focus();}
 function highlightAc(){document.querySelectorAll('.ac-item').forEach((el,i)=>el.classList.toggle('focused',i===acIndex));const el=document.getElementById('aci-'+acIndex);if(el)el.scrollIntoView({block:'nearest'});}
-function checkForOpenBrace(){if(currentPillTarget)return;const{node,pos,filter}=getOpenBrace();if(node&&pos>=0)showAc(FIELDS.filter(f=>f.name.toLowerCase().includes((filter||'').toLowerCase())));else if(acMatches.length)hideAc();}
+function checkForOpenBrace(){if(currentPillTarget)return;const{node,pos,filter}=getOpenBrace();if(node&&pos>=0)showAc(FIELDS.filter(f=>f.name.toLowerCase().includes((filter||'').toLowerCase())));else if(acOpen)hideAc();}
 function pickField(name){const editor=document.getElementById('formula-editor');if(currentPillTarget){currentPillTarget.parentNode.replaceChild(createPill(name),currentPillTarget);currentPillTarget=null;hideAc();renderPreview();return;}const sel=window.getSelection();if(!sel.rangeCount){hideAc();return;}const range=sel.getRangeAt(0),node=range.startContainer,offset=range.startOffset;if(node.nodeType!==3){hideAc();return;}const text=node.textContent;let bp=-1;for(let i=offset-1;i>=0;i--){if(text[i]==='}')break;if(text[i]==='{'){bp=i;break;}}const pill=createPill(name);if(bp>=0){const before=text.slice(0,bp),after=text.slice(offset);node.textContent=before;node.parentNode.insertBefore(pill,node.nextSibling);const an=document.createTextNode(after||'​');node.parentNode.insertBefore(an,pill.nextSibling);const nr=document.createRange();nr.setStart(an,after?0:1);nr.collapse(true);sel.removeAllRanges();sel.addRange(nr);}else{range.insertNode(pill);const an=document.createTextNode('​');pill.parentNode.insertBefore(an,pill.nextSibling);const nr=document.createRange();nr.setStart(an,1);nr.collapse(true);sel.removeAllRanges();sel.addRange(nr);}editor.focus();hideAc();updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}
+function insertCustomValue(){const editor=document.getElementById('formula-editor');const pill=createPill('Insert value');if(currentPillTarget){currentPillTarget.parentNode.replaceChild(pill,currentPillTarget);currentPillTarget=null;hideAc();updatePlaceholder();editLiteralPill(pill);return;}const sel=window.getSelection();if(!sel.rangeCount){hideAc();return;}const range=sel.getRangeAt(0),node=range.startContainer,offset=range.startOffset;if(node.nodeType!==3){hideAc();return;}const text=node.textContent;let bp=-1;for(let i=offset-1;i>=0;i--){if(text[i]==='}')break;if(text[i]==='{'){bp=i;break;}}if(bp>=0){const before=text.slice(0,bp),after=text.slice(offset);node.textContent=before;node.parentNode.insertBefore(pill,node.nextSibling);const an=document.createTextNode(after||'​');node.parentNode.insertBefore(an,pill.nextSibling);}else{range.insertNode(pill);const an=document.createTextNode('​');pill.parentNode.insertBefore(an,pill.nextSibling);}hideAc();updatePlaceholder();editLiteralPill(pill);}
 function onEditorInput(){if(currentLiteralTarget)return;updatePlaceholder();const sel=window.getSelection();if(sel.rangeCount){const n=sel.getRangeAt(0).startContainer,off=sel.getRangeAt(0).startOffset;if(n.nodeType===3&&off>0&&n.textContent[off-1]==='}'){convertTextToPills();updatePlaceholder();checkForOpenBrace();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);return;}}checkForOpenBrace();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,250);}
-function onEditorKey(e){if(e.key==='Enter'){e.preventDefault();return;}if(acMatches.length){if(e.key==='ArrowDown'){e.preventDefault();acIndex=Math.min(acIndex+1,acMatches.length-1);highlightAc();return;}if(e.key==='ArrowUp'){e.preventDefault();acIndex=Math.max(acIndex-1,0);highlightAc();return;}if((e.key==='Enter'||e.key==='Tab')&&acIndex>=0){e.preventDefault();pickField(acMatches[acIndex].name);return;}if(e.key==='Escape'){hideAc();return;}}if(e.key==='Backspace'){const sel=window.getSelection();if(!sel.rangeCount)return;const range=sel.getRangeAt(0);if(!range.collapsed)return;const node=range.startContainer,offset=range.startOffset;let prev=null;if(node.nodeType===3&&offset===0)prev=node.previousSibling;else if(node.nodeType===1&&offset>0)prev=node.childNodes[offset-1];if(prev&&prev.classList&&prev.classList.contains('field-pill')){e.preventDefault();prev.parentNode.removeChild(prev);updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}}}
+function onEditorKey(e){if(e.key==='Enter'){e.preventDefault();return;}if(acOpen){if(e.key==='ArrowDown'){e.preventDefault();acIndex=Math.min(acIndex+1,acMatches.length);highlightAc();return;}if(e.key==='ArrowUp'){e.preventDefault();acIndex=Math.max(acIndex-1,0);highlightAc();return;}if((e.key==='Enter'||e.key==='Tab')&&acIndex>=0){e.preventDefault();if(acIndex===acMatches.length)insertCustomValue();else pickField(acMatches[acIndex].name);return;}if(e.key==='Escape'){hideAc();return;}}if(e.key==='Backspace'){const sel=window.getSelection();if(!sel.rangeCount)return;const range=sel.getRangeAt(0);if(!range.collapsed)return;const node=range.startContainer,offset=range.startOffset;let prev=null;if(node.nodeType===3&&offset===0)prev=node.previousSibling;else if(node.nodeType===1&&offset>0)prev=node.childNodes[offset-1];if(prev&&prev.classList&&prev.classList.contains('field-pill')){e.preventDefault();prev.parentNode.removeChild(prev);updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}}}
 function pillFieldType(name){if(/number/i.test(name))return 'number';if(/date|time/i.test(name))return 'date';return null;}
 function onEditorClick(e){const pill=e.target.closest('.field-pill');if(pill){if(pill.classList.contains('editing'))return;if(pill.classList.contains('literal')){hideAc();currentPillTarget=null;editLiteralPill(pill);}else{commitLiteralEdit();currentPillTarget=pill;const ft=pillFieldType(pill.dataset.field);showAc(ft?FIELDS.filter(f=>f.type===ft):FIELDS);}}else{commitLiteralEdit();hideAc();}}
 let activePid=null,activePresetFormula=null;
@@ -917,6 +976,8 @@ function setDiscardLock(on){
 function maybeDiscard(action){if(!getFormulaString()||activePid!==null){action();return;}pendingDiscardAction=action;setDiscardLock(true);document.getElementById('discard-strip').style.display='flex';}
 function closeDiscardModal(){setDiscardLock(false);document.getElementById('discard-strip').style.display='none';pendingDiscardAction=null;}
 function confirmDiscardAction(){setDiscardLock(false);document.getElementById('discard-strip').style.display='none';if(pendingDiscardAction){var fn=pendingDiscardAction;pendingDiscardAction=null;fn();}}
+function toggleHelpPopover(e){e.stopPropagation();var p=document.getElementById('help-popover');if(p.style.display==='none'){p.style.display='block';setTimeout(function(){document.addEventListener('click',closeHelpPopoverOutside,{capture:true});},0);}else{p.style.display='none';document.removeEventListener('click',closeHelpPopoverOutside,{capture:true});}}
+function closeHelpPopoverOutside(e){var p=document.getElementById('help-popover');var btn=document.getElementById('help-btn');if(p.contains(e.target)||btn.contains(e.target))return;p.style.display='none';document.removeEventListener('click',closeHelpPopoverOutside,{capture:true});}
 const DEFAULT_TEST={'Unit Price':1500,'Quantity':1,'Due Date':later(2),'Start Date':ago(10),'Budget':5000,'Hours':12};
 let testVals=Object.assign({},DEFAULT_TEST);
 function updateTestVal(name,type,val){if(type==='number')testVals[name]=parseFloat(val)||0;else if(type==='date')testVals[name]=fromDateInput(val);const el=document.getElementById('trc');if(!el)return;const v=evalFormula(getFormulaString(),testVals);el.style.color='';el.style.fontSize='';el.className=v===undefined?'terr':'tres';el.textContent=v===undefined?'—':fmtVal(v);const warnEl=document.getElementById('trc-warn');if(warnEl){const im=resultTypeMismatch(v,getOutputType());warnEl.style.display=im?'flex':'none';if(im)warnEl.innerHTML='<i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>'+typeMismatchMsg(v);}}
@@ -925,7 +986,7 @@ function getRefFields(formula){const refs=[];for(const m of (formula||'').matchA
 function getOutputType(){return(document.getElementById('output-type-select')||{}).value||'date';}
 function resultTypeMismatch(v,ot){if(v===undefined||v===null)return false;const numOut=['number','currency'];const dateOut=['date','date-range','datetime','datetime-range','time','time-range'];if(numOut.includes(ot))return v instanceof Date;if(dateOut.includes(ot))return typeof v==='number';return false;}
 function typeMismatchMsg(v){const isDate=v instanceof Date;if(currentLang==='ja')return isDate?'フォーミュラは日付を返しますが、出力タイプは数値です。フォーミュラを修正してください。':'フォーミュラは数値を返しますが、出力タイプは日付です。フォーミュラを修正してください。';return isDate?'Formula returns a date, but the output type is Number. Rewrite or clear the formula.':'Formula returns a number, but the output type expects a date. Rewrite or clear the formula.';}
-function renderPreview(){checkPresetActive();const formula=getFormulaString();const pv=document.getElementById('pv-wrap');if(!formula){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_empty+'</div>';return;}if(/\{Insert\b/i.test(formula)){pv.innerHTML='<div style="padding:16px 18px;text-align:center;font-size:12px;color:var(--text-warning);display:flex;align-items:center;justify-content:center;gap:6px;"><i class="ti ti-pencil" style="font-size:13px;" aria-hidden="true"></i>'+T[currentLang].preview_unfilled+'</div>';return;}const ot=getOutputType();const cols=getRefFields(formula).slice(0,4);if(!cols.length){const v=evalFormula(formula,testVals);if(v===undefined){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_error+'</div>';}else{const im=resultTypeMismatch(v,ot);pv.innerHTML='<div style="padding:20px;text-align:center;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Result</div><div class="tres" style="font-size:20px;font-weight:500;">'+fmtVal(v)+'</div>'+(im?'<div style="margin-top:10px;font-size:12px;color:var(--text-warning);display:flex;align-items:center;justify-content:center;gap:5px;"><i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>'+typeMismatchMsg(v)+'</div>':'')+'</div>';}return;}const colPct=Math.floor(70/cols.length);let h='<table class="pv-table"><colgroup>';cols.forEach(()=>h+='<col style="width:'+colPct+'%">');h+='<col></colgroup><thead><tr>';cols.forEach(f=>{const bg=f.type==='date'?'var(--bg-success)':'var(--bg-accent)';const cl=f.type==='date'?'var(--text-success)':'var(--text-accent)';h+='<th><span style="display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;background:'+bg+';color:'+cl+';font-family:var(--font-mono);">{'+f.name+'}</span></th>';});h+='<th>Result</th></tr></thead><tbody><tr>';cols.forEach(f=>{const v=testVals[f.name],sn=f.name.replace(/'/g,"\\'");if(f.type==='number'){h+='<td style="padding:6px 8px;"><input class="test-inp" type="number" value="'+(typeof v==='number'?v:0)+'" oninput="updateTestVal(\''+sn+'\',\'number\',this.value)" aria-label="'+f.name+'"></td>';}else{h+='<td style="padding:6px 8px;"><input class="test-inp" type="date" value="'+toDateInput(v)+'" onchange="updateTestVal(\''+sn+'\',\'date\',this.value)" aria-label="'+f.name+'"></td>';}});const iv=evalFormula(formula,testVals);const im=resultTypeMismatch(iv,ot);h+='<td id="trc" class="'+(iv===undefined?'terr':'tres')+'">'+(iv===undefined?'—':fmtVal(iv))+'</td></tr></tbody></table>';h+='<div id="trc-warn" style="'+(im?'':'display:none;')+'padding:8px 12px;font-size:12px;color:var(--text-warning);display:'+(im?'flex':'none')+';align-items:center;gap:6px;"><i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>'+(im?typeMismatchMsg(iv):'')+'</div>';pv.innerHTML=h;}
+function renderPreview(){checkPresetActive();const formula=getFormulaString();const pv=document.getElementById('pv-wrap');if(!formula){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_empty+'</div>';return;}if(/\{Insert\b/i.test(formula)){pv.innerHTML='<div style="padding:16px 18px;text-align:center;font-size:12px;color:var(--text-warning);display:flex;align-items:center;justify-content:center;gap:6px;"><i class="ti ti-pencil" style="font-size:13px;" aria-hidden="true"></i>'+T[currentLang].preview_unfilled+'</div>';return;}const ot=getOutputType();const cols=getRefFields(formula).slice(0,4);if(!cols.length){const v=evalFormula(formula,testVals);if(v===undefined){pv.innerHTML='<div style="padding:24px 18px;text-align:center;font-size:12px;color:var(--text-muted);">'+T[currentLang].preview_error+'</div>';}else{const im=resultTypeMismatch(v,ot);pv.innerHTML='<div style="padding:20px;text-align:center;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Output Result</div><div class="tres" style="font-size:20px;font-weight:500;">'+fmtVal(v)+'</div>'+(im?'<div style="margin-top:10px;font-size:12px;color:var(--text-warning);display:flex;align-items:center;justify-content:center;gap:5px;"><i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>'+typeMismatchMsg(v)+'</div>':'')+'</div>';}return;}const colPct=Math.floor(70/cols.length);let h='<table class="pv-table"><colgroup>';cols.forEach(()=>h+='<col style="width:'+colPct+'%">');h+='<col></colgroup><thead><tr>';cols.forEach(f=>{const bg=f.type==='date'?'var(--bg-success)':'var(--bg-accent)';const cl=f.type==='date'?'var(--text-success)':'var(--text-accent)';h+='<th><span style="display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;background:'+bg+';color:'+cl+';font-family:var(--font-mono);">{'+f.name+'}</span></th>';});h+='<th>Output Result</th></tr></thead><tbody><tr>';cols.forEach(f=>{const v=testVals[f.name],sn=f.name.replace(/'/g,"\\'");if(f.type==='number'){h+='<td style="padding:6px 8px;"><input class="test-inp" type="number" value="'+(typeof v==='number'?v:0)+'" oninput="updateTestVal(\''+sn+'\',\'number\',this.value)" aria-label="'+f.name+'"></td>';}else{h+='<td style="padding:6px 8px;"><input class="test-inp" type="date" value="'+toDateInput(v)+'" onchange="updateTestVal(\''+sn+'\',\'date\',this.value)" aria-label="'+f.name+'"></td>';}});const iv=evalFormula(formula,testVals);const im=resultTypeMismatch(iv,ot);h+='<td id="trc" class="'+(iv===undefined?'terr':'tres')+'">'+(iv===undefined?'—':fmtVal(iv))+'</td></tr></tbody></table>';h+='<div id="trc-warn" style="'+(im?'':'display:none;')+'padding:8px 12px;font-size:12px;color:var(--text-warning);display:'+(im?'flex':'none')+';align-items:center;gap:6px;"><i class="ti ti-alert-triangle" style="font-size:13px;flex-shrink:0;" aria-hidden="true"></i>'+(im?typeMismatchMsg(iv):'')+'</div>';pv.innerHTML=h;}
 function ins(text){const editor=document.getElementById('formula-editor');editor.focus();const sel=window.getSelection();if(sel.rangeCount){const range=sel.getRangeAt(0);range.deleteContents();const tn=document.createTextNode(text);range.insertNode(tn);range.setStartAfter(tn);range.collapse(true);sel.removeAllRanges();sel.addRange(range);}else{editor.appendChild(document.createTextNode(text));}updatePlaceholder();clearTimeout(debTimer);debTimer=setTimeout(renderPreview,200);}
 function clearFormula(){currentLiteralTarget=null;document.getElementById('formula-editor').innerHTML='';hideAc();activePid=null;currentPillTarget=null;renderChips();updatePlaceholder();renderPreview();}
 
@@ -1156,6 +1217,7 @@ T = {
     discard_cancel: 'Cancel',
     discard_ok: 'Discard & continue',
     widget_insert_fn: 'Insert function',
+    ac_custom_value: 'Enter own custom value',
     widget_preview_label: 'Preview & Test',
     widget_reset: 'Reset',
     // output type dropdown options
@@ -1167,6 +1229,28 @@ T = {
     opt_time_range: 'Time range',
     opt_number: 'Number',
     opt_currency: 'Number with currency',
+    // help popover
+    help_title: 'Formula quick reference',
+    help_fields_label: 'Field References',
+    help_field_any: 'Reference an input field',
+    help_field_repeat: 'Duplicated field names add number suffix',
+    help_field_range_start: 'Start of a date range field',
+    help_field_range_end: 'End of a date range field',
+    help_field_section: 'Field inside a multi-entry section',
+    help_ops_label: 'Operators',
+    help_ops_arithmetic: 'Arithmetic — use () to control order',
+    help_ops_comparison: 'Comparisons — use inside IF',
+    help_ops_text: 'Text values must be in double quotes',
+    help_fns_label: 'Functions',
+    help_fn_if: 'Conditional',
+    help_fn_today: 'Date when the workflow is submitted',
+    help_fn_datedif: 'Days between two dates',
+    help_fn_dateadd: 'Add to a date',
+    help_fn_units: 'Valid units',
+    help_fn_round: 'Round a number',
+    help_fn_min: 'Smaller of two values',
+    help_fn_max: 'Larger of two values',
+    help_fn_aggregate: 'Aggregate multi-entry section',
     // preview messages
     preview_empty: 'Pick a preset or type a formula above to see a preview.',
     preview_unfilled: 'Click on the placeholders to assign fields or insert values.',
@@ -1244,6 +1328,7 @@ T = {
     discard_cancel: 'キャンセル',
     discard_ok: '破棄して続行',
     widget_insert_fn: '関数を挿入',
+    ac_custom_value: 'カスタム値を入力',
     widget_preview_label: 'プレビューとテスト',
     widget_reset: 'リセット',
     opt_date: '日付のみ',
@@ -1254,6 +1339,28 @@ T = {
     opt_time_range: '時刻範囲',
     opt_number: '数値',
     opt_currency: '通貨付き数値',
+    // help popover
+    help_title: 'フォーミュラ クイックリファレンス',
+    help_fields_label: 'フィールド参照',
+    help_field_any: '入力フィールドを参照',
+    help_field_repeat: '同名フィールドには番号サフィックスを追加',
+    help_field_range_start: '日付範囲フィールドの開始日',
+    help_field_range_end: '日付範囲フィールドの終了日',
+    help_field_section: '複数入力セクション内のフィールド',
+    help_ops_label: '演算子',
+    help_ops_arithmetic: '四則演算 — () で計算順を制御',
+    help_ops_comparison: '比較演算 — IF の中で使用',
+    help_ops_text: 'テキスト値はダブルクォートで囲む',
+    help_fns_label: '関数',
+    help_fn_if: '条件分岐',
+    help_fn_today: 'ワークフロー送信日',
+    help_fn_datedif: '2つの日付の差（日数など）',
+    help_fn_dateadd: '日付に加算',
+    help_fn_units: '使用可能な単位',
+    help_fn_round: '数値を四捨五入',
+    help_fn_min: '2つの値のうち小さい方',
+    help_fn_max: '2つの値のうち大きい方',
+    help_fn_aggregate: '複数入力セクションを集計',
     preview_empty: 'プリセットを選ぶかフォーミュラを入力するとプレビューされます。',
     preview_unfilled: 'プレースホルダーをクリックしてフィールドを割り当てるか、値を入力してください。',
     preview_error: '— 評価できません · フィールドの割り当て漏れや構文エラーを確認してください。',

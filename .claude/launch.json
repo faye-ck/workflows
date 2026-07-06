@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "workflows-formula-builder",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "/Users/faye.cheah/Documents/GitHub/workflows", "-l", "7788"],
+      "port": 7788
+    }
+  ]
+}
