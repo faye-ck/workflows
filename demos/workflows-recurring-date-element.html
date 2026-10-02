@@ -239,9 +239,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
           <label class="lbl" for="horizon">Maximum recurrence range</label>
           <select id="horizon">
             <option value="1">1 month</option>
-            <option value="3" selected>3 months</option>
+            <option value="3">3 months</option>
             <option value="6">6 months</option>
-            <option value="12">1 year</option>
+            <option value="12" selected>1 year</option>
             <option value="24">2 years</option>
             <option value="36">3 years</option>
             <option value="60">5 years</option>
@@ -264,11 +264,11 @@ p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
             </div>
             <div id="endDateWrap">
               <label class="lbl" for="endDate">End date</label>
-              <input type="date" id="endDate" value="2026-10-16">
+              <input type="date" id="endDate" value="">
             </div>
             <div id="endDateTimeWrap">
               <label class="lbl" for="endDateTime">End date &amp; time</label>
-              <input type="datetime-local" id="endDateTime" value="2026-10-16T10:00">
+              <input type="datetime-local" id="endDateTime" value="">
             </div>
           </div>
 
@@ -279,9 +279,9 @@ p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
               <label class="lbl" for="interval">Repeat every</label>
               <input type="number" id="interval" min="1" max="99" value="1">
               <select id="unit" aria-label="Unit">
-                <option value="day">day(s)</option>
+                <option value="day" selected>day(s)</option>
                 <option value="week">week(s)</option>
-                <option value="month" selected>month(s)</option>
+                <option value="month">month(s)</option>
               </select>
             </div>
 
@@ -433,7 +433,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
     }
     return {
       shape, hasTime, hasEnd,
-      horizon:+$('horizon').value||3,
+      horizon:+$('horizon').value||12,
       allowNever:$('allowNever').checked,
       startDate, startTime, endDate, endTime,
       recur:$('recur').checked, interval:Math.max(1,+$('interval').value||1), unit:$('unit').value,
@@ -666,7 +666,7 @@ p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
 
   function resetRecurSettings(){
     $('interval').value=1;
-    $('unit').value='month';
+    $('unit').value='day';
     document.querySelector('input[name=mmode][value=day]').checked=true;
     touched.mday=touched.nth=touched.days=false;
     $('count').value=2;
