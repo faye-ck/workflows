@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recurring Date Element (Restricted version) — Workflows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --surface-alt: #F0F2F7;
+  --border: #E2E5ED;
+  --text-primary: #1A1D23;
+  --text-secondary: #5A6070;
+  --text-muted: #9199A8;
+  --accent: #4F6BF0;
+  --accent-light: #EEF1FE;
+  --green: #18A86B;
+  --green-light: #E8F7F1;
+  --amber: #C97000;
+  --amber-light: #FFF4E0;
+  --red: #D94040;
+  --red-light: #FEF0F0;
+  --font: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  padding: 0 24px 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.sidebar-logo .product {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.sidebar-logo .title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nav-section { padding: 0 16px; margin-bottom: 8px; }
+
+.nav-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 8px;
+  margin-bottom: 4px;
+  margin-top: 16px;
+}
+
+.nav-item {
+  display: block;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-item:hover { background: var(--surface-alt); color: var(--text-primary); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); }
+
+.main { flex: 1; padding: 48px 56px; max-width: 1120px; }
+
+.section { margin-bottom: 64px; scroll-margin-top: 32px; }
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+h1 { font-size: 30px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; color: var(--text-primary); }
+h2 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary); }
+h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary); }
+p { color: var(--text-secondary); margin-bottom: 16px; max-width: 72ch; }
+.section ol { padding-left: 20px; margin: -4px 0 16px; max-width: 72ch; }
+.section li { margin-bottom: 8px; color: var(--text-secondary); }
+
+.ref-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px; background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 0.5px solid var(--border); }
+.ref-table th { padding: 10px 14px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-alt); border-bottom: 1px solid var(--border); text-align: left; }
+.ref-table td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table td.msg-col { color: var(--text-primary); font-weight: 500; }
+.ref-table td.num { color: var(--text-muted); font-weight: 600; text-align: center; width: 32px; }
+.ref-table code { font-family: var(--mono); font-size: 12px; color: var(--accent); background:var(--surface-alt); padding:1px 5px; border-radius:3px; }
+
+.badge-restricted { display: inline-block; font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; color: var(--amber); background: var(--amber-light); padding: 2px 9px; border-radius: 20px; vertical-align: middle; white-space: nowrap; }
+.sidebar-logo .badge-restricted { display: block; width: fit-content; margin-top: 6px; }
+h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; }
+
+/* ── Widget (ported from the standalone prototype) ── */
+.widget-host { --border-strong: #C9CFDC; font-family: var(--font); color: var(--text-primary); }
+.widget-host [hidden] { display: none !important; }
+.widget-host .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+@media (max-width:860px){.widget-host .grid{grid-template-columns:1fr}}
+.widget-host .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.widget-host .panel h2{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
+.widget-host .builder{margin-bottom:20px;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:flex-end}
+.widget-host .builder h2{flex-basis:100%;width:100%}
+.widget-host .builder .field{min-width:0}
+.widget-host label.lbl{display:block;font-size:12px;color:var(--text-secondary);margin-bottom:5px}
+.widget-host input[type=date],.widget-host input[type=time],.widget-host input[type=datetime-local],.widget-host input[type=number],.widget-host select{
+  font:inherit;color:var(--text-primary);background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-sm);
+  padding:7px 10px;height:36px;font-variant-numeric:tabular-nums}
+.widget-host input[type=number]{width:72px}
+.widget-host select{padding-right:28px}
+.widget-host input:focus-visible,.widget-host select:focus-visible,.widget-host button:focus-visible,.widget-host .chip:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.widget-host .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-bottom:12px}
+.widget-host .row .lbl{margin:0}
+.widget-host .seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden;flex-wrap:wrap}
+.widget-host .seg label{position:relative;padding:6px 11px;cursor:pointer;color:var(--text-secondary);border-right:1px solid var(--border-strong);user-select:none}
+.widget-host .seg label:last-child{border-right:0}
+.widget-host .seg input{position:absolute;opacity:0;pointer-events:none}
+.widget-host .seg input:checked+span{color:var(--accent);font-weight:500}
+.widget-host .seg label:has(input:checked){background:var(--accent-light)}
+.widget-host .check{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:500}
+.widget-host .check input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.widget-host .radio{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.widget-host .radio input{accent-color:var(--accent);margin:0;width:16px;height:16px}
+.widget-host .ends-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.widget-host .ends-row input[type=radio]{accent-color:var(--accent);margin:0;width:16px;height:16px;cursor:pointer}
+.widget-host .info{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--border-strong);color:var(--text-muted);font-size:11px;font-style:italic;cursor:help;flex:none}
+.widget-host .recur{border-top:1px dashed var(--border);margin-top:14px;padding-top:14px}
+.widget-host .days{display:flex;gap:6px;flex-wrap:wrap}
+.widget-host .chip{position:relative;border:1px solid var(--border-strong);border-radius:999px;padding:5px 11px;cursor:pointer;color:var(--text-secondary);user-select:none}
+.widget-host .chip input{position:absolute;opacity:0;pointer-events:none}
+.widget-host .chip:has(input:checked){background:var(--accent);border-color:var(--accent);color:#fff}
+.widget-host .chip:has(input:disabled){cursor:not-allowed}
+.widget-host .chip:has(input:checked:disabled){opacity:.85}
+.widget-host .derived-text{font-weight:500;color:var(--text-primary)}
+.widget-host .sub{color:var(--text-muted);font-size:12px}
+.widget-host .err{color:var(--red);background:var(--red-light);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;margin-top:10px}
+.widget-host .warn{color:var(--amber);background:var(--amber-light);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;margin-top:10px}
+.widget-host .ro-label{font-size:12px;color:var(--text-secondary);margin-bottom:4px}
+.widget-host .ro-value{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text-primary)}
+.widget-host .summary{color:var(--text-secondary);margin:6px 0 12px;font-size:13px}
+.widget-host .summary .dot{margin:0 6px;color:var(--text-muted)}
+.widget-host .occ{list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.widget-host .occ li{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:baseline;padding:8px 12px;border-top:1px solid var(--border);font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;margin-bottom:0;color:inherit}
+.widget-host .occ li:first-child{border-top:0}
+.widget-host .occ li:nth-child(even){background:color-mix(in srgb,var(--surface-alt) 55%,transparent)}
+.widget-host .occ .n{color:var(--text-muted)}
+.widget-host .occ .slot{min-width:0;overflow-wrap:anywhere}
+.widget-host .occ-wrap.scroll ul{max-height:380px;overflow:auto}
+.widget-host .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 2px 0;font-size:13px;color:var(--text-muted)}
+.widget-host button.link{font:inherit;color:var(--accent);background:none;border:0;padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.widget-host .muted{color:var(--text-muted)}
+.widget-host .empty{color:var(--text-muted);font-style:italic;padding:14px;border:1px dashed var(--border);border-radius:var(--radius-sm)}
+.widget-host .hidden-field{display:none}
+@media (prefers-reduced-motion:no-preference){.widget-host .occ li{transition:background .15s}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <a href="../index.html" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">← Back</a>
+      <a href="workflows-recurring-date-element-restricted.html" download="workflows-recurring-date-element-restricted.html" style="font-size:11px;color:var(--accent);text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">↓ .html</a>
+    </div>
+    <div class="product">Workflows</div>
+    <div class="title">Recurring Date Element</div>
+    <span class="badge-restricted">Restricted version</span>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Builder</div>
+    <a class="nav-item" href="#prototype">Interactive Prototype</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Reference</div>
+    <a class="nav-item" href="#rules">Rules in this Prototype</a>
+    <a class="nav-item" href="#errors">Error Messages</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <section class="section" id="prototype">
+    <div class="section-eyebrow">Interactive</div>
+    <h1>Recurring Date Element <span class="badge-restricted">Restricted version</span></h1>
+    <p>Prototype of the Date element with "Is recurring event" enabled: how the submitter sets it, and how the submitted value renders read-only. The start date is always occurrence 1; later occurrences follow the rule.</p>
+
+    <div class="widget-host">
+      <div class="panel builder">
+        <h2>Template layout · editor view</h2>
+        <div class="field">
+          <label class="lbl">Element type (set in layout builder)</label>
+          <div class="seg" id="shapeSeg">
+            <label><input type="radio" name="shape" value="date" checked><span>Date</span></label>
+            <label><input type="radio" name="shape" value="datetime"><span>Date time</span></label>
+            <label><input type="radio" name="shape" value="daterange"><span>Date range</span></label>
+            <label><input type="radio" name="shape" value="datetimerange"><span>Date time range</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="check"><input type="checkbox" id="allowNever"> Allow "No end date"</label>
+        </div>
+        <div class="field">
+          <label class="lbl" for="horizon">Maximum recurrence range</label>
+          <select id="horizon">
+            <option value="1">1 month</option>
+            <option value="3">3 months</option>
+            <option value="6">6 months</option>
+            <option value="12" selected>1 year</option>
+            <option value="24">2 years</option>
+            <option value="36">3 years</option>
+            <option value="60">5 years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="panel" aria-labelledby="formH">
+          <h2 id="formH">Form · submitter view</h2>
+
+          <div class="row">
+            <div id="startDateWrap">
+              <label class="lbl" for="startDate">Start date</label>
+              <input type="date" id="startDate" value="">
+            </div>
+            <div id="startDateTimeWrap">
+              <label class="lbl" for="startDateTime">Start date &amp; time</label>
+              <input type="datetime-local" id="startDateTime" value="">
+            </div>
+            <div id="endDateWrap">
+              <label class="lbl" for="endDate">End date</label>
+              <input type="date" id="endDate" value="">
+            </div>
+            <div id="endDateTimeWrap">
+              <label class="lbl" for="endDateTime">End date &amp; time</label>
+              <input type="datetime-local" id="endDateTime" value="">
+            </div>
+          </div>
+
+          <label class="check"><input type="checkbox" id="recur"> Is recurring event</label>
+
+          <div id="recurBlock" class="recur">
+            <div class="row">
+              <label class="lbl" for="interval">Repeat every</label>
+              <input type="number" id="interval" min="1" max="99" value="1">
+              <select id="unit" aria-label="Unit">
+                <option value="day" selected>day(s)</option>
+                <option value="week">week(s)</option>
+                <option value="month">month(s)</option>
+              </select>
+            </div>
+
+            <div id="weekBlock" class="row">
+              <span class="lbl">On</span>
+              <div class="days" id="days"></div>
+            </div>
+
+            <div id="monthBlock">
+              <div class="row">
+                <label class="radio"><input type="radio" name="mmode" value="day" checked> On</label>
+                <span class="derived-text" id="mdayText">—</span>
+                <span class="lbl">day of every month</span>
+              </div>
+              <div class="row">
+                <label class="radio"><input type="radio" name="mmode" value="nth"> Every</label>
+                <span class="derived-text" id="nthText">—</span>
+                <span class="lbl">of the month</span>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:4px;align-items:flex-start">
+              <label class="lbl" style="padding-top:8px">Ends</label>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="ends-row">
+                  <input type="radio" name="endMode" value="until" id="endUntilRadio" checked>
+                  <span>On occurrence</span>
+                  <span class="info" tabindex="0" title="The start date always counts as occurrence 1.">i</span>
+                  <input type="number" id="count" min="1" value="2" aria-label="Number of occurrences">
+                  <span class="lbl" id="countLbl" style="margin:0">or end date</span>
+                  <input type="date" id="untilDate" value="2027-03-31" aria-label="End on date">
+                </div>
+                <div class="ends-row" id="endNeverRow">
+                  <input type="radio" name="endMode" value="never" id="endNeverRadio">
+                  <span>No end date</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="messages" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="roH">
+          <h2 id="roH">Submitted application · read-only view</h2>
+          <div class="ro-label" id="roLabel">Event date</div>
+          <div class="ro-value" id="roValue"></div>
+          <div class="summary" id="roSummary"></div>
+          <div class="occ-wrap" id="occWrap"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rules">
+    <div class="section-eyebrow">Reference</div>
+    <h2>Rules in this Prototype</h2>
+    <ol>
+      <li>The start date field is empty by default, and is occurrence 1 regardless of the rule.</li>
+      <li>Checking "Is recurring event" while the start date is empty auto-fills it with today's date.</li>
+      <li>Clearing the start date after "Is recurring event" is checked shows the "date/time fields are required" error and clears the computed "Ends" end date.</li>
+      <li>Weekly recurrence always includes the start date's own weekday, and that chip is locked — it can't be deselected — to keep the rule valid. Other weekdays can still be added manually.</li>
+      <li>Changing the start date only swaps which weekday chip is locked — it doesn't clear any weekday the submitter manually added. If the previous locked day was never manually added on top, it's unchecked automatically once it stops being the start date's weekday.</li>
+      <li>Monthly recurrence is always derived from the start date: the day-of-month and the nth-weekday pattern are shown as plain text, not editable fields, and update automatically when the start date changes.</li>
+      <li>Starting on the 30th or 31st shows a warning that short months will repeat on their last day instead of being skipped.</li>
+      <li>Editing the "Ends" end date recalculates the occurrence count. Editing anything else about the rule — interval, unit, start date, weekday selection, and so on — recalculates the end date instead. The occurrence count is never recalculated by anything other than a direct edit to the end date.</li>
+      <li>Exceeding the maximum recurrence range will show an error.</li>
+      <li>With no end date, only the first 5 occurrences are shown and the stored value is the rule.</li>
+      <li>When "Is recurring event" is unchecked, the recurrence settings are only hidden, not cleared. Checking it again restores the same selections exactly as left — only the weekly lock and monthly text refresh to match the current start date.</li>
+      <li>When "Is recurring event" is checked, an empty or partially filled-in date/time field will show an error — e.g. no start date entered, a start date with no end date on a range, or a start date with no time where time is expected.</li>
+    </ol>
+  </section>
+
+  <section class="section" id="errors">
+    <div class="section-eyebrow">Reference</div>
+    <h2>Error Messages</h2>
+    <p>Validation messages caused by "Is recurring event" being checked, and what triggers each one.</p>
+
+    <h3>Errors</h3>
+    <table class="ref-table">
+      <thead><tr><th>#</th><th>Message</th><th>Trigger</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="msg-col"><code>The date/time fields are required for a recurring event.</code></td><td>"Is recurring event" is checked, and the date/time fields are empty or incomplete (e.g. a start date but no end date on a range) — including clearing a start date that was already filled in.</td></tr>
+        <tr><td class="num">2</td><td class="msg-col"><code>End date exceeds the maximum recurrence range (on or before [date]).</code></td><td>Either the "Ends" end date is edited past the builder's "Maximum recurrence range", or the occurrence count would require dates past it.</td></tr>
+        <tr><td class="num">3</td><td class="msg-col"><code>Enter an end date for the series.</code></td><td>"Ends" is set to "On occurrence or end date" and the end date field is cleared.</td></tr>
+        <tr><td class="num">4</td><td class="msg-col"><code>End date must be on or after the start date.</code></td><td>The "Ends" end date is edited to a date before the start date.</td></tr>
+        <tr><td class="num">5</td><td class="msg-col"><code>Occurrences overlap. Shorten the range or repeat less often.</code></td><td>A range occurrence's duration runs past the start of the next occurrence.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Warnings</h3>
+    <table class="ref-table">
+      <thead><tr><th>#</th><th>Message</th><th>Trigger</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="msg-col"><code>Short months will repeat on the last day.</code></td><td>Monthly recurrence, "On [day] day of every month" mode, and the start date is the 30th or 31st.</td></tr>
+        <tr><td class="num">2</td><td class="msg-col"><code>With 1 occurrence this event does not repeat.</code></td><td>"Ends" occurrence count is set to 1.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const DOWL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const ORD=n=>n+(['th','st','nd','rd'][(n%100>>3^1&&n%10)]||'th');
+  const NTH={1:'first',2:'second',3:'third',4:'fourth','-1':'last'};
+  const MS_DAY=86400000;
+  const pad=n=>String(n).padStart(2,'0');
+  const fmtD=d=>`${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())}`;
+  const fmtT=d=>`${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const parseD=(s,t)=>{if(!s)return new Date(NaN);const [y,m,d]=s.split('-').map(Number);const [hh,mm]=(t||'00:00').split(':').map(Number);return new Date(y,m-1,d,hh||0,mm||0,0,0);};
+  const dim=(y,m)=>new Date(y,m+1,0).getDate();
+  const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+  const toISO=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+
+  let expanded=false;
+  let endSource='count';
+
+  // Days the user explicitly added, separate from the single day the system
+  // locks to match the start date. The locked chip is disabled, so it can
+  // never fire this listener — only genuine clicks land here, which is what
+  // keeps "manually added" and "auto-selected" from blurring together.
+  const userDays=new Set();
+
+  const days=$('days');
+  [1,2,3,4,5,6,0].forEach(i=>{
+    const l=document.createElement('label');l.className='chip';
+    l.innerHTML=`<input type="checkbox" value="${i}"><span>${DOW[i]}</span>`;
+    l.querySelector('input').addEventListener('change',e=>{
+      if(e.target.checked) userDays.add(i); else userDays.delete(i);
+      onRuleSettingChange();
+    });
+    days.appendChild(l);
+  });
+
+  // Monthly day-of-month / nth-weekday pattern is always derived from the
+  // start date in this restricted version — never independently editable.
+  function deriveMonthly(startDateStr){
+    const s=parseD(startDateStr);
+    if(isNaN(s)) return {mday:'',nth:1,nthDow:0,isShort:false};
+    const day=s.getDate();
+    const n=Math.ceil(day/7);
+    return { mday:String(day), nth:(n<=4?n:-1), nthDow:s.getDay(), isShort:day>=30 };
+  }
+
+  function cfg(){
+    const shape=document.querySelector('input[name=shape]:checked').value;
+    const hasTime=shape.includes('time'), hasEnd=shape.includes('range');
+    let startDate,startTime,endDate,endTime;
+    if(hasTime){
+      const sdt=$('startDateTime').value;
+      [startDate,startTime]=sdt?sdt.split('T'):['',''];
+      if(hasEnd){ const edt=$('endDateTime').value; [endDate,endTime]=edt?edt.split('T'):['','']; }
+      else { endDate=''; endTime=''; }
+    } else {
+      startDate=$('startDate').value; startTime='';
+      endDate=hasEnd?$('endDate').value:''; endTime='';
+    }
+    const monthly=deriveMonthly(startDate);
+    return {
+      shape, hasTime, hasEnd,
+      horizon:+$('horizon').value||12,
+      allowNever:$('allowNever').checked,
+      startDate, startTime, endDate, endTime,
+      recur:$('recur').checked, interval:Math.max(1,+$('interval').value||1), unit:$('unit').value,
+      days:[...days.querySelectorAll('input:checked')].map(i=>+i.value),
+      mmode:document.querySelector('input[name=mmode]:checked').value,
+      mday:monthly.mday, nth:monthly.nth, nthDow:monthly.nthDow, monthlyIsShort:monthly.isShort,
+      endMode:document.querySelector('input[name=endMode]:checked').value, count:Math.max(1,+$('count').value||1), untilDate:$('untilDate').value
+    };
+  }
+
+  function nthWeekday(y,m,n,dow){
+    if(n===-1){const last=new Date(y,m,dim(y,m));const diff=(last.getDay()-dow+7)%7;return new Date(y,m,last.getDate()-diff);}
+    const first=new Date(y,m,1);const diff=(dow-first.getDay()+7)%7;const day=1+diff+(n-1)*7;
+    return day<=dim(y,m)?new Date(y,m,day):null;
+  }
+
+  function generate(c){
+    const start=parseD(c.startDate,c.hasTime?c.startTime:'00:00');
+    const errors=[];
+    if(isNaN(start)) return {inst:[],errors:['Enter a start date.'],infinite:false};
+    const horizonEnd=new Date(start);horizonEnd.setMonth(horizonEnd.getMonth()+c.horizon);
+    let limit, until=null;
+    if(c.endMode==='count'){limit=c.count;}
+    else if(c.endMode==='date'){until=parseD(c.untilDate,'23:59');if(isNaN(until))errors.push('Enter an end date for the series.');limit=1000;}
+    else {limit=5;}
+    const out=[start];
+    // returns false when generation should stop
+    const push=d=>{ if(d<=start) return true; if(until&&d>until) return false; if(c.endMode!=='never'&&d>horizonEnd) return false; if(out.length>=limit) return false; out.push(d); return true; };
+    const h=start.getHours(),mi=start.getMinutes();
+    const at=(y,m,d)=>new Date(y,m,d,h,mi);
+    let guard=0;
+    if(c.unit==='day'){
+      for(let k=1;guard++<5000;k++){const d=new Date(start);d.setDate(d.getDate()+k*c.interval);if(!push(d))break;}
+    } else if(c.unit==='week'){
+      if(!c.days.length){errors.push('Select at least one day of the week.');}
+      else{
+        const weekStart=new Date(start.getFullYear(),start.getMonth(),start.getDate()-start.getDay());
+        outer: for(let k=0;guard++<5000;k++){
+          const ws=new Date(weekStart);ws.setDate(ws.getDate()+k*7*c.interval);
+          for(const dow of [...c.days].sort((a,b)=>a-b)){const d=at(ws.getFullYear(),ws.getMonth(),ws.getDate()+dow);if(!push(d)&&d>start) break outer;}
+        }
+      }
+    } else if(c.unit==='month'){
+      let misses=0;
+      for(let k=0;guard++<5000;k++){
+        const base=new Date(start.getFullYear(),start.getMonth()+k*c.interval,1);const yy=base.getFullYear(),mm=base.getMonth();
+        let d=null;
+        if(c.mmode==='day'){
+          const want=+c.mday;const n=dim(yy,mm);d=at(yy,mm,want<=n?want:n);
+        } else {const x=nthWeekday(yy,mm,c.nth,c.nthDow);if(x)d=at(yy,mm,x.getDate());}
+        if(d){ if(!push(d)&&d>start) break; }
+        else if(++misses>24) break;
+      }
+    }
+    let delta=0;
+    if(c.hasEnd){
+      const end=parseD(c.endDate,c.hasTime?c.endTime:'00:00');
+      if(isNaN(end)) errors.push('Enter an end date.');
+      else{ delta=end-start; }
+    }
+    const inst=out.map(s=>({s,e:new Date(s.getTime()+delta)}));
+    for(let i=0;i<inst.length-1;i++){
+      const a=inst[i],b=inst[i+1];
+      const aEnd=c.hasTime?a.e:new Date(a.e.getTime()+MS_DAY);
+      if(aEnd>b.s){errors.push('Occurrences overlap. Shorten the range or repeat less often.');break;}
+    }
+    let truncatedBy=null;
+    if(c.endMode==='count'&&out.length<c.count) truncatedBy='horizon';
+    if(c.endMode==='date'&&until&&until>horizonEnd) truncatedBy='horizon';
+    return {inst,errors,truncatedBy,infinite:c.endMode==='never',start,delta,horizonEnd};
+  }
+
+  function ruleText(c){
+    const n=c.interval;const every=(u)=>n===1?(u==='day'?'daily':`${u}ly`):`every ${n} ${u}s`;
+    if(c.unit==='day') return `Repeats ${every('day')}`;
+    if(c.unit==='week'){const ds=[1,2,3,4,5,6,0].filter(i=>c.days.includes(i)).map(i=>DOWL[i]);const list=ds.length>1?ds.slice(0,-1).join(', ')+' and '+ds.at(-1):(ds[0]||'—');return `Repeats ${every('week')} on ${list}`;}
+    const on=c.mmode==='day'?`the ${ORD(+c.mday)}`:`the ${NTH[c.nth]} ${DOWL[c.nthDow]}`;return `Repeats ${every('month')} on ${on}`;
+  }
+
+  function rowText(c,s,e){
+    const wd=DOW[s.getDay()];
+    if(!c.hasEnd) return c.hasTime?`${wd} ${fmtD(s)}  ${fmtT(s)}`:`${wd} ${fmtD(s)}`;
+    if(!c.hasTime) return `${wd} ${fmtD(s)} – ${DOW[e.getDay()]} ${fmtD(e)}`;
+    if(sameDay(s,e)) return `${wd} ${fmtD(s)}  ${fmtT(s)} – ${fmtT(e)}`;
+    return `${wd} ${fmtD(s)} ${fmtT(s)} – ${DOW[e.getDay()]} ${fmtD(e)} ${fmtT(e)}`;
+  }
+
+  function syncDerivedUI(c){
+    const s=parseD(c.startDate);if(isNaN(s))return;
+    // Weekly: the start date's own weekday is always included and locked —
+    // it's the only way to guarantee the rule stays valid. Checked state is
+    // recomputed from scratch each time (userDays ∪ the current lock day)
+    // rather than carried forward, so an old lock day that moved away from
+    // the new start date drops out instead of lingering as if a user pick.
+    const startDow=s.getDay();
+    days.querySelectorAll('input').forEach(i=>{
+      const v=+i.value;
+      const isStartDay=v===startDow;
+      i.disabled=isStartDay;
+      i.checked=isStartDay||userDays.has(v);
+    });
+    // Monthly: day-of-month / nth-weekday text is always derived, never edited.
+    $('mdayText').textContent=ORD(+c.mday);
+    $('nthText').textContent=`${NTH[c.nth][0].toUpperCase()}${NTH[c.nth].slice(1)} ${DOWL[c.nthDow]}`;
+  }
+
+  // Nothing to anchor to without a valid start date — clear the derived
+  // weekly/monthly state instead of leaving stale values on screen.
+  function resetDerivedUI(){
+    userDays.clear();
+    days.querySelectorAll('input').forEach(i=>{i.disabled=false;i.checked=false;});
+    $('mdayText').textContent='—';
+    $('nthText').textContent='—';
+  }
+
+  function syncUntilFromCount(){
+    const c=cfg();
+    const g=generate(Object.assign({},c,{endMode:'count'}));
+    const last=g.inst.at(-1);
+    if(last) $('untilDate').value=toISO(last.s);
+  }
+  function syncCountFromUntil(){
+    const c=cfg();
+    const g=generate(Object.assign({},c,{endMode:'date'}));
+    if(g.inst.length) $('count').value=g.inst.length;
+  }
+
+  const exceedsRangeMsg=horizonEnd=>`End date exceeds the maximum recurrence range (on or before ${fmtD(horizonEnd)}).`;
+
+  function validateUntil(c){
+    const start=parseD(c.startDate,c.hasTime?c.startTime:'00:00');
+    if(isNaN(start)) return null;
+    const until=parseD(c.untilDate,'23:59');
+    if(isNaN(until)) return 'Enter an end date for the series.';
+    if(until<start) return 'End date must be on or after the start date.';
+    const horizonEnd=new Date(start);horizonEnd.setMonth(horizonEnd.getMonth()+c.horizon);
+    if(until>horizonEnd) return exceedsRangeMsg(horizonEnd);
+    return null;
+  }
+
+  function render(){
+    let c=cfg();
+    $('startDateWrap').hidden=c.hasTime;$('startDateTimeWrap').hidden=!c.hasTime;
+    $('endDateWrap').hidden=!c.hasEnd||c.hasTime;$('endDateTimeWrap').hidden=!c.hasEnd||!c.hasTime;
+    $('recurBlock').hidden=!c.recur;
+    $('weekBlock').hidden=c.unit!=='week';$('monthBlock').hidden=c.unit!=='month';
+    $('endNeverRow').hidden=!c.allowNever;
+    $('endUntilRadio').classList.toggle('hidden-field',!c.allowNever);
+    if(!c.allowNever&&c.endMode==='never'){$('endUntilRadio').checked=true;}
+    c=cfg();
+
+    const msgs=$('messages');msgs.innerHTML='';
+    const occWrap=$('occWrap');
+    const addMsg=(cls,t)=>{const d=document.createElement('div');d.className=cls;d.textContent=t;msgs.appendChild(d);};
+
+    // Base field completeness — applies whether or not recurrence is enabled.
+    // An untouched optional field is simply ignored (no error); a partially
+    // filled one is flagged so the submitter knows what's missing. Date and
+    // time share one field once a shape includes time, so each side (start,
+    // end) only counts as a single field either way.
+    const baseErrs=[];
+    if(!c.startDate) baseErrs.push(c.hasTime?'Enter a start date and time.':'Enter a start date.');
+    if(c.hasEnd&&!c.endDate) baseErrs.push(c.hasTime?'Enter an end date and time.':'Enter an end date.');
+    const totalBaseFields=1+(c.hasEnd?1:0);
+    const allBaseEmpty=baseErrs.length===totalBaseFields;
+
+    if(c.recur&&baseErrs.length){
+      // Empty or partially filled — either way, a recurring rule has nothing to anchor to.
+      addMsg('err','The date/time fields are required for a recurring event.');
+      $('roValue').textContent='—';$('roSummary').textContent='';
+      occWrap.className='occ-wrap';occWrap.innerHTML=allBaseEmpty?'':`<div class="empty">Fix the date fields to see occurrences.</div>`;
+      if(!c.startDate) resetDerivedUI();
+      return;
+    }
+    if(allBaseEmpty){
+      $('roValue').textContent='—';$('roSummary').textContent='';occWrap.innerHTML='';
+      return;
+    }
+    if(baseErrs.length){
+      baseErrs.forEach(e=>addMsg('err',e));
+      $('roValue').textContent='—';$('roSummary').textContent='';
+      occWrap.className='occ-wrap';occWrap.innerHTML=`<div class="empty">Fix the date fields to see occurrences.</div>`;
+      return;
+    }
+
+    const start=parseD(c.startDate,c.hasTime?c.startTime:'00:00');
+
+    if(!c.recur){
+      const end=c.hasEnd?parseD(c.endDate,c.hasTime?c.endTime:'00:00'):start;
+      $('roValue').textContent=rowText(c,start,end);
+      $('roSummary').textContent='';occWrap.innerHTML='';
+      return;
+    }
+
+    let untilError=null;
+    if(c.endMode==='until'){
+      if(endSource==='until'){ untilError=validateUntil(c); if(!untilError) syncCountFromUntil(); }
+      else syncUntilFromCount();
+      c=cfg();
+    }
+    const showEndFields=c.endMode==='until';
+    $('count').classList.toggle('hidden-field',!showEndFields);$('countLbl').classList.toggle('hidden-field',!showEndFields);
+    $('untilDate').classList.toggle('hidden-field',!showEndFields);
+    syncDerivedUI(c);c=cfg();
+    if(c.unit==='month'&&c.mmode==='day'&&c.monthlyIsShort) addMsg('warn','Short months will repeat on the last day.');
+
+    if(untilError){
+      addMsg('err',untilError);
+      $('roValue').textContent='—';$('roSummary').textContent='';
+      occWrap.className='occ-wrap';occWrap.innerHTML=`<div class="empty">Fix the end date to see occurrences.</div>`;
+      return;
+    }
+
+    const genCfg=c.endMode==='until'?Object.assign({},c,{endMode:'count'}):c;
+    const g=generate(genCfg);
+    const last=g.inst.at(-1);
+
+    g.errors.forEach(e=>addMsg('err',e));
+    const rangeExceeded=g.truncatedBy==='horizon';
+    if(rangeExceeded) addMsg('err',exceedsRangeMsg(g.horizonEnd));
+    if(c.endMode==='until'&&c.count===1) addMsg('warn','With 1 occurrence this event does not repeat.');
+
+    if(g.errors.length||rangeExceeded){
+      $('roValue').textContent='—';$('roSummary').textContent='';
+      occWrap.className='occ-wrap';occWrap.innerHTML=`<div class="empty">Fix the errors in the form to see occurrences.</div>`;
+      return;
+    }
+
+    const n=g.inst.length;const first=g.inst[0];
+    if(!first){$('roValue').textContent='—';}
+    else if(g.infinite) $('roValue').textContent=`${rowText(c,first.s,first.e)} and onward`;
+    else if(n===1) $('roValue').textContent=rowText(c,first.s,first.e);
+    else $('roValue').textContent=`${fmtD(first.s)} – ${fmtD(last.e)}`;
+
+    let summ=ruleText(c);
+    if(g.infinite) summ+=`<span class="dot">·</span>No end date`;
+    else summ+=`<span class="dot">·</span>${n} occurrence${n!==1?'s':''}`;
+    $('roSummary').innerHTML=summ;
+
+    const show=g.infinite?Math.min(5,n):(expanded?n:Math.min(5,n));
+    const rows=g.inst.slice(0,show).map((x,i)=>`<li><span class="n">#${i+1}</span><span class="slot">${rowText(c,x.s,x.e)}</span></li>`).join('');
+    let foot='';
+    if(g.infinite) foot=`<div class="foot"><span>Continues indefinitely</span><span>Stored as a rule, not a list</span></div>`;
+    else if(n>5) foot=`<div class="foot"><span>Showing ${show} of ${n}</span><button class="link" id="toggle">${expanded?'Show first 5':`Show all ${n}`}</button></div>`;
+    occWrap.className='occ-wrap'+(expanded&&n>10?' scroll':'');
+    occWrap.innerHTML=`<ul class="occ">${rows}</ul>${foot}`;
+    const t=$('toggle');if(t)t.addEventListener('click',()=>{expanded=!expanded;render();});
+  }
+
+  function syncEndNotBeforeStart(){
+    if($('endDate').value<$('startDate').value)$('endDate').value=$('startDate').value;
+    if($('startDateTime').value&&$('endDateTime').value<$('startDateTime').value)$('endDateTime').value=$('startDateTime').value;
+  }
+
+  // Clearing the start date after recurrence is already on leaves the "Ends"
+  // end date computed against a date that no longer exists — clear it too.
+  function handleStartInput(){
+    syncEndNotBeforeStart();
+    const c=cfg();
+    if(c.recur&&!c.startDate) $('untilDate').value='';
+    endSource='count';
+    render();
+  }
+
+  // Anything other than directly editing the "Ends" end date field itself
+  // drives the end date FROM the occurrence count — never the other way.
+  // Only the end date's own input sets endSource='until'.
+  function onRuleSettingChange(){ endSource='count'; render(); }
+
+  document.querySelectorAll('input[name=shape]').forEach(r=>r.addEventListener('change',()=>{ syncEndNotBeforeStart(); onRuleSettingChange(); }));
+  ['horizon','allowNever','endDate','endDateTime','interval'].forEach(id=>$(id).addEventListener('input',onRuleSettingChange));
+  $('recur').addEventListener('input',()=>{
+    if($('recur').checked){
+      const c=cfg();
+      if(!c.startDate){
+        if(c.hasTime) $('startDateTime').value=toISO(new Date())+'T09:00';
+        else $('startDate').value=toISO(new Date());
+      }
+    }
+    // Unchecking only hides the recurrence settings — nothing is cleared.
+    // Re-checking restores exactly what was configured, with the weekly
+    // lock and monthly text simply refreshed against the current start date.
+    render();
+  });
+  $('count').addEventListener('input',onRuleSettingChange);
+  $('untilDate').addEventListener('input',()=>{endSource='until';render();});
+  $('startDate').addEventListener('input',handleStartInput);
+  $('startDateTime').addEventListener('input',handleStartInput);
+  $('unit').addEventListener('change',()=>{expanded=false;onRuleSettingChange();});
+  document.querySelectorAll('input[name=mmode]').forEach(r=>r.addEventListener('change',onRuleSettingChange));
+  document.querySelectorAll('input[name=endMode]').forEach(r=>r.addEventListener('change',()=>{expanded=false;onRuleSettingChange();}));
+  render();
+})();
+</script>
+
+<script>
+// Scroll-spy for sidebar nav
+const navItems=document.querySelectorAll('.nav-item[href^="#"]');
+const sections=Array.from(navItems).map(a=>document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+function onScroll(){let cur=sections[0];for(const s of sections){if(s.getBoundingClientRect().top<=80)cur=s;}navItems.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur.id);});}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+
+</body>
+</html>
