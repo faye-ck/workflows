@@ -302,7 +302,7 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
               <div class="row">
                 <label class="radio"><input type="radio" name="mmode" value="day" checked> On</label>
                 <span class="derived-text" id="mdayText">—</span>
-                <span class="lbl">day of every month</span>
+                <span class="lbl">of every month</span>
               </div>
               <div class="row">
                 <label class="radio"><input type="radio" name="mmode" value="nth"> Every</label>
@@ -317,7 +317,6 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
                 <div class="ends-row">
                   <input type="radio" name="endMode" value="until" id="endUntilRadio" checked>
                   <span>On occurrence</span>
-                  <span class="info" tabindex="0" title="The start date always counts as occurrence 1.">i</span>
                   <input type="number" id="count" min="1" value="2" aria-label="Number of occurrences">
                   <span class="lbl" id="countLbl" style="margin:0">or end date</span>
                   <input type="date" id="untilDate" value="2027-03-31" aria-label="End on date">
@@ -384,7 +383,7 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
     <table class="ref-table">
       <thead><tr><th>#</th><th>Message</th><th>Trigger</th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td class="msg-col"><code>Short months will repeat on the last day.</code></td><td>Monthly recurrence, "On [day] day of every month" mode, and the start date is the 30th or 31st.</td></tr>
+        <tr><td class="num">1</td><td class="msg-col"><code>Short months will repeat on the last day.</code></td><td>Monthly recurrence, "On [day] of every month" mode, and the start date is the 30th or 31st.</td></tr>
         <tr><td class="num">2</td><td class="msg-col"><code>With 1 occurrence this event does not repeat.</code></td><td>"Ends" occurrence count is set to 1.</td></tr>
       </tbody>
     </table>
