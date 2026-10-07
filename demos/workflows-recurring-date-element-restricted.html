@@ -353,7 +353,7 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
       <li>Weekly recurrence always includes the start date's own weekday, and that chip is locked — it can't be deselected — to keep the rule valid. Other weekdays can still be added manually.</li>
       <li>Changing the start date only swaps which weekday chip is locked — it doesn't clear any weekday the submitter manually added. If the previous locked day was never manually added on top, it's unchecked automatically once it stops being the start date's weekday.</li>
       <li>Monthly recurrence is always derived from the start date: the day-of-month and the nth-weekday pattern are shown as plain text, not editable fields, and update automatically when the start date changes.</li>
-      <li>Starting on the 30th or 31st shows a warning that short months will repeat on their last day instead of being skipped.</li>
+      <li>Starting on the 29th, 30th, or 31st shows a warning that short months will repeat on their last day instead of being skipped — the 29th is included since February doesn't have one outside of leap years.</li>
       <li>Editing the "Ends" end date recalculates the occurrence count. Editing anything else about the rule — interval, unit, start date, weekday selection, and so on — recalculates the end date instead. The occurrence count is never recalculated by anything other than a direct edit to the end date.</li>
       <li>Exceeding the maximum recurrence range will show an error.</li>
       <li>With no end date, only the first 5 occurrences are shown and the stored value is the rule.</li>
@@ -383,7 +383,7 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
     <table class="ref-table">
       <thead><tr><th>#</th><th>Message</th><th>Trigger</th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td class="msg-col"><code>Short months will repeat on the last day.</code></td><td>Monthly recurrence, "On [day] of every month" mode, and the start date is the 30th or 31st.</td></tr>
+        <tr><td class="num">1</td><td class="msg-col"><code>Short months will repeat on the last day.</code></td><td>Monthly recurrence, "On [day] of every month" mode, and the start date is the 29th, 30th, or 31st.</td></tr>
         <tr><td class="num">2</td><td class="msg-col"><code>With 1 occurrence this event does not repeat.</code></td><td>"Ends" occurrence count is set to 1.</td></tr>
       </tbody>
     </table>
@@ -435,7 +435,7 @@ h1 .badge-restricted { font-size: 13px; margin-left: 10px; vertical-align: 2px; 
     if(isNaN(s)) return {mday:'',nth:1,nthDow:0,isShort:false};
     const day=s.getDate();
     const n=Math.ceil(day/7);
-    return { mday:String(day), nth:(n<=4?n:-1), nthDow:s.getDay(), isShort:day>=30 };
+    return { mday:String(day), nth:(n<=4?n:-1), nthDow:s.getDay(), isShort:day>=29 };
   }
 
   function cfg(){
